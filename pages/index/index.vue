@@ -64,13 +64,23 @@
 				<view class="tui-category-name">{{item.name}}</view>
 			</view>
 		</view>
-
+		
+		<view class="tui-product-category">
+			<view class="tui-category-item" :data-key="'../game/scratch_card'" @tap="next">
+				<image :src="'../../static/images/mall/category/1.jpg'" class="tui-category-img" mode="scaleToFill"></image>
+				<view class="tui-category-name">刮刮卡</view>
+			</view>
+			<view class="tui-category-item" :data-key="'../articles/index'" @tap="next">
+				<image :src="'../../static/images/mall/category/1.jpg'" class="tui-category-img" mode="scaleToFill"></image>
+				<view class="tui-category-name">文章</view>
+			</view>
+		</view>
 		<view class="tui-product-box tui-pb-20 tui-bg-white">
 			<view class="tui-group-name" @tap="game">
 				<text>抽奖</text>
 				<tui-icon name="arrowright" :size="20" color="#555"></tui-icon>
 			</view>
-			<view class="tui-activity-box" @tap="game">
+			<view class="tui-activity-box">
 				<image src="/static/images/mall/activity/activity_1.jpg" class="tui-activity-img" mode="widthFix"></image>
 				<image src="/static/images/mall/activity/activity_2.jpg" class="tui-activity-img" mode="widthFix"></image>
 			</view>
@@ -379,6 +389,15 @@
 					url: '/pages/navbar-2/navbar-2'
 				})
 
+			},
+			next: function(e) {
+				let key = e.currentTarget.dataset.key || "";
+				console.log('next', e)
+				if (key) {
+					uni.navigateTo({
+						url: key
+					})
+				}
 			},
 			more: function(e) {
 				let key = e.currentTarget.dataset.key || "";

@@ -80,7 +80,20 @@
 			"navigationBarBackgroundColor": "#FC4034",
 			"navigationBarTitleText": "转盘抽奖"
 		}
-	}],
+	}, {
+		"path": "pages/game/scratch_card",
+		"style": {
+			"navigationBarBackgroundColor": "#FC4034",
+			"navigationBarTitleText": "刮刮卡"
+		}
+	}, {
+		"path" : "pages/articles/index",
+		"style" : {
+			"navigationBarBackgroundColor": "#FC4034",
+			"navigationBarTitleText": "文章"
+		}
+        }
+    ],
 	"globalStyle": {
 		"backgroundTextStyle": "dark",
 		"navigationBarBackgroundColor": "#5677FC",
@@ -94,24 +107,25 @@
 		"color": "#666666",
 		"selectedColor": "#5677FC",
 		"backgroundColor": "#FFFFFF",
-		"list": [{
-				"pagePath": "pages/index/index",
-				"text": "code",
-				"iconPath": "static/images/tabbar/code_gray.png",
-				"selectedIconPath": "static/images/tabbar/code_active.png"
-			},
-			{
-				"pagePath": "pages/extend/extend",
-				"text": "extend",
-				"iconPath": "static/images/tabbar/extend_gray.png",
-				"selectedIconPath": "static/images/tabbar/extend_active.png"
-			},
-			{
-				"pagePath": "pages/my/my",
-				"text": "thor",
-				"iconPath": "static/images/tabbar/thor_gray.png",
-				"selectedIconPath": "static/images/tabbar/thor_active.png"
-			}
+		"list": [
+			// {
+			// 	"pagePath": "pages/index/index",
+			// 	"text": "code",
+			// 	"iconPath": "static/images/tabbar/code_gray.png",
+			// 	"selectedIconPath": "static/images/tabbar/code_active.png"
+			// },
+			// {
+			// 	"pagePath": "pages/extend/extend",
+			// 	"text": "extend",
+			// 	"iconPath": "static/images/tabbar/extend_gray.png",
+			// 	"selectedIconPath": "static/images/tabbar/extend_active.png"
+			// },
+			// {
+			// 	"pagePath": "pages/my/my",
+			// 	"text": "thor",
+			// 	"iconPath": "static/images/tabbar/thor_gray.png",
+			// 	"selectedIconPath": "static/images/tabbar/thor_active.png"
+			// }
 		]
 	}
 }

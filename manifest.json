@@ -109,6 +109,9 @@
     },
     "h5" : {
         "title" : "裂变商城",
-        "domain" : "http//h5.shjietui.com"
+        "domain" : "http//h5.shjietui.com",
+        "router" : {
+            "mode" : "history"
+        }
     }
 }
