@@ -47,7 +47,7 @@
 				</view>
 				<view class="tui-pro-titbox">
 					<view class="tui-pro-title">谈判官明星同款耳坠韩国气质简约显脸瘦的耳环女百搭个性长款耳钉 个性水滴耳环【A2】</view>
-					<button open-type="share" class="tui-share-btn tui-share-position">
+					<button open-type="share" class="tui-share-btn tui-share-position" @tap="share">
 						<tui-tag type="gray" tui-tag-class="tui-tag-share tui-size" shape="circleLeft" size="small">
 							<view class="tui-icon tui-icon-partake" style="color:#999;font-size:15px"></view>
 							<!-- <tui-icon name="partake" color="#999" size="15"></tui-icon> -->
@@ -401,6 +401,7 @@
 			}
 		},
 		onLoad: function(options) {
+			console.log(this.tui);
 			let obj = {};
 			// #ifdef MP-WEIXIN
 			obj = wx.getMenuButtonBoundingClientRect();
@@ -468,6 +469,9 @@
 				uni.navigateTo({
 					url: '../coupon/index'
 				})
+			},
+			share(){
+				this.tui.share();
 			}
 		},
 		onPageScroll(e) {

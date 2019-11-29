@@ -80,6 +80,12 @@
 			"navigationBarBackgroundColor": "#FC4034",
 			"navigationBarTitleText": "转盘抽奖"
 		}
+	}, {
+		"path": "pages/auth/index",
+		"style": {
+			"navigationBarBackgroundColor": "#FC4034",
+			"navigationBarTitleText": "登录"
+		}
 	}],
 	"globalStyle": {
 		"backgroundTextStyle": "dark",

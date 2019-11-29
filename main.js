@@ -54,6 +54,30 @@ const tui = {
 			})
 		})
 	},
+	share: function() {
+		this.wxAuth().then(function(value) {
+			// success
+			cnsole.log('share');
+		}, function(error) {
+			// failure
+		});
+	},
+	wxAuth: function() {
+		return new Promise(function(resolve, reject) {
+			// ... some code
+			if (uni.getStorageSync('sessionToken')) {
+			console.log(111);
+			} else {
+				console.log(22);
+				let redirect_uri = 'http://h5.shjietui.com/pages/product/show'
+				let url =
+					"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx202bddcd868b179f&response_type=code&scope=snsapi_userinfo&redirect_uri=" + redirect_uri + "#wechat_redirect"
+				const current_url = location.href;
+				location.href = url + '&state=' + current_url;
+			}
+			resolve(true);
+		});
+	},
 	uploadFile: function(src) {
 		const that = this
 		uni.showLoading({
@@ -96,7 +120,7 @@ const tui = {
 	isLogin: function() {
 		return uni.getStorageSync("token") ? true : false
 	},
-	webURL:function(){
+	webURL: function() {
 		return "https://www.thorui.cn/wx"
 	}
 }
