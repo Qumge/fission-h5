@@ -1,108 +1,109 @@
 {
-	"pages": [{
-		"path": "pages/index/index",
-		"style": {
-			"navigationBarBackgroundColor": "#fff",
-			"navigationBarTextStyle": "black",
-			"backgroundColorTop": "#F7F7F7",
-			"backgroundColorBottom": "#F7F7F7",
-			"navigationBarTitleText": "裂变商城",
-			"enablePullDownRefresh": true,
-			"onReachBottomDistance": 50
-		}
-	}, {
-		"path": "pages/product/index",
-		"style": {
-			"navigationBarBackgroundColor": "#fff",
-			"navigationBarTextStyle": "black",
-			"backgroundColorTop": "#F7F7F7",
-			"backgroundColorBottom": "#F7F7F7",
-			"navigationBarTitleText": "商品列表 ",
-			"onReachBottomDistance": 50,
-			"navigationStyle": "custom",
-			"app-plus": {
-				"titleNView": false
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarBackgroundColor": "#fff",
+				"navigationBarTextStyle": "black",
+				"backgroundColorTop": "#F7F7F7",
+				"backgroundColorBottom": "#F7F7F7",
+				"navigationBarTitleText": "裂变商城",
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 50
+			}
+		}, {
+			"path": "pages/product/index",
+			"style": {
+				"navigationBarBackgroundColor": "#fff",
+				"navigationBarTextStyle": "black",
+				"backgroundColorTop": "#F7F7F7",
+				"backgroundColorBottom": "#F7F7F7",
+				"navigationBarTitleText": "商品列表 ",
+				"onReachBottomDistance": 50,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		}, {
+			"path": "pages/product/show",
+			"style": {
+				"navigationBarBackgroundColor": "#fff",
+				"navigationBarTextStyle": "black",
+				"backgroundColorTop": "#F7F7F7",
+				"backgroundColorBottom": "#F7F7F7",
+				"navigationBarTitleText": "商品详情 ",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleNView": false
+				}
+			}
+		}, {
+			"path": "pages/order/new",
+			"style": {
+				"navigationBarTitleText": "提交订单",
+				"navigationBarBackgroundColor": "#fff",
+				"navigationBarTextStyle": "black"
+			}
+		}, {
+			"path": "pages/order/success",
+			"style": {
+				"navigationBarTitleText": "支付成功",
+				"navigationBarBackgroundColor": "#fff",
+				"navigationBarTextStyle": "black"
+			}
+		}, {
+			"path": "pages/order/index",
+			"style": {
+				"navigationBarTitleText": "我的订单",
+				"navigationBarBackgroundColor": "#fff",
+				"navigationBarTextStyle": "black",
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 50
+			}
+		}, {
+			"path": "pages/order/show",
+			"style": {
+				"navigationBarTitleText": "订单详情",
+				"navigationBarBackgroundColor": "#fff",
+				"navigationBarTextStyle": "black"
+			}
+		}, {
+			"path": "pages/address/index",
+			"style": {
+				"navigationBarTitleText": "地址",
+				"navigationBarBackgroundColor": "#fff",
+				"navigationBarTextStyle": "black"
+			}
+		}, {
+			"path": "pages/game/luck_wheel",
+			"style": {
+				"navigationBarBackgroundColor": "#FC4034",
+				"navigationBarTitleText": "转盘抽奖"
+			}
+		}, {
+
+			"path": "pages/auth/index",
+			"style": {
+				"navigationBarBackgroundColor": "#FC4034",
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
+			"path": "pages/game/scratch_card",
+			"style": {
+				"navigationBarBackgroundColor": "#FC4034",
+				"navigationBarTitleText": "刮刮卡"
+			}
+		},
+		{
+			"path": "pages/articles/index",
+			"style": {
+				"navigationBarBackgroundColor": "#FC4034",
+				"navigationBarTitleText": "文章"
 			}
 		}
-	}, {
-		"path": "pages/product/show",
-		"style": {
-			"navigationBarBackgroundColor": "#fff",
-			"navigationBarTextStyle": "black",
-			"backgroundColorTop": "#F7F7F7",
-			"backgroundColorBottom": "#F7F7F7",
-			"navigationBarTitleText": "商品详情 ",
-			"navigationStyle": "custom",
-			"app-plus": {
-				"titleNView": false
-			}
-		}
-	}, {
-		"path": "pages/order/new",
-		"style": {
-			"navigationBarTitleText": "提交订单",
-			"navigationBarBackgroundColor": "#fff",
-			"navigationBarTextStyle": "black"
-		}
-	}, {
-		"path": "pages/order/success",
-		"style": {
-			"navigationBarTitleText": "支付成功",
-			"navigationBarBackgroundColor": "#fff",
-			"navigationBarTextStyle": "black"
-		}
-	}, {
-		"path": "pages/order/index",
-		"style": {
-			"navigationBarTitleText": "我的订单",
-			"navigationBarBackgroundColor": "#fff",
-			"navigationBarTextStyle": "black",
-			"enablePullDownRefresh": true,
-			"onReachBottomDistance": 50
-		}
-	}, {
-		"path": "pages/order/show",
-		"style": {
-			"navigationBarTitleText": "订单详情",
-			"navigationBarBackgroundColor": "#fff",
-			"navigationBarTextStyle": "black"
-		}
-	}, {
-		"path": "pages/address/index",
-		"style": {
-			"navigationBarTitleText": "地址",
-			"navigationBarBackgroundColor": "#fff",
-			"navigationBarTextStyle": "black"
-		}
-	}, {
-		"path": "pages/game/luck_wheel",
-		"style": {
-			"navigationBarBackgroundColor": "#FC4034",
-			"navigationBarTitleText": "转盘抽奖"
-		}
-	}, {
-<<<<<<< HEAD
-		"path": "pages/auth/index",
-		"style": {
-			"navigationBarBackgroundColor": "#FC4034",
-			"navigationBarTitleText": "登录"
-		}
-	}],
-=======
-		"path": "pages/game/scratch_card",
-		"style": {
-			"navigationBarBackgroundColor": "#FC4034",
-			"navigationBarTitleText": "刮刮卡"
-		}
-	}, {
-		"path" : "pages/articles/index",
-		"style" : {
-			"navigationBarBackgroundColor": "#FC4034",
-			"navigationBarTitleText": "文章"
-		}
-        }
-    ],
->>>>>>> e723bf2b3c8788057dec77fb4d522554cc37c070
+	],
 	"globalStyle": {
 		"backgroundTextStyle": "dark",
 		"navigationBarBackgroundColor": "#5677FC",
@@ -117,24 +118,7 @@
 		"selectedColor": "#5677FC",
 		"backgroundColor": "#FFFFFF",
 		"list": [
-			// {
-			// 	"pagePath": "pages/index/index",
-			// 	"text": "code",
-			// 	"iconPath": "static/images/tabbar/code_gray.png",
-			// 	"selectedIconPath": "static/images/tabbar/code_active.png"
-			// },
-			// {
-			// 	"pagePath": "pages/extend/extend",
-			// 	"text": "extend",
-			// 	"iconPath": "static/images/tabbar/extend_gray.png",
-			// 	"selectedIconPath": "static/images/tabbar/extend_active.png"
-			// },
-			// {
-			// 	"pagePath": "pages/my/my",
-			// 	"text": "thor",
-			// 	"iconPath": "static/images/tabbar/thor_gray.png",
-			// 	"selectedIconPath": "static/images/tabbar/thor_active.png"
-			// }
+			
 		]
 	}
 }
