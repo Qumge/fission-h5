@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import App from './App'
 import store from './store'
+import ScratchCard from 'vue-scratch-card0'
+Vue.use(ScratchCard)
 Vue.config.productionTip = false
 
 const tui = {
