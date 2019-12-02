@@ -97,6 +97,13 @@
 			}
 		},
 		{
+			"path": "pages/game/tiger",
+			"style": {
+				"navigationBarBackgroundColor": "#FC4034",
+				"navigationBarTitleText": "老虎机"
+			}
+		},
+		{
 			"path": "pages/articles/index",
 			"style": {
 				"navigationBarBackgroundColor": "#FC4034",

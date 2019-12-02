@@ -70,6 +70,10 @@
 				<image :src="'../../static/images/mall/category/1.jpg'" class="tui-category-img" mode="scaleToFill"></image>
 				<view class="tui-category-name">刮刮卡</view>
 			</view>
+			<view class="tui-category-item" :data-key="'../game/tiger'" @tap="next">
+				<image :src="'../../static/images/mall/category/1.jpg'" class="tui-category-img" mode="scaleToFill"></image>
+				<view class="tui-category-name">老虎机</view>
+			</view>
 			<view class="tui-category-item" :data-key="'../articles/index'" @tap="next">
 				<image :src="'../../static/images/mall/category/1.jpg'" class="tui-category-img" mode="scaleToFill"></image>
 				<view class="tui-category-name">文章</view>

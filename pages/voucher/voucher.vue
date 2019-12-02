@@ -17,16 +17,6 @@
 						</view>
 					</label>
 				</radio-group>
-				<!-- <view class="sub-title">
-					{{ index + 1 }}: {{ item.title }}
-				</view>
-				<view class="select">
-					<radio-group :name="item.title">
-						<label v-for="(it, idx) in item.childrens" :key='idx'>
-							<radio :value="it.name" /><text>{{it.name}}</text>
-						</label>
-					</radio-group>
-				</view> -->
 			</view>
 		</view>
 	</view>
