@@ -71,10 +71,10 @@ const tui = {
 			console.log(111);
 			} else {
 				console.log(22);
-				let redirect_uri = 'http://h5.shjietui.com/pages/product/show'
-				let url =
-					"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx202bddcd868b179f&response_type=code&scope=snsapi_userinfo&redirect_uri=" + redirect_uri + "#wechat_redirect"
+				let redirect_uri = 'http://h5.shjietui.com/pages/auth/index'
 				const current_url = location.href;
+				let url =
+					"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx202bddcd868b179f&response_type=code&scope=snsapi_userinfo&redirect_uri=" + redirect_uri + "&state=" + current_url + "#wechat_redirect"
 				location.href = url + '&state=' + current_url;
 			}
 			resolve(true);
@@ -131,6 +131,7 @@ Vue.prototype.tui = tui
 Vue.prototype.$eventHub = Vue.prototype.$eventHub || new Vue()
 Vue.prototype.$store = store
 App.mpType = 'app'
+Vue.prototype.apiUrl = 'http://liebian.natapp1.cc/'
 
 const app = new Vue({
 	store,
