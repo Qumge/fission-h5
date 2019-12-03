@@ -97,13 +97,27 @@
 			}
 		},
 		{
+			"path": "pages/game/tiger",
+			"style": {
+				"navigationBarBackgroundColor": "#FC4034",
+				"navigationBarTitleText": "老虎机"
+			}
+		},
+		{
 			"path": "pages/articles/index",
 			"style": {
 				"navigationBarBackgroundColor": "#FC4034",
 				"navigationBarTitleText": "文章"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/voucher/voucher",
+            "style" : {
+				"navigationBarBackgroundColor": "#FC4034",
+				"navigationBarTitleText": "问券"
+			}
+        }
+    ],
 	"globalStyle": {
 		"backgroundTextStyle": "dark",
 		"navigationBarBackgroundColor": "#5677FC",
