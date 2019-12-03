@@ -329,6 +329,7 @@
 	import tuiTopDropdown from "@/components/top-dropdown/top-dropdown"
 	import tuiBottomPopup from "@/components/bottom-popup/bottom-popup"
 	import tuiNumberbox from "@/components/numberbox/numberbox"
+	var jweixin = require('jweixin-module')
 	export default {
 		components: {
 			tuiIcon,
@@ -412,7 +413,19 @@
 			// #ifdef MP-ALIPAY
 			my.hideAddToDesktopMenu();
 			// #endif
-
+			jweixin.ready(function() {
+				console.log(2222);
+				wx.updateAppMessageShareData({
+					title: '111', // 分享标题
+					desc: '222', // 分享描述
+					link: '333', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+					imgUrl: 'asas', // 分享图标
+					success: function() {
+						// 设置成功
+					}
+				})
+				// TODO  
+			});
 			setTimeout(() => {
 				uni.getSystemInfo({
 					success: (res) => {
@@ -459,18 +472,18 @@
 			common: function() {
 				this.tui.toast("功能开发中~")
 			},
-			submit(){
+			submit() {
 				this.popupShow = false
 				uni.navigateTo({
 					url: '../order/new'
 				})
 			},
-			coupon(){
+			coupon() {
 				uni.navigateTo({
 					url: '../coupon/index'
 				})
 			},
-			share(){
+			share() {
 				this.tui.share();
 			}
 		},

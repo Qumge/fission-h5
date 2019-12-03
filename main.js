@@ -4,6 +4,7 @@ import store from './store'
 import ScratchCard from 'vue-scratch-card0'
 Vue.use(ScratchCard)
 Vue.config.productionTip = false
+var jweixin = require('jweixin-module')
 
 const tui = {
 	toast: function(text, duration, success) {
@@ -56,29 +57,18 @@ const tui = {
 			})
 		})
 	},
-	share: function() {
-		this.wxAuth().then(function(value) {
-			// success
-			cnsole.log('share');
-		}, function(error) {
-			// failure
-		});
-	},
 	wxAuth: function() {
-		return new Promise(function(resolve, reject) {
 			// ... some code
-			if (uni.getStorageSync('sessionToken')) {
+		if (uni.getStorageSync('sessionToken')) {
 			console.log(111);
-			} else {
-				console.log(22);
-				let redirect_uri = 'http://h5.shjietui.com/pages/auth/index'
-				const current_url = location.href;
-				let url =
-					"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx202bddcd868b179f&response_type=code&scope=snsapi_userinfo&redirect_uri=" + redirect_uri + "&state=" + current_url + "#wechat_redirect"
-				location.href = url + '&state=' + current_url;
-			}
-			resolve(true);
-		});
+		} else {
+			console.log(22);
+			let redirect_uri = 'http://h5.shjietui.com/pages/auth/index'
+			const current_url = location.href;
+			let url =
+				"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx202bddcd868b179f&response_type=code&scope=snsapi_userinfo&redirect_uri=" + redirect_uri + "&state=" + current_url + "#wechat_redirect"
+			location.href = url + '&state=' + current_url;
+		}
 	},
 	uploadFile: function(src) {
 		const that = this
@@ -126,7 +116,10 @@ const tui = {
 		return "https://www.thorui.cn/wx"
 	}
 }
-
+// uni.setStorageSync('sessionToken', null);
+if(location.pathname != '/pages/auth/index'){
+	tui.wxAuth();
+}
 Vue.prototype.tui = tui
 Vue.prototype.$eventHub = Vue.prototype.$eventHub || new Vue()
 Vue.prototype.$store = store
