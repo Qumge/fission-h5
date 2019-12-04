@@ -86,7 +86,7 @@
 			"path": "pages/auth/index",
 			"style": {
 				"navigationBarBackgroundColor": "#FC4034",
-				"navigationBarTitleText": "登录"
+				"navigationBarTitleText": "登录中"
 			}
 		},
 		{

@@ -319,7 +319,7 @@
 
 	</view>
 </template>
-
+<script></script>
 <script>
 	import tuiIcon from "@/components/icon/icon"
 	import tuiTag from "@/components/tag/tag"
@@ -329,7 +329,6 @@
 	import tuiTopDropdown from "@/components/top-dropdown/top-dropdown"
 	import tuiBottomPopup from "@/components/bottom-popup/bottom-popup"
 	import tuiNumberbox from "@/components/numberbox/numberbox"
-	var jweixin = require('jweixin-module')
 	export default {
 		components: {
 			tuiIcon,
@@ -401,6 +400,10 @@
 				collected: false
 			}
 		},
+		onReady: function(options) {
+			console.log(444);
+
+		},
 		onLoad: function(options) {
 			console.log(this.tui);
 			let obj = {};
@@ -413,19 +416,6 @@
 			// #ifdef MP-ALIPAY
 			my.hideAddToDesktopMenu();
 			// #endif
-			jweixin.ready(function() {
-				console.log(2222);
-				wx.updateAppMessageShareData({
-					title: '111', // 分享标题
-					desc: '222', // 分享描述
-					link: '333', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-					imgUrl: 'asas', // 分享图标
-					success: function() {
-						// 设置成功
-					}
-				})
-				// TODO  
-			});
 			setTimeout(() => {
 				uni.getSystemInfo({
 					success: (res) => {

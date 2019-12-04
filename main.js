@@ -2,9 +2,11 @@ import Vue from 'vue'
 import App from './App'
 import store from './store'
 import ScratchCard from 'vue-scratch-card0'
+import api from './api'
 Vue.use(ScratchCard)
 Vue.config.productionTip = false
-var jweixin = require('jweixin-module')
+
+let jweixin = require('jweixin-module')
 
 const tui = {
 	toast: function(text, duration, success) {
@@ -57,18 +59,71 @@ const tui = {
 			})
 		})
 	},
-	wxAuth: function() {
-			// ... some code
-		if (uni.getStorageSync('sessionToken')) {
-			console.log(111);
-		} else {
-			console.log(22);
-			let redirect_uri = 'http://h5.shjietui.com/pages/auth/index'
-			const current_url = location.href;
-			let url =
-				"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx202bddcd868b179f&response_type=code&scope=snsapi_userinfo&redirect_uri=" + redirect_uri + "&state=" + current_url + "#wechat_redirect"
-			location.href = url + '&state=' + current_url;
+	getUrlParams: function(url) {
+		url = url.replace(/#.*$/, '');
+		var queryArray = url.split(/[?&]/).slice(1);
+		var i;
+		var args = {};
+		for (i = 0; i < queryArray.length; i++) {
+			var match = queryArray[i].match(/([^=]+)=([^=]+)/);
+			if (match !== null) {
+				args[match[1]] = decodeURIComponent(match[2]);
+			}
 		}
+		return args;
+	},
+	wxAuthorize: function() {
+		let link = window.location.href;
+		let params = this.getUrlParams(link); // 地址解析
+		// 已经授权登录过的就不用再授权了
+		if (uni.getStorageSync('sessionToken')) return;
+		// 如果拿到code，调用授权接口，没有拿到就跳转微信授权链接获取
+		if (params.code) {
+			//api.wxAuth(params.code); // 调用后台接口，授权
+			api.wxAuth(params.code).then(function(data) {
+				uni.setStorageSync('sessionToken', data.authentication_token)
+			}).catch(function(e) {
+				console.log(e)
+			});
+		} else {
+			let appid = Vue.prototype.appid;
+			let uri = encodeURIComponent(link);
+			//uri = encodeURIComponent('http://h5.shjietui.com');
+			let authURL =
+				`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${uri}&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`;
+			console.log(authURL);
+			window.location.href = authURL;
+		}
+	},
+	configWeiXin: function(callback) {
+		//     let [errConfig, resConfig] = await api.wxConfig(window.location.href);
+		// 	await uni.request
+		//     if (resConfig) {
+		//         let apiList = [ // 可能需要用到的能力
+		//             'onMenuShareAppMessage',
+		//             'onMenuShareTimeline',
+		//             'hideOptionMenu',
+		//             'showOptionMenu',
+		//             'chooseWXPay'
+		//         ];
+
+		//         let info = {
+		//             debug: true, // 调试，发布的时候改为false
+		//             appId: Vue.prototype.appid,
+		//             nonceStr: resConfig.noncestr,
+		//             timestamp: resConfig.timestamp,
+		//             signature: resConfig.sign,
+		//             jsApiList: apiList
+		//         };
+		//         jweixin.config(info);
+		//         jweixin.error(err => {
+		//             console.log('config fail:', err);
+		//         });
+
+		//         jweixin.ready(res => {
+		//             if (callback) callback(jweixin); // 配置成功
+		//         });
+		//     }
 	},
 	uploadFile: function(src) {
 		const that = this
@@ -116,16 +171,14 @@ const tui = {
 		return "https://www.thorui.cn/wx"
 	}
 }
-// uni.setStorageSync('sessionToken', null);
-if(location.pathname != '/pages/auth/index'){
-	tui.wxAuth();
-}
+//uni.setStorageSync('sessionToken', '555')
 Vue.prototype.tui = tui
 Vue.prototype.$eventHub = Vue.prototype.$eventHub || new Vue()
 Vue.prototype.$store = store
 App.mpType = 'app'
+//Vue.prototype.apiUrl = 'http://liebian.natapp1.cc/'
 Vue.prototype.apiUrl = 'http://liebian.natapp1.cc/'
-
+Vue.prototype.appid = 'wx202bddcd868b179f'
 const app = new Vue({
 	store,
 	...App
