@@ -117,8 +117,6 @@ const tui = {
 		let link = window.location.href;
 		let params = this.getUrlParams(link); // 地址解析
 		// 已经授权登录过的就不用再授权了
-		//uni.setStorageSync('sessionToken', 'DRjQtJ7FWPbPz4j3aGi7')
-		//uni.setStorageSync('sessionToken', null)
 		if (uni.getStorageSync('sessionToken')) return;
 		// 如果拿到code，调用授权接口，没有拿到就跳转微信授权链接获取
 		if (params.code) {

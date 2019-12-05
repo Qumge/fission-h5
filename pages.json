@@ -104,6 +104,13 @@
 			}
 		},
 		{
+			"path": "pages/game/golden",
+			"style": {
+				"navigationBarBackgroundColor": "#FC4034",
+				"navigationBarTitleText": "砸金蛋"
+			}
+		},
+		{
 			"path": "pages/articles/index",
 			"style": {
 				"navigationBarBackgroundColor": "#FC4034",

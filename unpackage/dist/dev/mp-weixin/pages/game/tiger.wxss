@@ -1,0 +1,42 @@
+
+.mp-slot.data-v-6ef237da{
+  width: 65%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 65px;
+}
+.back-slot.data-v-6ef237da{
+  width: 100%;
+  position: absolute;
+}
+.press.data-v-6ef237da{
+  width: 100px;
+  height: 80px;
+  background-color:rgba(243,54,74,0.6);
+  position:fixed;
+  left:160px;
+  top:280px;
+  border-radius: 35px;
+}
+.press.data-v-6ef237da::after{
+  border: none;
+}
+.mp-slot-box.data-v-6ef237da{
+  width: 80px;
+  height:95px;
+  line-height: 95px;
+  font-size: 36px;
+  font-weight: bold;
+  color: #f3364a;
+  overflow: hidden;
+  text-align: center;
+}
+

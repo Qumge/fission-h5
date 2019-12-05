@@ -1,0 +1,1 @@
+<vue-scratch-card vue-id="1" element-id="scratchWrap" ratio="{{0.5}}" move-radius="{{50}}" start-callback="{{startCallback}}" clear-callback="{{clearCallback}}" cover-color="#caa" bind:__l="__l"></vue-scratch-card>

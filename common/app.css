@@ -1,4 +1,6 @@
 /*app.wxss*/
+uni-radio .uni-radio-input{width: 10px !important;height: 10px !important;}
+uni-checkbox .uni-checkbox-input{width: 10px !important;height: 10px !important;}
 
 page {
 	background: #fafafa;
