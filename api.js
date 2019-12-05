@@ -18,6 +18,23 @@ const api = {
 			});
 		})
 	},
+	product: function(id) {
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + 'api/v1/users/products/' + id, //仅为示例，并非真实接口地址。
+				method: 'GET',
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				success: (res) => {
+					resolve(res.data)
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
 	fission: function(task_id, token) {
 		return new Promise(function(resolve, reject) {
 			uni.request({
@@ -40,14 +57,13 @@ const api = {
 		})
 
 	},
-	getJssdk: function(task_id, token) {
+	getJssdk: function() {
 		return new Promise(function(resolve, reject) {
 			uni.request({
-				url: Vue.prototype.apiUrl + 'api/v1/users/fissions', //仅为示例，并非真实接口地址。
+				url: Vue.prototype.apiUrl + 'api/v1/users/weixin/jssdk', //仅为示例，并非真实接口地址。
 				method: 'POST',
 				data: {
-					task_id: task_id,
-					token: token
+					url: window.location.href,
 				},
 				header: {
 					'X-Auth-Token': uni.getStorageSync('sessionToken')

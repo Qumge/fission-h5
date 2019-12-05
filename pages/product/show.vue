@@ -20,7 +20,7 @@
 			<swiper :autoplay="true" :interval="5000" :duration="150" :circular="true" :style="{height:scrollH + 'px'}" @change="bannerChange">
 				<block v-for="(item,index) in banner" :key="index">
 					<swiper-item :data-index="index" @tap.stop="previewImage">
-						<image :src="item" class="tui-slide-image" :style="{height:scrollH+'px'}" />
+						<image :src="item.image_path" class="tui-slide-image" :style="{height:scrollH+'px'}" />
 					</swiper-item>
 				</block>
 			</swiper>
@@ -33,12 +33,12 @@
 			<view class="tui-product-title tui-border-radius">
 				<view class="tui-pro-pricebox tui-padding">
 					<view class="tui-pro-price">
-						<view>￥<text class="tui-price">49</text>.00</view>
+						<view>￥<text class="tui-price">{{product.price}}</text>.00</view>
 						<tui-tag size="small" :plain="true" type="high-green" shape="circle">新品</tui-tag>
 					</view>
 					<view class="tui-collection tui-size" @tap="collecting">
 						<view class="tui-icon tui-icon-collection" :class="['tui-icon-'+(collected?'like-fill':'like')]" :style="{color:collected?'#ff201f':'#333',fontSize:'20px'}"></view>
-						<view class="tui-scale" :class="[collected?'tui-icon-red':'']">收藏</view>
+						<!-- <view class="tui-scale" :class="[collected?'tui-icon-red':'']">收藏</view> -->
 					</view>
 				</view>
 				<view class="tui-original-price tui-gray">
@@ -46,7 +46,7 @@
 					<text class="tui-line-through">￥199.00</text>
 				</view>
 				<view class="tui-pro-titbox">
-					<view class="tui-pro-title">谈判官明星同款耳坠韩国气质简约显脸瘦的耳环女百搭个性长款耳钉 个性水滴耳环【A2】</view>
+					<view class="tui-pro-title">{{product.name}}</view>
 					<button open-type="share" class="tui-share-btn tui-share-position" @tap="share">
 						<tui-tag type="gray" tui-tag-class="tui-tag-share tui-size" shape="circleLeft" size="small">
 							<view class="tui-icon tui-icon-partake" style="color:#999;font-size:15px"></view>
@@ -64,7 +64,7 @@
 					</view>
 				</view>
 			</view>
-
+<!-- 
 			<view class="tui-discount-box tui-radius-all tui-mtop">
 				<view class="tui-list-cell" @tap="coupon">
 					<view class="tui-bold tui-cell-title">领券</view>
@@ -95,11 +95,11 @@
 				</view>
 
 			</view>
-
+ -->
 			<view class="tui-basic-info tui-mtop tui-radius-all">
 				<view class="tui-list-cell" @tap="showPopup">
 					<view class="tui-bold tui-cell-title">已选</view>
-					<view class="tui-selected-box">个性水滴耳环【A2】,1个，可选服务</view>
+					<view class="tui-selected-box">{{norm.spec_attr_names}}</view>
 					<tui-icon name="more-fill" :size="20" class="tui-right" color="#666"></tui-icon>
 				</view>
 				<view class="tui-list-cell" @tap="showPopup">
@@ -137,14 +137,14 @@
 					</view>
 				</view>
 			</view>
-
+<!-- 
 			<view class="tui-cmt-box tui-mtop tui-radius-all">
 				<view class="tui-list-cell tui-last tui-between">
 					<view class="tui-bold tui-cell-title">评价</view>
 					<view @tap="common">
 						<text class="tui-cmt-all">查看全部</text>
 						<view class="tui-icon tui-icon-more-fill" style="color:#ff201f; font-size: 20px;"></view>
-						<!-- <tui-icon name="more-fill" size="20" color="#ff201f"></tui-icon> -->
+						<! <tui-icon name="more-fill" size="20" color="#ff201f"></tui-icon> 
 					</view>
 				</view>
 
@@ -161,12 +161,13 @@
 					<tui-tag type="black" :plain="true" tui-tag-class="tui-tag-cmt" @tap="common">查看全部评价</tui-tag>
 				</view>
 			</view>
-
+ -->
 			<view class="tui-nomore-box">
 				<tui-nomore text="宝贝详情" :visible="true" bgcolor="#f7f7f7"></tui-nomore>
 			</view>
 			<view class="tui-product-img tui-radius-all">
-				<image :src="'https://www.thorui.cn/img/detail/'+(index+1)+'.jpg'" v-for="(img,index) in 20" :key="index" mode="widthFix"></image>
+				<rich-text :nodes="product.desc"></rich-text>
+				<!-- <image :src="'https://www.thorui.cn/img/detail/'+(index+1)+'.jpg'" v-for="(img,index) in 20" :key="index" mode="widthFix"></image> -->
 			</view>
 			<tui-nomore text="已经到最底了" :visible="true" bgcolor="#f7f7f7"></tui-nomore>
 			<view class="tui-safearea-bottom"></view>
@@ -233,74 +234,28 @@
 				<view class="tui-product-box tui-padding">
 					<image src="https://www.thorui.cn/img/product/11.jpg" class="tui-popup-img"></image>
 					<view class="tui-popup-price">
-						<view class="tui-amount tui-bold">￥49.00</view>
-						<view class="tui-number">编号:4373299399393</view>
+						<view class="tui-amount tui-bold">￥{{norm.price}}</view>
+						<view class="tui-number">编号:{{product.no}}</view>
 					</view>
 				</view>
 				<scroll-view scroll-y class="tui-popup-scroll">
+					
 					<view class="tui-scrollview-box">
-						<view class="tui-bold tui-attr-title">颜色</view>
-						<view class="tui-attr-box">
-							<view class="tui-attr-item">
-								五角星钻耳线
+						<block v-for="(spec) in product.specs" >
+							<view class="tui-bold tui-attr-title">{{spec.name}}</view>
+							<view class="tui-attr-box">
+							<block v-for="(spec_value) in spec.spec_values" >
+								<view class="tui-attr-item" :class="norm.spec_attrs.split('/').indexOf(String(spec_value.id)) >=0 ? 'tui-attr-active' : ''">
+									{{spec_value.name}}
+								</view>
+							</block>
 							</view>
-							<view class="tui-attr-item">
-								米子珍珠耳线
-							</view>
-							<view class="tui-attr-item">
-								花朵镶钻耳线
-							</view>
-							<view class="tui-attr-item">
-								扇子珍珠流苏耳线
-							</view>
-							<view class="tui-attr-item tui-attr-active">
-								扇子珍珠流苏耳线耳线
-							</view>
-						</view>
+						</block>
 
 						<view class="tui-number-box tui-bold tui-attr-title">
 							<view class="tui-attr-title">数量</view>
 							<tui-numberbox :max="99" :min="1" :value="value" @change="change"></tui-numberbox>
-						</view>
-						<view class="tui-bold tui-attr-title">尺寸</view>
-						<view class="tui-attr-box">
-							<view class="tui-attr-item">
-								5cm
-							</view>
-							<view class="tui-attr-item">
-								8cm
-							</view>
-							<view class="tui-attr-item">
-								12cm
-							</view>
-							<view class="tui-attr-item">
-								16cm
-							</view>
-							<view class="tui-attr-item tui-attr-active">
-								18cm
-							</view>
-						</view>
-
-						<view class="tui-bold tui-attr-title">
-							保障服务
-						</view>
-						<view class="tui-attr-box">
-							<view class="tui-attr-item">
-								半年掉钻保 ￥4.0
-							</view>
-						</view>
-
-						<view class="tui-bold tui-attr-title">
-							只换不修
-						</view>
-						<view class="tui-attr-box">
-							<view class="tui-attr-item">
-								三月意外换￥2.0
-							</view>
-							<view class="tui-attr-item">
-								半年意外换￥2.0
-							</view>
-						</view>
+						</view>	
 					</view>
 				</scroll-view>
 				<view class="tui-operation tui-operation-right tui-right-flex tui-popup-btn">
@@ -329,6 +284,7 @@
 	import tuiTopDropdown from "@/components/top-dropdown/top-dropdown"
 	import tuiBottomPopup from "@/components/bottom-popup/bottom-popup"
 	import tuiNumberbox from "@/components/numberbox/numberbox"
+	import api from "../../api.js"
 	export default {
 		components: {
 			tuiIcon,
@@ -347,16 +303,10 @@
 				scrollH: 0, //滚动总高度
 				opcity: 0,
 				iconOpcity: 0.5,
-				banner: [
-					"https://www.thorui.cn/img/product/11.jpg",
-					"https://www.thorui.cn/img/product/2.png",
-					"https://www.thorui.cn/img/product/33.jpg",
-					"https://www.thorui.cn/img/product/4.png",
-					"https://www.thorui.cn/img/product/55.jpg",
-					"https://www.thorui.cn/img/product/6.png",
-					"https://www.thorui.cn/img/product/7.jpg",
-					"https://www.thorui.cn/img/product/8.jpg"
-				],
+				product: {},
+				banner: [],
+				norm: {},
+				norms: [],
 				bannerIndex: 0,
 				topMenu: [{
 					icon: "message",
@@ -402,9 +352,19 @@
 		},
 		onReady: function(options) {
 			console.log(444);
-
+			
 		},
 		onLoad: function(options) {
+			let that = this;
+			api.product(options.id).then(function(data){
+				console.log(data);
+				that.banner = data.images;
+				that.product = data;
+				that.norms = data.norms;
+				that.norm = data.norms[0];
+			}).catch(function(e){
+				//跳转到回上一页
+			})
 			console.log(this.tui);
 			let obj = {};
 			// #ifdef MP-WEIXIN
