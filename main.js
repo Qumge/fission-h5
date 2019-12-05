@@ -20,10 +20,10 @@ Vue.mixin({
 			];
 			let info = {
 				debug: true, // 调试，发布的时候改为false
-				appId: 'appid',
+				appId: Vue.prototype.appid,
 				nonceStr: data.noncestr,
 				timestamp: data.timestamp,
-				signature: data.sign,
+				signature: data.signature,
 				jsApiList: apiList
 			};
 			jweixin.config(info);
