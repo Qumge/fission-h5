@@ -114,7 +114,13 @@
             "mode" : "history"
         },
         "devServer" : {
-            "https" : false
+            "https" : false,
+            "disableHostCheck":true
+        },
+        "optimization" : {
+            "treeShaking" : {
+                "enable" : false
+            }
         }
     }
 }

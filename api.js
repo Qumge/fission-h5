@@ -9,10 +9,15 @@ const api = {
 				data: {
 					code: code
 				},
+				header: {
+					// 'Access-Control-Allow-Origin': '*'
+				},
 				success: (res) => {
+					console.log(res)
 					resolve(res.data)
 				},
 				fail: (res) => {
+					console.log(res)
 					reject(res)
 				}
 			});
@@ -38,11 +43,33 @@ const api = {
 	fission: function(task_id, token) {
 		return new Promise(function(resolve, reject) {
 			uni.request({
-				url: Vue.prototype.apiUrl + 'api/v1/users/fissions', //仅为示例，并非真实接口地址。
+				url: Vue.prototype.apiUrl + 'api/v1/users/fissions', 
 				method: 'POST',
 				data: {
 					token: token,
 					task_id: task_id
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				success: (res) => {
+					console.log(res.data);
+					resolve(res.data)
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+
+	},
+	share: function(token) {
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + 'api/v1/users/fissions/share', //仅为示例，并非真实接口地址。
+				method: 'POST',
+				data: {
+					token: token
 				},
 				header: {
 					'X-Auth-Token': uni.getStorageSync('sessionToken')
@@ -55,7 +82,7 @@ const api = {
 				}
 			});
 		})
-
+	
 	},
 	getJssdk: function() {
 		return new Promise(function(resolve, reject) {
@@ -76,7 +103,8 @@ const api = {
 				}
 			});
 		})
-	}
+	},
+	
 }
 
 export default api

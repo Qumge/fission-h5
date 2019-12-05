@@ -9,36 +9,8 @@ Vue.config.productionTip = false
 let jweixin = require('jweixin-module')
 
 Vue.mixin({
-	onShow: function() {
-		api.getJssdk().then(function(data) {
-			let apiList = [ // 可能需要用到的能力
-				'onMenuShareAppMessage',
-				'onMenuShareTimeline',
-				'hideOptionMenu',
-				'showOptionMenu',
-				'chooseWXPay'
-			];
-			let info = {
-				debug: true, // 调试，发布的时候改为false
-				appId: Vue.prototype.appid,
-				nonceStr: data.noncestr,
-				timestamp: data.timestamp,
-				signature: data.signature,
-				jsApiList: apiList
-			};
-			jweixin.config(info);
-			jweixin.error(err => {
-				console.log('config fail:', err);
-			});
-			jweixin.ready(res => {
-				console.log(res);
-				console.log('配置成功')
-				// if (callback) callback(jweixin); // 配置成功
-			});
-			console.log(data)
-		}).catch(function(e) {
-			console.log(e);
-		});
+	onShow: function(options) {
+		
 	}
 });
 
@@ -48,6 +20,41 @@ const tui = {
 			title: text,
 			icon: success ? 'success' : 'none',
 			duration: duration || 2000
+		})
+	},
+	jssdk: function(){
+		return new Promise(function(resolve, reject){
+			if (!uni.getStorageSync('sessionToken')) return;
+			api.getJssdk().then(function(data) {
+				let apiList = [ // 可能需要用到的能力
+					'onMenuShareAppMessage',
+					'onMenuShareTimeline',
+					'hideOptionMenu',
+					'showOptionMenu',
+					'chooseWXPay',
+					'updateAppMessageShareData'
+				];
+				let info = {
+					debug: false, // 调试，发布的时候改为false
+					appId: Vue.prototype.appid,
+					nonceStr: data.noncestr,
+					timestamp: data.timestamp,
+					signature: data.signature,
+					jsApiList: apiList
+				};
+				jweixin.config(info);
+				jweixin.error(err => {
+					console.log('config fail:', err);
+				});
+				jweixin.ready(res => {
+					resolve(jweixin);
+					console.log('配置成功')
+					//jweixin.onMenuShareAppMessage(shareParams);
+				});
+				console.log(data)
+			}).catch(function(e){
+				console.log(e)
+			})
 		})
 	},
 	constNum: function() {
@@ -110,7 +117,8 @@ const tui = {
 		let link = window.location.href;
 		let params = this.getUrlParams(link); // 地址解析
 		// 已经授权登录过的就不用再授权了
-		// uni.setStorageSync('sessionToken', 'DRjQtJ7FWPbPz4j3aGi7')
+		//uni.setStorageSync('sessionToken', 'DRjQtJ7FWPbPz4j3aGi7')
+		//uni.setStorageSync('sessionToken', null)
 		if (uni.getStorageSync('sessionToken')) return;
 		// 如果拿到code，调用授权接口，没有拿到就跳转微信授权链接获取
 		if (params.code) {
@@ -123,7 +131,7 @@ const tui = {
 		} else {
 			let appid = Vue.prototype.appid;
 			let uri = encodeURIComponent(link);
-			uri = encodeURIComponent('http://h5.shjietui.com');
+			//uri = encodeURIComponent('http://h5.shjietui.com');
 			let authURL =
 				`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${uri}&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`;
 			console.log(authURL);
@@ -211,7 +219,7 @@ Vue.prototype.tui = tui
 Vue.prototype.$eventHub = Vue.prototype.$eventHub || new Vue()
 Vue.prototype.$store = store
 App.mpType = 'app'
-//Vue.prototype.apiUrl = 'http://liebian.natapp1.cc/'
+//Vue.prototype.apiUrl = 'http://api.shjietui.com/'
 Vue.prototype.apiUrl = 'http://liebian.natapp1.cc/'
 Vue.prototype.appid = 'wx202bddcd868b179f'
 const app = new Vue({

@@ -1,3 +1,4 @@
+
 <script>
 	export default {
 		onLaunch: function() {
@@ -6,7 +7,8 @@
 			//util.wxAuthorize();
 		},
 		onShow: function() {
-			console.log('App Show')
+			//this.tui.jssdk()
+			console.log('App show')
 		},
 		onHide: function() {
 			console.log('App Hide')
