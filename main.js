@@ -8,6 +8,40 @@ Vue.config.productionTip = false
 
 let jweixin = require('jweixin-module')
 
+Vue.mixin({
+	onShow: function() {
+		api.getJssdk().then(function(data) {
+			let apiList = [ // 可能需要用到的能力
+				'onMenuShareAppMessage',
+				'onMenuShareTimeline',
+				'hideOptionMenu',
+				'showOptionMenu',
+				'chooseWXPay'
+			];
+			let info = {
+				debug: true, // 调试，发布的时候改为false
+				appId: Vue.prototype.appid,
+				nonceStr: data.noncestr,
+				timestamp: data.timestamp,
+				signature: data.signature,
+				jsApiList: apiList
+			};
+			jweixin.config(info);
+			jweixin.error(err => {
+				console.log('config fail:', err);
+			});
+			jweixin.ready(res => {
+				console.log(res);
+				console.log('配置成功')
+				// if (callback) callback(jweixin); // 配置成功
+			});
+			console.log(data)
+		}).catch(function(e) {
+			console.log(e);
+		});
+	}
+});
+
 const tui = {
 	toast: function(text, duration, success) {
 		uni.showToast({
@@ -75,7 +109,11 @@ const tui = {
 	wxAuthorize: function() {
 		let link = window.location.href;
 		let params = this.getUrlParams(link); // 地址解析
+<<<<<<< HEAD
 		// 已经授权登录过的就不用再授权了
+=======
+		// 已经授权登录过的就不用再授权了
+>>>>>>> 5302155920e9e470231ee5511694567fc443f5ec
 		// uni.setStorageSync('sessionToken', 'DRjQtJ7FWPbPz4j3aGi7')
 		if (uni.getStorageSync('sessionToken')) return;
 		// 如果拿到code，调用授权接口，没有拿到就跳转微信授权链接获取
@@ -89,7 +127,7 @@ const tui = {
 		} else {
 			let appid = Vue.prototype.appid;
 			let uri = encodeURIComponent(link);
-			//uri = encodeURIComponent('http://h5.shjietui.com');
+			uri = encodeURIComponent('http://h5.shjietui.com');
 			let authURL =
 				`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${uri}&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`;
 			console.log(authURL);
