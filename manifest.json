@@ -115,7 +115,14 @@
         },
         "devServer" : {
             "https" : false,
-            "disableHostCheck":true
+            "disableHostCheck":true,
+            "proxy": {
+                "/api": {
+                    "target": "https://api.shjietui.com",
+                    "changeOrigin": true,
+                    "secure": false
+                }
+            }
         },
         "optimization" : {
             "treeShaking" : {

@@ -117,6 +117,7 @@ const tui = {
 		let link = window.location.href;
 		let params = this.getUrlParams(link); // 地址解析
 		// 已经授权登录过的就不用再授权了
+		//uni.setStorageSync('sessionToken', null)
 		if (uni.getStorageSync('sessionToken')) return;
 		// 如果拿到code，调用授权接口，没有拿到就跳转微信授权链接获取
 		if (params.code) {
@@ -135,36 +136,6 @@ const tui = {
 			console.log(authURL);
 			window.location.href = authURL;
 		}
-	},
-	configWeiXin: function(callback) {
-		//     let [errConfig, resConfig] = await api.wxConfig(window.location.href);
-		// 	await uni.request
-		//     if (resConfig) {
-		//         let apiList = [ // 可能需要用到的能力
-		//             'onMenuShareAppMessage',
-		//             'onMenuShareTimeline',
-		//             'hideOptionMenu',
-		//             'showOptionMenu',
-		//             'chooseWXPay'
-		//         ];
-
-		//         let info = {
-		//             debug: true, // 调试，发布的时候改为false
-		//             appId: Vue.prototype.appid,
-		//             nonceStr: resConfig.noncestr,
-		//             timestamp: resConfig.timestamp,
-		//             signature: resConfig.sign,
-		//             jsApiList: apiList
-		//         };
-		//         jweixin.config(info);
-		//         jweixin.error(err => {
-		//             console.log('config fail:', err);
-		//         });
-
-		//         jweixin.ready(res => {
-		//             if (callback) callback(jweixin); // 配置成功
-		//         });
-		//     }
 	},
 	uploadFile: function(src) {
 		const that = this
@@ -217,7 +188,7 @@ Vue.prototype.tui = tui
 Vue.prototype.$eventHub = Vue.prototype.$eventHub || new Vue()
 Vue.prototype.$store = store
 App.mpType = 'app'
-Vue.prototype.apiUrl = 'https://api.shjietui.com/'
+Vue.prototype.apiUrl = '/api'
 // Vue.prototype.apiUrl = 'http://liebian.natapp1.cc/'
 Vue.prototype.appid = 'wx202bddcd868b179f'
 const app = new Vue({

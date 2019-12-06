@@ -1,29 +1,10 @@
 import Vue from 'vue'
 import App from './App'
 const api = {
-	//http://liebian.natapp1.cc/api/v1/users/task_questionnaires/1
-	task_questionnaiire: function(id) {
-		
-		return new Promise(function(resolve, reject) {
-			uni.request({
-				url: Vue.prototype.apiUrl + 'api/v1/users/task_questionnaires/'+ id, //仅为示例，并非真实接口地址。
-				method: 'GET',
-				success: (res) => {
-					resolve(res.data)
-				},
-				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
-				},
-				fail: (res) => {
-					reject(res)
-				}
-			});
-		})
-	},
 	wxAuth: function(code) {
 		return new Promise(function(resolve, reject) {
 			uni.request({
-				url: Vue.prototype.apiUrl + 'api/v1/users/users/wx_login', //仅为示例，并非真实接口地址。
+				url: Vue.prototype.apiUrl + '/v1/users/users/wx_login', //仅为示例，并非真实接口地址。
 				method: 'POST',
 				data: {
 					code: code
@@ -45,7 +26,7 @@ const api = {
 	product: function(id) {
 		return new Promise(function(resolve, reject) {
 			uni.request({
-				url: Vue.prototype.apiUrl + 'api/v1/users/products/' + id, //仅为示例，并非真实接口地址。
+				url: Vue.prototype.apiUrl + '/v1/users/products/' + id, //仅为示例，并非真实接口地址。
 				method: 'GET',
 				header: {
 					'X-Auth-Token': uni.getStorageSync('sessionToken')
@@ -62,7 +43,7 @@ const api = {
 	fission: function(task_id, token) {
 		return new Promise(function(resolve, reject) {
 			uni.request({
-				url: Vue.prototype.apiUrl + 'api/v1/users/fissions', 
+				url: Vue.prototype.apiUrl + '/v1/users/fissions', 
 				method: 'POST',
 				data: {
 					token: token,
@@ -72,7 +53,7 @@ const api = {
 					'X-Auth-Token': uni.getStorageSync('sessionToken')
 				},
 				success: (res) => {
-					console.log(res.data);
+					console.log(res.data)
 					resolve(res.data)
 				},
 				fail: (res) => {
@@ -85,7 +66,7 @@ const api = {
 	share: function(token) {
 		return new Promise(function(resolve, reject) {
 			uni.request({
-				url: Vue.prototype.apiUrl + 'api/v1/users/fissions/share', //仅为示例，并非真实接口地址。
+				url: Vue.prototype.apiUrl + '/v1/users/fissions/share', //仅为示例，并非真实接口地址。
 				method: 'POST',
 				data: {
 					token: token
@@ -106,7 +87,7 @@ const api = {
 	getJssdk: function() {
 		return new Promise(function(resolve, reject) {
 			uni.request({
-				url: Vue.prototype.apiUrl + 'api/v1/users/weixin/jssdk', //仅为示例，并非真实接口地址。
+				url: Vue.prototype.apiUrl + '/v1/users/weixin/jssdk', //仅为示例，并非真实接口地址。
 				method: 'POST',
 				data: {
 					url: window.location.href,
