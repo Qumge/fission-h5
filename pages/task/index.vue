@@ -30,7 +30,7 @@
 		},
 		onLoad: function(options) {
 			let that = this
-			api.linkTasks(that.page, that.per_page).then(function(data) {
+			api.products(that.page, that.per_page).then(function(data) {
 				that.tasks = data
 			}).catch(function(e){
 				console.log(1)
