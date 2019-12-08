@@ -8,7 +8,7 @@
 					<image :src="'../../static/images/news/'+((index%2===0 && index!==0)?'avatar_2.jpg':'avatar_1.jpg')" class="img"></image>
 					<view class="content">
 						<view class="title">{{task.name}}</view>
-						<view class="sub-title">{{task.share_link}}</view>
+						<!-- <view class="sub-title"></view> -->
 					</view>
 				</view>
 			</view>
