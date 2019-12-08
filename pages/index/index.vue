@@ -78,6 +78,11 @@
 				<image :src="'../../static/images/mall/category/1.jpg'" class="tui-category-img" mode="scaleToFill"></image>
 				<view class="tui-category-name">砸金蛋</view>
 			</view>
+			<view class="tui-category-item" :data-key="'../task/index'" @tap="next">
+				<image :src="'../../static/images/mall/category/1.jpg'" class="tui-category-img" mode="scaleToFill"></image>
+				<view class="tui-category-name">链接任务</view>
+			</view>
+			
 			<view class="tui-category-item" :data-key="'../articles/index'" @tap="next">
 				<image :src="'../../static/images/mall/category/1.jpg'" class="tui-category-img" mode="scaleToFill"></image>
 				<view class="tui-category-name">文章</view>
