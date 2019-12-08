@@ -113,17 +113,18 @@
         "router" : {
             "mode" : "history"
         },
-        // "devServer" : {
-        //     "https" : false,
-        //     "disableHostCheck":true,
-        //     "proxy": {
-        //         "/fission": {
-        //             "target": "https://api.shjietui.com",
-        //             "changeOrigin": true,
-        //             "secure": false
-        //         }
-        //     }
-        // },
+        "devServer" : {
+            "https" : false,
+            "disableHostCheck":true,
+            "proxy": {
+                "/dpc": {
+                    "target": "https://api.shjietui.com",
+                    "changeOrigin": true,
+                    "secure": false,
+					"pathRewrite":{"^/dpc":""}
+                }
+            }
+        },
         "optimization" : {
             "treeShaking" : {
                 "enable" : false

@@ -4,7 +4,7 @@ const api = {
 	wxAuth: function(code) {
 		return new Promise(function(resolve, reject) {
 			uni.request({
-				url: Vue.prototype.apiUrl + '/api/v1/users/users/wx_login', //仅为示例，并非真实接口地址。
+				url: Vue.prototype.apiUrl + '/v1/users/users/wx_login', //仅为示例，并非真实接口地址。
 				method: 'POST',
 				data: {
 					code: code
@@ -23,10 +23,10 @@ const api = {
 			});
 		})
 	},
-	products: function(page, per_page){
+	linkTasks: function(page, per_page){
 		return new Promise(function(resolve, reject) {
 			uni.request({
-				url: Vue.prototype.apiUrl + '/api/v1/users/task_links', //仅为示例，并非真实接口地址。
+				url: Vue.prototype.apiUrl + '/v1/users/task_links', //仅为示例，并非真实接口地址。
 				method: 'GET',
 				header: {
 					'X-Auth-Token': uni.getStorageSync('sessionToken')
@@ -44,7 +44,7 @@ const api = {
 	product: function(id) {
 		return new Promise(function(resolve, reject) {
 			uni.request({
-				url: Vue.prototype.apiUrl + '/api/v1/users/products/' + id, //仅为示例，并非真实接口地址。
+				url: Vue.prototype.apiUrl + '/v1/users/products/' + id, //仅为示例，并非真实接口地址。
 				method: 'GET',
 				header: {
 					'X-Auth-Token': uni.getStorageSync('sessionToken')
@@ -61,7 +61,7 @@ const api = {
 	fission: function(task_id, token) {
 		return new Promise(function(resolve, reject) {
 			uni.request({
-				url: Vue.prototype.apiUrl + '/api/v1/users/fissions', 
+				url: Vue.prototype.apiUrl + '/v1/users/fissions', 
 				method: 'POST',
 				data: {
 					token: token,
@@ -84,7 +84,7 @@ const api = {
 	share: function(token) {
 		return new Promise(function(resolve, reject) {
 			uni.request({
-				url: Vue.prototype.apiUrl + '/api/v1/users/fissions/share', //仅为示例，并非真实接口地址。
+				url: Vue.prototype.apiUrl + '/v1/users/fissions/share', //仅为示例，并非真实接口地址。
 				method: 'POST',
 				data: {
 					token: token
@@ -105,7 +105,7 @@ const api = {
 	getJssdk: function() {
 		return new Promise(function(resolve, reject) {
 			uni.request({
-				url: Vue.prototype.apiUrl + '/api/v1/users/weixin/jssdk', //仅为示例，并非真实接口地址。
+				url: Vue.prototype.apiUrl + '/v1/users/weixin/jssdk', //仅为示例，并非真实接口地址。
 				method: 'POST',
 				data: {
 					url: window.location.href,
