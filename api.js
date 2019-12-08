@@ -23,7 +23,7 @@ const api = {
 			});
 		})
 	},
-	taskLinks: function(page, per_page){
+	linkTasks: function(page, per_page){
 		return new Promise(function(resolve, reject) {
 			uni.request({
 				url: Vue.prototype.apiUrl + '/v1/users/task_links', //仅为示例，并非真实接口地址。

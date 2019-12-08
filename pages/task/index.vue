@@ -1,14 +1,14 @@
 <template>
 
-	<scroll-view class="scrollList" scroll-y >
+	<scroll-view class="scrollList" scroll-y>
 		<view class="tui-list search-result">
-			<view class="tui-list-cell" hover-class="tui-list-cell-hover" v-for="(item,index) in list" :key="index"
-			 @tap="showTask" :data-name="item" :hover-stay-time='150'>
+			<view class="tui-list-cell" hover-class="tui-list-cell-hover" v-for="(task,index) in tasks" :key="index" @tap="showTask"  :data-id=task.id
+			 :hover-stay-time='150'>
 				<view class="tui-list-cell-navigate">
 					<image :src="'../../static/images/news/'+((index%2===0 && index!==0)?'avatar_2.jpg':'avatar_1.jpg')" class="img"></image>
 					<view class="content">
-						<view class="title">{{item.name}}</view>
-						<view class="sub-title">{{item.id}}</view>
+						<view class="title">{{task.name}}</view>
+						<view class="sub-title">{{task.share_link}}</view>
 					</view>
 				</view>
 			</view>
@@ -18,26 +18,30 @@
 </template>
 
 <script>
+	import api from "../../api.js"
 	export default {
 		data() {
 			return {
-				list: [{
-					name: 'aa',
-					id: 1
-				}, {
-					name: 'bb',
-					id: 2
-				}]
+				tasks: [],
+				page: 1,
+				per_page: 100
 			}
 
 		},
-		onLoad: function() {
+		onLoad: function(options) {
+			let that = this
+			api.linkTasks(that.page, that.per_page).then(function(data) {
+				console.log(data);
+				that.tasks = data
+			}).catch(function(e){
+				console.log(1)
+			})
 
 		},
 		methods: {
-			showTask: function() {
+			showTask: function(e) {
 				uni.navigateTo({
-					url: '/pages/task/show'
+					url: '/pages/task/show?id=' + e.currentTarget.dataset.id
 				})
 			}
 		}
@@ -164,7 +168,7 @@
 	.img {
 		width: 120upx;
 		height: 120upx;
-		border-radius: 50%;
+		/* border-radius: 50%; */
 	}
 
 	.content {
