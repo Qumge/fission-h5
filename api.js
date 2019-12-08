@@ -32,7 +32,7 @@ const api = {
 					'X-Auth-Token': uni.getStorageSync('sessionToken')
 				},
 				success: (res) => {
-					console.log(res.data);
+					// console.log(res.data);
 					resolve(res.data)
 				},
 				fail: (res) => {
