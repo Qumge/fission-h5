@@ -1,5 +1,5 @@
 <template>
-	<view>show</view>
+	<web-view src="http://www.baidu.com"></web-view>
 </template>
 
 <script>
