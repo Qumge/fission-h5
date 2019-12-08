@@ -188,8 +188,8 @@ Vue.prototype.tui = tui
 Vue.prototype.$eventHub = Vue.prototype.$eventHub || new Vue()
 Vue.prototype.$store = store
 App.mpType = 'app'
-Vue.prototype.apiUrl = '/api'
-// Vue.prototype.apiUrl = 'http://liebian.natapp1.cc/'
+Vue.prototype.apiUrl = 'http://api.shjietui.com/'
+//Vue.prototype.apiUrl = 'http://liebian.natapp1.cc'
 Vue.prototype.appid = 'wx202bddcd868b179f'
 const app = new Vue({
 	store,
