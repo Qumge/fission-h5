@@ -81,6 +81,9 @@ const api = {
 					'X-Auth-Token': uni.getStorageSync('sessionToken')
 				},
 				success: (res) => {
+					if(res.data.error && res.data.error === "401 Unauthorized"){
+						uni.setStorageSync('sessionToken', null)
+					}
 					console.log(res.data)
 					resolve(res.data)
 				},
@@ -103,6 +106,9 @@ const api = {
 					'X-Auth-Token': uni.getStorageSync('sessionToken')
 				},
 				success: (res) => {
+					if(res.data.error && res.data.error === "401 Unauthorized"){
+						uni.setStorageSync('sessionToken', null)
+					}
 					resolve(res.data)
 				},
 				fail: (res) => {
@@ -124,6 +130,9 @@ const api = {
 					'X-Auth-Token': uni.getStorageSync('sessionToken')
 				},
 				success: (res) => {
+					if(res.data.error && res.data.error === "401 Unauthorized"){
+						uni.setStorageSync('sessionToken', null)
+					}
 					resolve(res.data)
 				},
 				fail: (res) => {
