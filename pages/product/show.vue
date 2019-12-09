@@ -388,6 +388,7 @@
 					
 				})
 			}).catch(function(e){
+				console.log(e);
 				//跳转到回上一页
 			})
 			console.log(this.tui);

@@ -3,7 +3,7 @@
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
-			console.log(this.tui.wxAuthorize())
+			//this.tui.wxAuthorize()
 			//util.wxAuthorize();
 		},
 		onShow: function() {

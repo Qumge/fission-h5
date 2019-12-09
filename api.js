@@ -41,6 +41,24 @@ const api = {
 			});
 		})
 	},
+	linkTask: function(id){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/task_links/' + id, //仅为示例，并非真实接口地址。
+				method: 'GET',
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				success: (res) => {
+					// console.log(res.data);
+					resolve(res.data)
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
 	product: function(id) {
 		return new Promise(function(resolve, reject) {
 			uni.request({

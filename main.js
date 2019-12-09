@@ -188,9 +188,9 @@ Vue.prototype.tui = tui
 Vue.prototype.$eventHub = Vue.prototype.$eventHub || new Vue()
 Vue.prototype.$store = store
 App.mpType = 'app'
-Vue.prototype.apiUrl = '/dpc/api'
+Vue.prototype.apiUrl = "/dpc/api"
 //Vue.prototype.apiUrl = 'http://liebian.natapp1.cc'
-Vue.prototype.appid = 'wx202bddcd868b179f'
+Vue.prototype.appid = "wx202bddcd868b179f"
 const app = new Vue({
 	store,
 	...App

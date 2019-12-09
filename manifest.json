@@ -115,15 +115,18 @@
         },
         "devServer" : {
             "https" : false,
-            "disableHostCheck":true,
-            "proxy": {
-                "/dpc": {
-                    "target": "https://api.shjietui.com",
-                    "changeOrigin": true,
-                    "secure": false,
-					"pathRewrite":{"^/dpc":""}
+            "disableHostCheck" : true,
+            "proxy" : {
+                "/dpc" : {
+                    "target" : "https://api.shjietui.com",
+                    "changeOrigin" : true,
+                    "secure" : false,
+                    "pathRewrite" : {
+                        "^/dpc" : ""
+                    }
                 }
-            }
+            },
+            "port" : ""
         },
         "optimization" : {
             "treeShaking" : {
