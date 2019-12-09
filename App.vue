@@ -3,7 +3,9 @@
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
-			//this.tui.wxAuthorize()
+			//uni.setStorageSync('sessionToken', null);
+			//alert(uni.getStorageSync('sessionToken'));
+			this.tui.wxAuthorize()
 			//util.wxAuthorize();
 		},
 		onShow: function() {

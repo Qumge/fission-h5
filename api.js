@@ -28,11 +28,9 @@ const api = {
 			uni.request({
 				url: Vue.prototype.apiUrl + '/v1/users/task_links', //仅为示例，并非真实接口地址。
 				method: 'GET',
-				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
-				},
 				success: (res) => {
 					// console.log(res.data);
+					console.log(res);
 					resolve(res.data)
 				},
 				fail: (res) => {
@@ -46,9 +44,6 @@ const api = {
 			uni.request({
 				url: Vue.prototype.apiUrl + '/v1/users/task_links/' + id, //仅为示例，并非真实接口地址。
 				method: 'GET',
-				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
-				},
 				success: (res) => {
 					// console.log(res.data);
 					resolve(res.data)
@@ -64,9 +59,6 @@ const api = {
 			uni.request({
 				url: Vue.prototype.apiUrl + '/v1/users/products/' + id, //仅为示例，并非真实接口地址。
 				method: 'GET',
-				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
-				},
 				success: (res) => {
 					resolve(res.data)
 				},

@@ -116,6 +116,7 @@ const tui = {
 	wxAuthorize: function() {
 		let link = window.location.href;
 		let params = this.getUrlParams(link); // 地址解析
+		console.log(encodeURIComponent(link))
 		// 已经授权登录过的就不用再授权了
 		//uni.setStorageSync('sessionToken', null)
 		if (uni.getStorageSync('sessionToken')) return;
@@ -124,12 +125,15 @@ const tui = {
 			//api.wxAuth(params.code); // 调用后台接口，授权
 			api.wxAuth(params.code).then(function(data) {
 				uni.setStorageSync('sessionToken', data.authentication_token)
+				console.log(link);
+				window.location.href = link
 			}).catch(function(e) {
 				console.log(e)
 			});
 		} else {
 			let appid = Vue.prototype.appid;
 			let uri = encodeURIComponent(link);
+			
 			//uri = encodeURIComponent('http://h5.shjietui.com');
 			let authURL =
 				`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${uri}&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`;
@@ -188,8 +192,8 @@ Vue.prototype.tui = tui
 Vue.prototype.$eventHub = Vue.prototype.$eventHub || new Vue()
 Vue.prototype.$store = store
 App.mpType = 'app'
-Vue.prototype.apiUrl = "/dpc/api"
-//Vue.prototype.apiUrl = 'http://liebian.natapp1.cc'
+//Vue.prototype.apiUrl = "/dpc/api"
+Vue.prototype.apiUrl = 'http://liebian.natapp1.cc/api'
 Vue.prototype.appid = "wx202bddcd868b179f"
 const app = new Vue({
 	store,

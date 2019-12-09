@@ -12,6 +12,9 @@
 		},
 		onLoad: function(options){
 			let that = this
+			api.linkTasks(1,2).then(function(){
+				
+			});
 			api.linkTask(options.id).then(function(data){
 				console.log(data);
 				that.task = data;
