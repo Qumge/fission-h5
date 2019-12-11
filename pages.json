@@ -34,7 +34,7 @@
 				"onReachBottomDistance": 50
 			}
 		},{
-            "path" : "pages/task/questionaire",
+            "path" : "pages/task/questionnaire",
             "style" : {
             	"navigationBarBackgroundColor": "#fff",
             	"navigationBarTextStyle": "black",
@@ -125,13 +125,6 @@
 				"navigationBarBackgroundColor": "#FC4034",
 				"navigationBarTitleText": "转盘抽奖"
 			}
-		}, {
-
-			"path": "pages/auth/index",
-			"style": {
-				"navigationBarBackgroundColor": "#FC4034",
-				"navigationBarTitleText": "登录中"
-			}
 		},
 		{
 			"path": "pages/game/scratch_card",
@@ -153,22 +146,7 @@
 				"navigationBarBackgroundColor": "#FC4034",
 				"navigationBarTitleText": "砸金蛋"
 			}
-		},
-		{
-			"path": "pages/articles/index",
-			"style": {
-				"navigationBarBackgroundColor": "#FC4034",
-				"navigationBarTitleText": "文章"
-			}
 		}
-	    ,{
-            "path" : "pages/voucher/voucher",
-            "style" : {
-				"navigationBarBackgroundColor": "#FC4034",
-				"navigationBarTitleText": "问券"
-			}
-        }
-        
     ],
 	"globalStyle": {
 		"backgroundTextStyle": "dark",
