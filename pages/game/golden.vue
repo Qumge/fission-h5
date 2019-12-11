@@ -1,6 +1,15 @@
 <template>
 	<div class="page">
-		   
+	   <view @click="shows" style="width: 180rpx;background: #b3241b;z-index: 9; padding: 10rpx 30rpx;border-radius: 10rpx ;position: absolute;right: 0;top: 90rpx; display: flex;align-items: center;">
+			<tui-icon name="partake" :size="15" color="#fff"></tui-icon>
+			<text style="color: #fff;font-size: 28rpx;margin-left: 10rpx;">分享得金币</text>
+	   </view>
+	   <view v-show="ShowGuidance">
+	   	<view class="Bg" @click="colse"></view>
+	   	<view class="Guidance"  @click="colse">
+	   		<image src="/static/images/index/zhidaole.png" mode="widthFix"></image>
+	   	</view>
+	   </view>
 		<div class="stage">
 			<!-- 背景图 -->
 			<img src="/static/images/game/stage.png" class="stage-img" mode="widthFix" />
@@ -17,7 +26,7 @@
 		</div>
 		<!-- 说明 -->
 		<view class="explain">
-			<view class="ExplainTitle">活动说明</view>
+			<view class="ExplainTitle">游戏说明</view>
 			<view class="ExplainTxt">
 				<view class="TxtTitle">活动时间</view>
 				<view class="TxtCon">2019年09月09日 - 2019年09月09日</view>
@@ -39,10 +48,16 @@
 </template>
 
 <script>
+import tuiIcon from "@/components/icon/icon"
+import GuidancePopup from "@/components/GuidancePopup/GuidancePopup"
 export default {
+	components: {
+		GuidancePopup,
+		tuiIcon,
+	},
 	data() {
 		return {
-			Ids:'',
+			ShowGuidance:false,
 			golden:[
 				{
 					id:'1',
@@ -57,32 +72,66 @@ export default {
 					name:'金蛋3',
 				}
 			],
+			Ids:'', //砸蛋下标
 			paursed: false, // 初始没有蛋被砸开
+			flag: false, // 提示积分不够
+			UserIntegral:10, //用户积分
+			DeductIntegral:3, // 扣除积分
+			// ShareIntegral:0, // 分享积分
+			Options: null,
 		};
 	},
-	onLoad() {},
-	onShow() {},
+	onLoad(options) { 
+		let that = this
+		that.Options = options
+	},
+	onShow() {
+		let that = this
+		console.log(that.Options.id)
+		//请求抽奖是否开始 获取用户信息
+		
+	},
 	methods: {
-		// 蛋被砸开
+		shows:function(){
+			console.log(this.ShowGuidance)
+			this.ShowGuidance = true
+		},
+		colse:function(){
+			this.ShowGuidance = false
+		},
+		// 点击砸蛋
 		openEgg(s) {
-			console.log(s.currentTarget.dataset.id)
 			let that = this;
+			// console.log(s.currentTarget.dataset.id)
+			
+			//  扣除每次抽奖积分
+			that.UserIntegral = that.UserIntegral - that.DeductIntegral;
+			if(that.UserIntegral>0 || that.UserIntegral==0){
+				console.log("ok可以抽奖")
+			}else{
+				console.log("积分不够")
+				return false;
+			}
+			console.log(that.UserIntegral)
+			
 			that.paursed = true; // 有蛋被砸开
 			that.Ids = s.currentTarget.dataset.id;
-			// 请求中奖信息
+			// 请求中奖信息 
 			
-			setTimeout(function() {
 				setTimeout(function() {
-					// that.celebrate(); // 提示中奖信息
-					that.Nocelebrate()// 提示未中奖信息
-				}, 800); // 1秒后中奖提示出现
-			}, 200); // 0.6秒后开花的蛋出现
+					setTimeout(function() {
+						
+						that.celebrate(); // 提示中奖信息
+						// that.Nocelebrate()// 提示未中奖信息
+					}, 800); // 1秒后中奖提示出现
+				}, 200); // 0.6秒后开花的蛋出现
 		},
 		// 恭喜中奖提示
 		celebrate() {
 			let that = this;
 			uni.showModal({
 				title:'恭喜中奖',
+				content:"二等奖",
 				success() {
 					that.Ids = ''
 					that.revert()
@@ -109,6 +158,10 @@ export default {
 </script>
 
 <style scoped>
+	image{width: 100%;height: 100%;}
+	.Bg{position: fixed;left: 0;top: 0;z-index: 99; width: 100%;height: 100%;background: rgb(0, 0, 0,0.4);}
+	.Guidance{position: absolute;z-index: 100;width: 690rpx;height: 500rpx;top: -90rpx;left: 30rpx; text-align: center; margin: 0 auto;}
+	
 .stage {
 	width: 100%;
 	position: relative;
@@ -117,6 +170,7 @@ export default {
 .stage-img {
 	width: 100%;
 }
+
 .explain{width: 690rpx;margin: 60rpx auto 100rpx;}
 .ExplainTitle{text-align: center;font-size: 36rpx;font-weight: bold;color: #8a0a0a;}
 .ExplainTxt{text-align: left;margin: 20rpx auto;}

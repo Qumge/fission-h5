@@ -118,7 +118,7 @@
             "disableHostCheck" : true,
             "proxy" : {
                 "/dpc" : {
-                    "target" : "https://api.shjietui.com",
+                    "target" : "http://liebian.natapp1.cc",
                     "changeOrigin" : true,
                     "secure" : false,
                     "pathRewrite" : {

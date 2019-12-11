@@ -1,51 +1,102 @@
 <template>
-	<view class="container">
-		<view class="tui-dot" :class="['tui-dot-'+(index+1)]" v-for="(item,index) in circleList" :key="index"></view>
-		<view class="tui-container-in">
-			<view class="tui-content-out" :class="['tui-award-'+(index+1),index==indexSelect?'tui-awardSelect':'']" v-for="(item,index) in awardList"
-			 :key="index">
-				<image class="tui-award-image" :src="'../../static/images/luck/'+item.img"></image>
-			</view>
-			<view class="tui-btn-start" :class="[isRunning?'tui-ative':'']" @tap="startDrawing">立即抽奖</view>
+	<view class="" style="position: relative;">
+		<image class='Imgs' src="/static/images/game/stage.png" mode="widthFix"></image>
+		<view @click="shows" style="width: 180rpx;background: #b3241b; padding: 10rpx 30rpx;border-radius: 10rpx ;position: absolute;right: 0; display: flex;align-items: center;">
+			<tui-icon name="partake" :size="15" color="#fff"></tui-icon>
+			<text style="color: #fff;font-size: 28rpx;margin-left: 10rpx;">分享得金币</text>
 		</view>
+		<view v-show="ShowGuidance">
+			<view class="Bg" @click="colse"></view>
+			<view class="Guidance"  @click="colse">
+				<image src="/static/images/index/zhidaole.png" mode="widthFix"></image>
+			</view>
+		</view>
+		<view class="container">
+			<view class="tui-dot" :class="['tui-dot-'+(index+1)]" v-for="(item,index) in circleList" :key="index"></view>
+			<view class="tui-container-in">
+				<view class="tui-content-out" :class="['tui-award-'+(index+1),index==indexSelect?'tui-awardSelect':'']" v-for="(item,index) in awardList"
+				 :key="index">
+					<view>{{item.img}}</view>
+					<!-- <image class="tui-award-image" :src="'../../static/images/luck/'+item.img"></image> -->
+				</view>
+				<view class="tui-btn-start" :class="[isRunning?'tui-ative':'']" @tap="startDrawing">立即抽奖</view>
+			</view>
+		</view>		
+		<view  style="position: relative;top: 340rpx;">
+			<view class="explain">
+				<view class="ExplainTitle">游戏说明</view>
+				<view class="ExplainTxt">
+					<view class="TxtTitle">活动时间</view>
+					<view class="TxtCon">2019年09月09日 - 2019年09月09日</view>
+					<view class="TxtTitle">活动奖品</view>
+					<view class="TxtCon">一等奖：Iphone XS 一台</view>
+					<view class="TxtCon">二等奖：HUAWEI 手机一台</view>
+					<view class="TxtCon">三等奖：空气进化器一个</view>
+					<view class="TxtZ">
+						<text class="TZ">注：</text>
+						本次活动奖品仅限在2019年09月09日前有效，过期自动作废。
+					</view>
+					<view class="TxtTitle">主办方</view>
+					<view class="TxtCon">趣图美业有限公司提供</view>
+					
+				</view>
+			</view>
+		</view>
+		
 	</view>
 </template>
 
 <script>
+	import tuiIcon from "@/components/icon/icon"
+	import GuidancePopup from "@/components/GuidancePopup/GuidancePopup"
 	export default {
+		components: {
+			GuidancePopup,
+			tuiIcon,
+		},
 		data() {
 			return {
+				ShowGuidance:false,
 				circleList: 24, //圆点
-				awardList: [{
-					img: "luck-1.png",
-					name: ".top域名 1元/年"
-				}, {
-					img: "luck-2.png",
-					name: "VPS 1元/30天"
-				}, {
-					img: "luck-3.png",
-					name: "免费主机1年"
-				}, {
-					img: "luck-4.png",
-					name: "虚拟主机1元/年"
-				}, {
-					img: "luck-1.png",
-					name: ".top域名 1元/年"
-				}, {
-					img: "luck-2.png",
-					name: "VPS 1元/30天"
-				}, {
-					img: "luck-3.png",
-					name: "免费主机1年"
-				}, {
-					img: "luck-4.png",
-					name: "虚拟主机1元/年"
-				}], //奖品数组
+				awardList: [
+					{
+						img: "10金币",
+						name: "10金币"
+					}, {
+						img: "102金币",
+						name: "102金币"
+					}, {
+						img: "1金币",
+						name: "1金币"
+					}, {
+						img: "10金币",
+						name: "10金币"
+					}, {
+						img: "10金币",
+						name: "10金币"
+					}, {
+						img: "10金币",
+						name: "10金币"
+					}, {
+						img: "10金币",
+						name: "10金币"
+					}, {
+						img: "220金币",
+						name: "220金币"
+					},
+				], //奖品数组
 				indexSelect: 0, //被选中的奖品index
 				isRunning: false //是否正在抽奖
 			}
 		},
 		methods: {
+			shows:function(){
+				console.log(this.ShowGuidance)
+				this.ShowGuidance = true
+			},
+			colse:function(){
+				this.ShowGuidance = false
+			},
 			//获取随机数
 			getRandom: function(u) {
 				let rnd = Math.random() > 0.5 ? "2" : "1";
@@ -62,6 +113,7 @@
 				let indexSelect = 0;
 				let i = 0;
 				let randomNum = this.getRandom(3);
+				console.log(randomNum)
 				let timer = setInterval(() => {
 					++indexSelect;
 					//这里用y=30*x+150函数做的处理.可根据自己的需求改变转盘速度
@@ -92,27 +144,40 @@
 </script>
 
 <style>
-	.container {
-		height: 600upx;
-		width: 650upx;
-		background-color: #fc4034;
-		margin: 100upx auto;
-		border-radius: 40upx;
-		box-shadow: 0 10px 0 #d80014;
-		position: relative;
-	}
+	image{width: 100%;height: 100%;}
+	.Bg{position: fixed;left: 0;top: 0;z-index: 99; width: 100%;height: 100%;background: rgb(0, 0, 0,0.4);}
+	.Guidance{position: absolute;z-index: 100;width: 690rpx;height: 500rpx;top: -180rpx;left: 30rpx; text-align: center; margin: 0 auto;}
+	
+.Imgs{position: absolute;top: -100rpx;left: 0;width: 100%;height: 100%;}
+.explain{width: 690rpx;margin: 60rpx auto 100rpx;}
+.ExplainTitle{text-align: center;font-size: 36rpx;font-weight: bold;color: #8a0a0a;}
+.ExplainTxt{text-align: left;margin: 20rpx auto;}
+.TxtTitle{font-size: 30rpx;color: #545454;font-weight: bold;margin-top: 30rpx;margin-bottom: 10rpx;}
+.TxtCon{font-size: 26rpx;color: #999;}
+.TxtZ{color: #d20b0b;font-size: 24rpx;margin-top: 10rpx;letter-spacing: 0.5px;}
+.TZ{font-weight: bold;font-size: 26rpx; color: #d20b0b;}
 
+	.container {
+		height: 600rpx;
+		width: 650rpx;
+		background-color: #b3241b;
+		margin: 100rpx auto;
+		border-radius: 40rpx;
+		box-shadow: 0 10rpx 0 #d80014;
+		position: relative;
+		top: 100rpx;
+	}
 	.tui-container-in {
-		width: 580upx;
-		height: 530upx;
-		background-color: #d80014;
-		border-radius: 40upx;
-		position: absolute;
+		width: 580rpx;
+		height: 530rpx;
+		background-color: #de4339;
+		border-radius: 40rpx;
+		/* position: absolute;
 		left: 0;
 		right: 0;
 		top: 0;
-		bottom: 0;
-		margin: auto;
+		bottom: 0; */
+		margin: 35rpx auto;
 	}
 
 	/**小圆点 start*/
@@ -121,8 +186,8 @@
 		position: absolute;
 		display: block;
 		border-radius: 50%;
-		height: 20upx;
-		width: 20upx;
+		height: 20rpx;
+		width: 20rpx;
 	}
 
 	.tui-dot:nth-child(odd) {
@@ -301,7 +366,12 @@
 		position: absolute;
 		height: 150upx;
 		width: 168upx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		background-color: #fcecec;
+		color: #666;
+		font-size: 28rpx;
 		border-radius: 15upx;
 		box-shadow: 0 4px 0 #fcc8d0;
 	}
@@ -309,55 +379,55 @@
 	/* 580 530  */
 
 	.tui-award-1 {
-		left: 24upx;
-		top: 24upx;
+		left: 65rpx;
+		top: 55rpx;
 	}
 
 	.tui-award-2 {
-		left: 206upx;
-		top: 24upx;
+		left: 243rpx;
+		top: 55rpx;
 	}
 
 	.tui-award-3 {
-		left: 388upx;
-		top: 24upx;
+		left:423rpx;
+		top: 55rpx;
 	}
 
 	.tui-award-4 {
-		left: 388upx;
-		top: 188upx;
+		left:423rpx;
+		top: 220rpx;
 	}
 
 	.tui-award-5 {
-		left: 388upx;
-		top: 352upx;
+		left: 423rpx;
+		top: 386rpx;
 	}
 
 	.tui-award-6 {
-		left: 206upx;
-		top: 352upx;
+		left: 243rpx;
+		top: 386rpx;
 	}
 
 	.tui-award-7 {
-		left: 24upx;
-		top: 352upx;
+		left: 65rpx;
+		top: 386rpx;
 	}
 
 	.tui-award-8 {
-		left: 24upx;
-		top: 188upx;
+		left: 65rpx;
+		top: 220rpx;
 	}
 
 	/**居中 加粗*/
 
 	.tui-btn-start {
 		position: absolute;
-		top: 188upx;
-		left: 206upx;
+		top: 220rpx;
+		left: 243rpx;
 		border-radius: 15upx;
 		height: 150upx;
 		width: 168upx;
-		background-color: #fc4034;
+		background-color: #d80014;
 		box-shadow: 0 4px 0 #fcc8d0;
 		color: #fcf400;
 		text-align: center;
@@ -382,6 +452,8 @@
 	}
 
 	.tui-awardSelect {
+		font-weight: bold;
+		color: red !important;
 		background-color: #fcf400 !important;
 		box-shadow: 0 4px 0 rgb(240, 208, 12) !important;
 	}
