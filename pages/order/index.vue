@@ -7,7 +7,12 @@
 			<view class="tui-order-item" v-for="(model,orderIndex) in 3" :key="orderIndex">
 				<tui-list-cell :hover="false" :lineLeft="false">
 					<view class="tui-goods-title">
-						<view>订单号：T201910000</view>
+						<view>
+							<text v-show="1==1">金币订单</text>
+							<text v-show="1>2">游戏订单</text>
+							<text v-show="1>2">交易订单</text>
+							：T201910000
+						</view>
 						<view class="tui-order-status">已完成</view>
 					</view>
 				</tui-list-cell>
@@ -36,10 +41,7 @@
 				</tui-list-cell>
 				<view class="tui-order-btn">
 					<view class="tui-btn-ml">
-						<tui-button type="black" :plain="true" width="148rpx" height="56rpx" :size="26" shape="circle">查看发票</tui-button>
-					</view>
-					<view class="tui-btn-ml">
-						<tui-button type="black" :plain="true" width="148rpx" height="56rpx" :size="26" shape="circle">评价晒单</tui-button>
+						<tui-button type="black" :plain="true" width="148rpx" height="56rpx" :size="26" shape="circle"  @click="detail">查看详情</tui-button>
 					</view>
 					<view class="tui-btn-ml">
 						<tui-button type="danger" :plain="true" width="148rpx" height="56rpx" :size="26" shape="circle">再次购买</tui-button>
@@ -50,7 +52,12 @@
 			<view class="tui-order-item">
 				<tui-list-cell :hover="false" :lineLeft="false">
 					<view class="tui-goods-title">
-						<view>订单号：T201910000</view>
+						<view>
+							<text v-show="1>2">金币订单</text>
+							<text v-show="1<2">游戏订单</text>
+							<text v-show="1>2">交易订单</text>
+							：T201910000
+						</view>
 						<view class="tui-order-status">已取消</view>
 					</view>
 				</tui-list-cell>

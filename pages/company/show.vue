@@ -675,7 +675,7 @@ image {
 }
 .ComPanyImg{
 	padding: 10rpx;
-	border: 1rpx solid #ccc;
+	border: 1rpx solid #eee;
 	margin-right: 20rpx;
 	width: 120rpx;
 	height: 120rpx;
@@ -683,9 +683,9 @@ image {
 .ComPanyGZ{
 	font-size: 28rpx;
 	color: #fff;
-	border-radius: 10rpx;
-	letter-spacing: 2rpx;
-	padding: 5rpx 15rpx;
+	border-radius: 40rpx;
+	letter-spacing: 3rpx;
+	padding: 5rpx 20rpx;
 	background: red;
 }
 .w69 {
@@ -735,6 +735,7 @@ page {
 .tui-header-box {
 	width: 100%;
 	background: #fff;
+	border-bottom: 1rpx solid #ddd;
 	position: fixed;
 	z-index: 99998;
 	left: 0;

@@ -212,8 +212,8 @@
 
 <style>
 	image{width: 100%;height: 100%;}
-	.Bg{position: fixed;left: 0;top: 0;z-index: 99; width: 100%;height: 100%;background: rgb(0, 0, 0,0.4);}
-	.Guidance{position: absolute;z-index: 100;width: 690rpx;height: 500rpx;top: -90rpx; text-align: center; margin: 0 auto;}
+.Bg{position: fixed;left: 0;top: 0;overflow: hidden;z-index: 99; width: 100%;height: 100%;background: rgb(0, 0, 0,0.4);}
+.Guidance{position: absolute;z-index: 100;width: 690rpx;height: 500rpx;top: -90rpx; text-align: center; margin: 0 auto;}
 .w69{width: 690rpx;margin: 50rpx auto 40rpx;}
 .x{border-bottom: 1rpx solid #eee;padding: 30rpx 20rpx;box-shadow: 0rpx 0rpx 9rpx 1rpx #ddd;}	
 .x:last-child{border-bottom: none;}

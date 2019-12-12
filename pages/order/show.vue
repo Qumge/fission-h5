@@ -14,7 +14,7 @@
 			</view>
 		</view>
 		<tui-list-cell :arrow="true" bgcolor="#fefefe">
-			<view class="tui-flex-box">
+			<view class="tui-flex-box" @tap="_express">
 				<image :src="webURL+'img_order_logistics3x.png'" class="tui-icon-img"></image>
 				<view class="tui-logistics">
 					<view class="tui-logistics-text">快递已到收货点，请注意查收哦! 投递员: XXX 联系电话: 17788849992</view>
@@ -22,7 +22,7 @@
 				</view>
 			</view>
 		</tui-list-cell>
-		<tui-list-cell :last="true" :hover="false">
+		<!-- <tui-list-cell :last="true" :hover="false">
 			<view class="tui-flex-box">
 				<image :src="webURL+'img_order_address3x.png'" class="tui-icon-img"></image>
 				<view class="tui-addr">
@@ -30,7 +30,7 @@
 					<view class="tui-addr-text">广东省广州市海珠区阅江西路222号鲜卑路16巷吉安花园 2栋106</view>
 				</view>
 			</view>
-		</tui-list-cell>
+		</tui-list-cell> -->
 
 		<view class="tui-order-item">
 			<tui-list-cell :hover="false" :lineLeft="false">
@@ -56,24 +56,32 @@
 			<view class="tui-goods-info">
 				<view class="tui-price-flex tui-size24">
 					<view>商品总额</view>
-					<view>￥1192.00</view>
+					<view>￥1192.0</view>
 				</view>
-				<view class="tui-price-flex  tui-size24">
+				<view class="tui-price-flex tui-size24">
+					<view>返金币</view>
+					<view>119</view>
+				</view>
+				<!-- <view class="tui-price-flex  tui-size24">
 					<view>优惠券</view>
-					<view>￥0.00</view>
-				</view>
+					<view>无	</view>
+				</view> -->
 				<view class="tui-price-flex  tui-size24">
 					<view>配送费</view>
-					<view>￥0.00</view>
+					<view>￥10.00</view>
 				</view>
-				<view class="tui-price-flex tui-size32 tui-pbtm20">
+				<view class="tui-price-flex  tui-size24">
+					<view>配送方式</view>
+					<view>快递</view>
+				</view>
+				<!-- <view class="tui-price-flex tui-size32 tui-pbtm20">
 					<view class="tui-flex-shrink">合计</view>
 					<view class="tui-goods-price">
 						<view class="tui-size-24">￥</view>
 						<view class="tui-price-large">1192</view>
 						<view class="tui-size-24">.00</view>
 					</view>
-				</view>
+				</view> -->
 				<view class="tui-price-flex tui-size32">
 					<view class="tui-flex-shrink">实付款</view>
 					<view class="tui-goods-price tui-primary-color">
@@ -125,7 +133,10 @@
 		<view class="tui-safe-area"></view>
 		<view class="tui-tabbar tui-order-btn">
 			<view class="tui-btn-mr">
-				<tui-button type="black" :plain="true" width="148rpx" height="56rpx" :size="26" shape="circle">删除订单</tui-button>
+				<tui-button type="black" :plain="true" width="148rpx" height="56rpx" :size="26" shape="circle">取消订单</tui-button>
+			</view>
+			<view class="tui-btn-mr">
+				<tui-button type="black" :plain="true" width="148rpx" height="56rpx" :size="26" shape="circle">退换货</tui-button>
 			</view>
 			<view class="tui-btn-mr">
 				<tui-button type="danger" :plain="true" width="148rpx" height="56rpx" :size="26" shape="circle">立即支付</tui-button>
@@ -150,10 +161,15 @@
 			return {
 				webURL: "https://www.thorui.cn/wx/static/images/mall/order/",
 				//1-待付款 2-付款成功 3-待收货 4-订单已完成 5-交易关闭
-				status: 1
+				status: 2
 			}
 		},
 		methods: {
+			_express:function(){
+				uni.navigateTo({
+					url:'./express'
+				})
+			},
 			getImg: function(status) {
 				return this.webURL + ["img_order_payment3x.png", "img_order_send3x.png", "img_order_received3x.png",
 					"img_order_signed3x.png", "img_order_closed3x.png"

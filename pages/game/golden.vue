@@ -159,7 +159,7 @@ export default {
 
 <style scoped>
 	image{width: 100%;height: 100%;}
-	.Bg{position: fixed;left: 0;top: 0;z-index: 99; width: 100%;height: 100%;background: rgb(0, 0, 0,0.4);}
+	.Bg{position: fixed;left: 0;top: 0;overflow: hidden;z-index: 99; width: 100%;height: 100%;background: rgb(0, 0, 0,0.4);}
 	.Guidance{position: absolute;z-index: 100;width: 690rpx;height: 500rpx;top: -90rpx;left: 30rpx; text-align: center; margin: 0 auto;}
 	
 .stage {

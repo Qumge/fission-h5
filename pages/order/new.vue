@@ -20,12 +20,13 @@
 				<view class="tui-bg-img"></view>
 			</tui-list-cell>
 			<view class="tui-top tui-goods-info">
-				<tui-list-cell :hover="false" :lineLeft="false">
-					<view class="tui-goods-title">
-						商品信息
-					</view>
-				</tui-list-cell>
 				<block v-for="(item,index) in 2" :key="index">
+					<tui-list-cell style="background: #eaeaea;margin-top: 30rpx;" :hover="false" :lineLeft="false">
+						<view class="tui-goods-title">
+							<image src="/static/images/basic/color.png" mode="widthFix" style="width: 40rpx;height: 40rpx;margin-right: 10rpx; "></image>
+							第一家店商品信息
+						</view>
+					</tui-list-cell>
 					<tui-list-cell :hover="false" padding="0">
 						<view class="tui-goods-item">
 							<image :src="`/static/images/mall/product/${index+3}.jpg`" class="tui-goods-img"></image>
@@ -39,37 +40,57 @@
 							</view>
 						</view>
 					</tui-list-cell>
+					<tui-list-cell :hover="false" padding="0">
+						<view class="tui-goods-item">
+							<image :src="`/static/images/mall/product/${index+3}.jpg`" class="tui-goods-img"></image>
+							<view class="tui-goods-center">
+								<view class="tui-goods-name">欧莱雅（LOREAL）奇焕光彩粉嫩透亮修颜霜 30ml（欧莱雅彩妆 BB霜 粉BB 遮瑕疵 隔离）</view>
+								<view class="tui-goods-attr">黑色，50ml</view>
+							</view>
+							<view class="tui-price-right">
+								<view>￥298.00</view>
+								<view>x2</view>
+							</view>
+						</view>
+					</tui-list-cell>
+					<tui-list-cell :hover="false">
+						<view class="tui-padding tui-flex">
+							<view>合计：</view>
+							<view>￥200.00</view>
+						</view>
+					</tui-list-cell>
+					<tui-list-cell :hover="false" :lineLeft="false" padding="0">
+						<view class="tui-remark-box tui-padding tui-flex">
+							<view>订单备注</view>
+							<input type="text" class="tui-remark" placeholder="选填: 请先和商家协商一致" placeholder-class="tui-phcolor"></input>
+						</view>
+					</tui-list-cell>
 				</block>
-				<tui-list-cell :hover="false">
+				<tui-list-cell :hover="false" style="border-top: 1rpx solid #ddd;">
 					<view class="tui-padding tui-flex">
 						<view>商品总额</view>
 						<view>￥1192.00</view>
 					</view>
 				</tui-list-cell>
-				<tui-list-cell :arrow="hasCoupon" :hover="hasCoupon" >
+				<!-- <tui-list-cell :arrow="hasCoupon" :hover="hasCoupon" >
 					<view class="tui-padding tui-flex">
 						<view>优惠券</view>
 						<view :class="{'tui-color-red':hasCoupon}">{{hasCoupon?"满5减1":'没有可用优惠券'}}</view>
 					</view>
-				</tui-list-cell>
-				<tui-list-cell :hover="true" :arrow="true">
+				</tui-list-cell> -->
+				<!-- <tui-list-cell :hover="true" :arrow="true">
 					<view class="tui-padding tui-flex">
 						<view>发票</view>
 						<view class="tui-invoice-text">不开发票</view>
 					</view>
-				</tui-list-cell>
+				</tui-list-cell> -->
 				<tui-list-cell :hover="false">
 					<view class="tui-padding tui-flex">
 						<view>配送费</view>
 						<view>￥0.00</view>
 					</view>
 				</tui-list-cell>
-				<tui-list-cell :hover="false" :lineLeft="false" padding="0">
-					<view class="tui-remark-box tui-padding tui-flex">
-						<view>订单备注</view>
-						<input type="text" class="tui-remark" placeholder="选填: 请先和商家协商一致" placeholder-class="tui-phcolor"></input>
-					</view>
-				</tui-list-cell>
+				
 				<tui-list-cell :hover="false" :last="true">
 					<view class="tui-padding tui-flex tui-total-flex">
 						<view class="tui-flex-end tui-color-red">
@@ -82,7 +103,7 @@
 				</tui-list-cell>
 			</view>
 
-			<view class="tui-top">
+			<!-- <view class="tui-top">
 				<tui-list-cell :last="true" :hover="insufficient" :radius="true" :arrow="insufficient">
 					<view class="tui-flex">
 						<view class="tui-balance">余额支付<text class="tui-gray">(￥2019.00)</text></view>
@@ -90,7 +111,7 @@
 						<view class="tui-pr-30 tui-light-dark" v-show="insufficient">余额不足, 去充值</view>
 					</view>
 				</tui-list-cell>
-			</view>
+			</view> -->
 		</view>
 		<view class="tui-safe-area"></view>
 		<view class="tui-tabbar">

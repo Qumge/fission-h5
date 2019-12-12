@@ -145,7 +145,7 @@
 
 <style>
 	image{width: 100%;height: 100%;}
-	.Bg{position: fixed;left: 0;top: 0;z-index: 99; width: 100%;height: 100%;background: rgb(0, 0, 0,0.4);}
+	.Bg{position: fixed;left: 0;top: 0;z-index: 99;overflow: hidden; width: 100%;height: 100%;background: rgb(0, 0, 0,0.4);}
 	.Guidance{position: absolute;z-index: 100;width: 690rpx;height: 500rpx;top: -180rpx;left: 30rpx; text-align: center; margin: 0 auto;}
 	
 .Imgs{position: absolute;top: -100rpx;left: 0;width: 100%;height: 100%;}

@@ -1,7 +1,7 @@
 <template>
 	<view class="tui-safe-area">
 		<view class="tui-address">
-			<block v-for="(item,index) in 3" :key="index">
+			<block v-for="(item,index) in 1" :key="index">
 				<tui-list-cell padding="0">
 					<view class="tui-address-flex">
 						<view class="tui-address-left">
