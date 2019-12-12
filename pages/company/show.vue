@@ -8,7 +8,7 @@
 					<!-- #ifdef APP-PLUS || MP -->
 					<icon type="search" :size="13" color="#999"></icon>
 					<!-- #endif -->
-					<text class="tui-search-text" v-if="!searchKey">搜索Thorui商品</text>
+					<text class="tui-search-text" v-if="!searchKey">搜索店铺商品</text>
 					<view class="tui-search-key" v-if="searchKey">
 						<view class="tui-key-text">{{ searchKey }}</view>
 						<tui-icon name="shut" :size="12" color="#fff"></tui-icon>
