@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App'
 const api = {
+	//问卷
 	task_questionnaiire: function(id) {
 		return new Promise(function(resolve, reject) {
 			uni.request({

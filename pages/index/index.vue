@@ -70,9 +70,13 @@
 				<image :src="'../../static/images/mall/category/1.jpg'" class="tui-category-img" mode="scaleToFill"></image>
 				<view class="tui-category-name">刮刮卡</view>
 			</view>
-			<view class="tui-category-item" :data-key="'../game/tiger'" @tap="next">
+			<!-- <view class="tui-category-item" :data-key="'../game/tiger'" @tap="next">
 				<image :src="'../../static/images/mall/category/1.jpg'" class="tui-category-img" mode="scaleToFill"></image>
 				<view class="tui-category-name">老虎机</view>
+			</view> -->
+			<view class="tui-category-item" :data-key="'../game/luck_wheel'" @tap="next">
+				<image :src="'../../static/images/mall/category/1.jpg'" class="tui-category-img" mode="scaleToFill"></image>
+				<view class="tui-category-name">大转盘</view>
 			</view>
 			<view class="tui-category-item" :data-key="'../game/golden'" @tap="next">
 				<image :src="'../../static/images/mall/category/1.jpg'" class="tui-category-img" mode="scaleToFill"></image>
@@ -83,11 +87,12 @@
 				<view class="tui-category-name">链接任务</view>
 			</view>
 			
-			<view class="tui-category-item" :data-key="'../articles/index'" @tap="next">
+			<view class="tui-category-item" :data-key="'../task/article'" @tap="next">
 				<image :src="'../../static/images/mall/category/1.jpg'" class="tui-category-img" mode="scaleToFill"></image>
 				<view class="tui-category-name">文章</view>
 			</view>
-			<view class="tui-category-item" :data-key="'../voucher/voucher'" @tap="next">
+			<!-- <view class="tui-category-item" :data-key="'../voucher/voucher'" @tap="next"> -->
+			<view class="tui-category-item" :data-key="'../task/questionnaire'" @tap="next">
 				<image :src="'../../static/images/mall/category/1.jpg'" class="tui-category-img" mode="scaleToFill"></image>
 				<view class="tui-category-name">问券</view>
 			</view>
@@ -408,6 +413,7 @@
 
 			},
 			next: function(e) {
+				let id = e.currentTarget.dataset.id;
 				let key = e.currentTarget.dataset.key || "";
 				console.log('next', e)
 				if (key) {

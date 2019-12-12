@@ -146,6 +146,13 @@
 				"navigationBarBackgroundColor": "#FC4034",
 				"navigationBarTitleText": "砸金蛋"
 			}
+		},
+		{
+			"path": "pages/company/show",
+			"style": {
+				"navigationBarBackgroundColor": "#FC4034",
+				"navigationBarTitleText": "店铺主页"
+			}
 		}
     ],
 	"globalStyle": {
