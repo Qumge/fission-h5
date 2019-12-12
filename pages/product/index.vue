@@ -10,12 +10,17 @@
 					<!-- #ifdef APP-PLUS || MP -->
 					<icon type="search" :size='13' color='#999'></icon>
 					<!-- #endif -->
-					<text class="tui-search-text" v-if="!searchKey">搜索Thorui商品</text>
+					<text class="tui-search-text" v-if="!searchKey">搜索商品名称</text>
 					<view class="tui-search-key" v-if="searchKey">
 						<view class="tui-key-text">{{searchKey}}</view>
 						<tui-icon name="shut" :size='12' color='#fff'></tui-icon>
 					</view>
 				</view>
+				
+				<view class="tui-back" @tap="screen" data-index="4" :style="{marginTop:arrowTop+'px'}">
+					<tui-icon :name="isList?'manage':'listview'" :size="isList?22:18" :bold="isList?false:true" color="#333"></tui-icon>
+				</view>
+				
 			</view>
 		</view>
 		<!--header-->
@@ -27,13 +32,12 @@
 					<tui-icon :name="selectH>0?'arrowup':'arrowdown'" :size="14" :color="tabIndex==0?'#e41f19':'#444'" tui-icon-class="tui-ml"></tui-icon>
 				</view>
 				<view class="tui-top-item" :class="[tabIndex==1?'tui-active tui-bold':'']" @tap="screen" data-index="1">销量</view>
-				<view class="tui-top-item" @tap="screen" data-index="2">
-					<tui-icon :name="isList?'manage':'listview'" :size="isList?22:18" :bold="isList?false:true" color="#333"></tui-icon>
-				</view>
+				<view class="tui-top-item" :class="[tabIndex==2?'tui-active tui-bold':'']" @tap="screen" data-index="2">新品</view>
 				<view class="tui-top-item tui-icon-ml" @tap="screen" data-index="3">
 					<text>筛选</text>
 					<tui-icon name="screen" :size="12" color="#333" tui-icon-class="tui-ml" :bold="true"></tui-icon>
 				</view>
+				
 
 				<!--下拉选择列表--综合-->
 				<view class="tui-dropdownlist" :class="[selectH>0?'tui-dropdownlist-show':'']" :style="{height:selectH+'rpx'}">
@@ -323,13 +327,8 @@
 					selected: false,
 				}],
 				attrArr: [{
-					name: "新品",
-					selectedName: "新品",
-					isActive: false,
-					list: []
-				}, {
-					name: "品牌",
-					selectedName: "品牌",
+					name: "大类",
+					selectedName: "大类",
 					isActive: false,
 					list: [{
 						name: "trendsetter",
@@ -390,7 +389,7 @@
 						selected: false
 					}]
 				}, {
-					name: "类型",
+					name: "小类",
 					selectedName: "类型",
 					isActive: false,
 					list: [{
@@ -670,9 +669,11 @@
 					this.showDropdownList();
 				} else if (index == 1) {
 					this.tabIndex = 1
-				} else if (index == 2) {
-					this.isList = !this.isList
+				}else if (index == 2) {
+					this.tabIndex = 2
 				} else if (index == 3) {
+					this.isList = !this.isList
+				} else if (index == 4) {
 					this.drawer = true
 				}
 			},

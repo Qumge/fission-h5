@@ -2,10 +2,9 @@ import Vue from 'vue'
 import App from './App'
 const api = {
 	task_questionnaiire: function(id) {
-
 		return new Promise(function(resolve, reject) {
 			uni.request({
-				url: Vue.prototype.apiUrl + 'api/v1/users/task_questionnaires/' + id, //仅为示例，并非真实接口地址。
+				url: Vue.prototype.apiUrl + '/v1/users/task_questionnaires/' + id, //仅为示例，并非真实接口地址。
 				method: 'GET',
 				success: (res) => {
 					resolve(res.data)
