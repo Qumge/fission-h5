@@ -1,6 +1,6 @@
 <template>
 	<div class="page">
-	   <view @click="shows" style="width: 180rpx;background: #b3241b;z-index: 9; padding: 10rpx 30rpx;border-radius: 10rpx ;position: absolute;right: 0;top: 90rpx; display: flex;align-items: center;">
+	   <view @click="shows" v-if="showShare" style="width: 180rpx;background: #b3241b;z-index: 9; padding: 10rpx 30rpx;border-radius: 10rpx ;position: absolute;right: 0;top: 90rpx; display: flex;align-items: center;">
 			<tui-icon name="partake" :size="15" color="#fff"></tui-icon>
 			<text style="color: #fff;font-size: 28rpx;margin-left: 10rpx;">分享得金币</text>
 	   </view>
@@ -79,10 +79,12 @@ export default {
 			DeductIntegral:3, // 扣除积分
 			// ShareIntegral:0, // 分享积分
 			Options: null,
+			showShare: false
 		};
 	},
 	onLoad(options) { 
 		let that = this
+		this.showShare = this.tui.wechatBowser();
 		that.Options = options
 	},
 	onShow() {

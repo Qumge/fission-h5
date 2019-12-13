@@ -10,7 +10,7 @@
 				<text>昨天 17:12</text>
 			</view>
 			<view class="tui-sub-right">阅读 2453</view>
-			<view @click="showPop" style="padding: 10rpx 30rpx;border-radius: 10rpx; display: flex;align-items: center;">
+			<view @click="showPop" v-if="showShare" style="padding: 10rpx 30rpx;border-radius: 10rpx; display: flex;align-items: center;">
 				<tui-icon name="partake" :size="15" color="#333"></tui-icon>
 				<text class="tui-black">分享得金币</text>
 			</view>
@@ -132,7 +132,8 @@
 				}],
 				pageIndex: 1,
 				loadding: false,
-				pullUpOn: true
+				pullUpOn: true,
+				showShare: false
 			}
 		},
 		computed: {
@@ -149,6 +150,9 @@
 					return isFabulous ? 'agree-fill' : 'agree'
 				}
 			}
+		},
+		onLoad: function(){
+			this.showShare = this.tui.wechatBowser();
 		},
 		methods: {
 			showPop() {

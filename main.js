@@ -113,10 +113,20 @@ const tui = {
 		}
 		return args;
 	},
+	wechatBowser: function(){
+		return this.browser('wechat');
+	},
+	browser: function(type){
+		var s = false;
+		let ua = navigator.userAgent.toLowerCase();
+		if(type == 'wechat'){
+			s = ua.search('micromessenger') > -1
+		}
+		return s;
+	},
 	wxAuthorize: function() {
 		let link = window.location.href;
 		let params = this.getUrlParams(link); // 地址解析
-		
 		// 已经授权登录过的就不用再授权了
 		//uni.setStorageSync('sessionToken', null)
 		if (uni.getStorageSync('sessionToken')) return;
@@ -124,7 +134,8 @@ const tui = {
 		if(params.session && params.from && params.from == 'app'){
 			uni.setStorageSync('sessionToken', params.session)
 		}
-		// 如果拿到code，调用授权接口，没有拿到就跳转微信授权链接获取
+		if (!this.tui.wechatBowser()) return;
+		// 微信如果拿到code，调用授权接口，没有拿到就跳转微信授权链接获取
 		if (params.code) {
 			//api.wxAuth(params.code); // 调用后台接口，授权
 			api.wxAuth(params.code).then(function(data) {
@@ -196,8 +207,8 @@ Vue.prototype.tui = tui
 Vue.prototype.$eventHub = Vue.prototype.$eventHub || new Vue()
 Vue.prototype.$store = store
 App.mpType = 'app'
-// Vue.prototype.apiUrl = "/dpc/api"
-Vue.prototype.apiUrl = 'https://api.shjietui.com/api'
+Vue.prototype.apiUrl = "/dpc/api"
+//Vue.prototype.apiUrl = 'https://api.shjietui.com/api'
 // Vue.prototype.apiUrl = 'http://liebian.natapp1.cc/api'
 Vue.prototype.appid = "wx202bddcd868b179f"
 const app = new Vue({

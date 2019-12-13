@@ -1,7 +1,7 @@
 <template>
 	<view class="" style="position: relative;">
 		<image class='Imgs' src="/static/images/game/stage.png" mode="widthFix"></image>
-		<view @click="shows" style="width: 180rpx;background: #b3241b; padding: 10rpx 30rpx;border-radius: 10rpx ;position: absolute;right: 0; display: flex;align-items: center;">
+		<view @click="shows" v-if="showShare" style="width: 180rpx;background: #b3241b; padding: 10rpx 30rpx;border-radius: 10rpx ;position: absolute;right: 0; display: flex;align-items: center;">
 			<tui-icon name="partake" :size="15" color="#fff"></tui-icon>
 			<text style="color: #fff;font-size: 28rpx;margin-left: 10rpx;">分享得金币</text>
 		</view>
@@ -86,8 +86,12 @@
 					},
 				], //奖品数组
 				indexSelect: 0, //被选中的奖品index
-				isRunning: false //是否正在抽奖
+				isRunning: false ,//是否正在抽奖
+				showShare: false
 			}
+		},
+		onLoad: function(){
+			this.showShare = this.tui.wechatBowser();
 		},
 		methods: {
 			shows:function(){

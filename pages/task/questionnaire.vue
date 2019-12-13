@@ -1,14 +1,13 @@
 <template>
 	<view >
-		<view class="title">
-			{{TopTile.name}}
+		<view>
+			<view class="title">
+				{{TopTile.name}}
+			</view>
 		</view>
-		
 		<view class="question">
-			
 			<form @submit="formSubmit">
 				<template v-for="(item,index) in Forms" >
-					
 					<view class="List" v-if="item.type == 'Question::Single' ">
 						<!--  单选 -->
 						<view class="FormTitle">{{index+1}}、{{item.name}}</view>
@@ -61,6 +60,7 @@
 	export default {
 		data() {
 			return {
+				showShare: false,
 				current: 0,
 				Forms:[],
 				TopTile:'问卷',
@@ -107,7 +107,8 @@
 				]
 			}
 		},
-		onShow() {
+		onLoad: function(){
+			this.showShare = this.tui.wechatBowser();
 			let _this = this
 			api.task_questionnaiire(1).then(function(data){
 				// console.log(data.questionnaire)
@@ -117,7 +118,6 @@
 			}).catch(function(e){
 				console.log(e)
 			})
-			
 		},
 		methods: {
 			formSubmit: function(e) {
@@ -147,7 +147,7 @@
 	.Lists{border-bottom: none;}
 	.Name{padding: 2rpx 0;margin: 3rpx 0;}
 	.radio_Name {font-size: 26rpx;color: #222222;padding: 2rpx 0;margin: 3px 0 3px 5px;}
-	.radio_radio{width: 15px !important;height: 15px !important;}
+	.radio_radio{width: 22px !important;height: 22px !important;}
 	.Btn{margin: 90rpx auto 150rpx;background: #16AB60;color: #fff;font-size: 26rpx;width: 410rpx;}
 	.FormNames{border: 1px solid #ccc;height: 200rpx;}
 	.sinput{padding: 10rpx 10rpx;}

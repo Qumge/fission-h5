@@ -41,7 +41,7 @@
 							<tui-tag size="small" :plain="true" type="high-green" shape="circle">购买返10金币</tui-tag>
 						</view>
 					</view>
-					<button open-type="share" class="tui-share-btn tui-share-position" @tap="_showPop">
+					<button open-type="share" v-if="shareShow" class="tui-share-btn tui-share-position" @tap="_showPop">
 						<tui-tag type="gray" tui-tag-class="tui-tag-share tui-size" shape="circleLeft" size="small">
 							<view class="tui-icon tui-icon-partake" style="color:#999;font-size:15px"></view>
 							<text class="tui-share-text tui-gray">分享</text>
@@ -293,7 +293,8 @@
 				menuShow: false,
 				popupShow: false,
 				value: 1,
-				collected: false
+				collected: false,
+				shareShow: false
 			}
 		},
 		onReady: function(options) {
@@ -301,12 +302,15 @@
 		},
 		onLoad: function(options) {
 			let that = this;
+			this.shareShow = this.tui.wechatBowser();
+			if (!this.tui.wechatBowser()) return;
 			api.product(options.id).then(function(data){
 				console.log(data);
 				that.banner = data.images;
 				that.product = data;
 				that.norms = data.norms;
 				that.norm = data.norms[0];
+				if (!this.tui.wechatBowser()) return;
 				api.fission(that.product.task_id, options.token).then(function(fission_log){
 					console.log(fission_log);
 					that.tui.jssdk().then(function(jweixin){
