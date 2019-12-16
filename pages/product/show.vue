@@ -303,7 +303,6 @@
 		onLoad: function(options) {
 			let that = this;
 			this.shareShow = this.tui.wechatBowser();
-			if (!this.tui.wechatBowser()) return;
 			api.product(options.id).then(function(data){
 				console.log(data);
 				that.banner = data.images;
@@ -311,6 +310,7 @@
 				that.norms = data.norms;
 				that.norm = data.norms[0];
 				if (!this.tui.wechatBowser()) return;
+				if (!that.product.task_id) return;
 				api.fission(that.product.task_id, options.token).then(function(fission_log){
 					console.log(fission_log);
 					that.tui.jssdk().then(function(jweixin){
