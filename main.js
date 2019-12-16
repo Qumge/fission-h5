@@ -134,7 +134,7 @@ const tui = {
 		if(params.session && params.from && params.from == 'app'){
 			uni.setStorageSync('sessionToken', params.session)
 		}
-		if (!this.tui.wechatBowser()) return;
+		if (!this.wechatBowser()) return;
 		// 微信如果拿到code，调用授权接口，没有拿到就跳转微信授权链接获取
 		if (params.code) {
 			//api.wxAuth(params.code); // 调用后台接口，授权
@@ -200,6 +200,23 @@ const tui = {
 	},
 	webURL: function() {
 		return "https://www.thorui.cn/wx"
+	},
+	goBack: function(from){
+		if (from == 'app') {
+			uni.postMessage({
+				event: 'backEvent',
+				params: {}
+			});
+		} else {
+			const pages = getCurrentPages();
+			if (pages.length > 1) {
+				uni.navigateBack()
+			} else {
+				uni.reLaunch({
+					url: "/pages/index/index"
+				})
+			}
+		}
 	}
 }
 //uni.setStorageSync('sessionToken', '555')

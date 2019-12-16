@@ -1,5 +1,18 @@
 <template>
-	<div class="page">
+	<view class="page">
+		<!--header-->
+		<view class="tui-header-box" :style="{height:height+'px;'}" style="color:#fff">
+			<view class="tui-header" :style="{paddingTop:top+'px'}" >
+				砸金蛋
+			</view>
+			<view class="tui-header-icon" :style="{marginTop:top+'px'}">
+				<view class="tui-icon tui-icon-arrowleft tui-icon-back" 
+				 @tap="back">
+				 <tui-icon name="arrowleft" color="#fff" style="line-height:44px;"></tui-icon>
+				 </view>
+			</view>
+		</view>
+		<!--header-->
 	   <view @click="shows" v-if="showShare" style="width: 180rpx;background: #b3241b;z-index: 9; padding: 10rpx 30rpx;border-radius: 10rpx ;position: absolute;right: 0;top: 90rpx; display: flex;align-items: center;">
 			<tui-icon name="partake" :size="15" color="#fff"></tui-icon>
 			<text style="color: #fff;font-size: 28rpx;margin-left: 10rpx;">分享得金币</text>
@@ -10,20 +23,20 @@
 	   		<image src="/static/images/index/zhidaole.png" mode="widthFix"></image>
 	   	</view>
 	   </view>
-		<div class="stage">
+		<view class="stage">
 			<!-- 背景图 -->
 			<img src="/static/images/game/stage.png" class="stage-img" mode="widthFix" />
-			<div class="lanren" :class="{ pause: paursed }">
-				<div class="egg" :class="{ eggPause: paursed }" v-for="(item,index) in golden">
+			<view class="lanren" :class="{ pause: paursed }">
+				<view class="egg" :class="{ eggPause: paursed }" v-for="(item,index) in golden">
 					<!-- 锤子 -->
 					<img v-if="item.id==Ids" src="/static/images/game/hammer.png" mode="widthFix" class="hammer" />
 					<!-- 砸开的蛋 -->
 					<img v-if="item.id==Ids" src="/static/images/game/agg-puo.png" mode="widthFix" class="egg-item" />
 					<!-- 没砸开的蛋 -->
 					<img v-else src="/static/images/game/agg.png" mode="widthFix" class="egg-item" :data-id="item.id" @click="openEgg" />
-				</div>
-			</div>
-		</div>
+				</view>
+			</view>
+		</view>
 		<!-- 说明 -->
 		<view class="explain">
 			<view class="ExplainTitle">游戏说明</view>
@@ -44,7 +57,7 @@
 			</view>
 		</view>
 		
-	</div>
+	</view>
 </template>
 
 <script>
@@ -58,6 +71,12 @@ export default {
 	data() {
 		return {
 			ShowGuidance:false,
+			from: 'h5',
+			height: 0, //header高度
+			top: 0, //标题图标距离顶部距离
+			scrollH: 0, //滚动总高度
+			opcity: 0,
+			iconOpcity: 0.5,
 			golden:[
 				{
 					id:'1',
@@ -83,6 +102,9 @@ export default {
 		};
 	},
 	onLoad(options) { 
+		if (options.from) {
+			this.from = options.from
+		}
 		let that = this
 		this.showShare = this.tui.wechatBowser();
 		that.Options = options
@@ -94,6 +116,9 @@ export default {
 		
 	},
 	methods: {
+		back: function() {
+			this.tui.goBack(this.from);
+		},
 		shows:function(){
 			console.log(this.ShowGuidance)
 			this.ShowGuidance = true
@@ -329,4 +354,68 @@ export default {
 		-webkit-transform: rotate(15deg);
 	}
 }
+
+	/* header*/
+	.tui-header-box {
+		width: 100%;
+		position: fixed;
+		left: 0;
+		top: 0;
+		z-index: 9998;
+		background-color: #FC4034;
+	}
+	
+	.tui-header {
+		width: 100%;
+		font-size: 18px;
+		line-height: 18px;
+		font-weight: 500;
+		height: 44px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	
+	.tui-header-icon {
+		position: fixed;
+		top: 0;
+		left: 10px;
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		height: 44px;
+		transform: translateZ(0);
+		z-index: 99999;
+	}
+	
+	
+	
+	.tui-header-icon .tui-badge {
+		background: #e41f19 !important;
+		position: absolute;
+		right: -4px;
+	}
+	
+	.tui-icon-ml {
+		margin-left: 20rpx;
+	}
+	
+	.tui-icon {
+		border-radius: 16px;
+	}
+	
+	
+	.tui-icon-back {
+		height: 44px !important;
+		width: 44px !important;
+		display: block !important;
+	}
+	
+	.tui-header-icon .tui-icon-more-fill {
+		height: 20px !important;
+		width: 20px !important;
+		padding: 6px !important;
+		display: block !important;
+	}
+	/* header*/
 </style>

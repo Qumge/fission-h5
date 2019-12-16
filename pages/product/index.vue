@@ -300,6 +300,7 @@
 		},
 		data() {
 			return {
+				from: "h5",
 				searchKey: "", //搜索关键词
 				width: 200, //header宽度
 				height: 64, //header高度
@@ -563,6 +564,9 @@
 			}
 		},
 		onLoad: function(options) {
+			if (options.from) {
+				this.from = options.from
+			}
 			let obj = {};
 			// #ifdef MP-WEIXIN
 			obj = wx.getMenuButtonBoundingClientRect();
@@ -684,7 +688,14 @@
 				if (this.drawer) {
 					this.closeDrawer()
 				} else {
-					uni.navigateBack()
+					if (this.from == 'app') {
+						uni.postMessage({
+							event: 'backEvent',
+							params: {}
+						});
+					} else {
+						uni.navigateBack()
+					}
 				}
 			},
 			search: function() {

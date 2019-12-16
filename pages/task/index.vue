@@ -41,7 +41,7 @@
 		methods: {
 			showTask: function(e) {
 				uni.navigateTo({
-					url: '/pages/task/show?id=' + e.currentTarget.dataset.id
+					url: '/pages/task/share_link?id=' + e.currentTarget.dataset.id
 				})
 			}
 		}

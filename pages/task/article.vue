@@ -1,58 +1,70 @@
 <template>
 	<view class="container">
-	
-		<view class="tui-news-title" >
-			我们充分尊重联赛新政，武汉队战术多变训练有素1
-		</view>
-		<view class="tui-sub-info">
-			<view class="tui-sub-left">
-				<text class="tui-author">早安君</text>
-				<text>昨天 17:12</text>
+		<!--header-->
+		<view class="tui-header-box" :style="{height:height+'px;'}" style="color:#fff">
+			<view class="tui-header" :style="{paddingTop:top+'px'}">
+				推文
 			</view>
-			<view class="tui-sub-right">阅读 2453</view>
-			<view @click="showPop" v-if="showShare" style="padding: 10rpx 30rpx;border-radius: 10rpx; display: flex;align-items: center;">
-				<tui-icon name="partake" :size="15" color="#333"></tui-icon>
-				<text class="tui-black">分享得金币</text>
-			</view>
-		</view>
-		<view class="tui-news-content">
-			<view class="tui-article">
-				北京时间6月22日，重庆斯威队召开了赛前新闻发布会，主教练小克鲁伊夫和球员彭欣力出席。
-			</view>
-			<view class="tui-article">
-				这是一场很重要的比赛，武汉卓尔在中超目前打的还是不错的，现在积分与我们一样。我们面对这个对手做了充分的准备，他们的战术变化很多，我也认为他们是一支训练有素的队伍。虽然这是一场艰难的比赛，我们也充满了动力去拿到我们想要的分数，实现我们的目标。联赛上半程还有两场比赛，我们也会竭尽全力拿到尽量多的分数。
-			</view>
-			<image src="/static/images/mall/activity/activity_2.jpg" class="tui-article-pic" mode="widthFix"></image>
-			<view class="tui-article">
-				大家下午好，明天非常重要，这星期我们的备战时间比较充裕，我们针对对手做了有效的布置，希望明天给大家呈现精彩的比赛。
-			</view>
-			<view class="tui-article">
-				我相信大家比我更了解他，但是就像刚刚提到的一样，这支球队的战术是丰富而多变的，这就意味着他在应对不同比赛时做了充分的准备。我们非常尊重明天的对手，他们最近状态出色，拿到许多分数。
-			</view>
-			<image src="/static/images/news/1.jpg" class="tui-article-pic" mode="widthFix"></image>
-			<view class="tui-article">
-				对我而言，我还是想保持沉默，我不打算就这个问题做过多的评论。因为这个政策的变化是马上实施了，我们肯定是尊重它，然后在我们力所能及的范围上找到最好的应对的方案，我个人意见并不重要，我们尊重和遵守相关决定。
-			</view>
-
-		</view>
-
-		<view class="tui-news-source">消息参考来源：体坛大精汇</view>
-		
-		<view class="w69">
-			<view class="x">
-				<view class="Mode">
-					<view class="ModeImg">
-						<image src="/static/images/basic/badge.png"></image>
-					</view>
-					<view class="ModeName">
-						<view class="name1">消息参考来源</view>
-						<view class="name2">￥&nbsp;800.0</view>
-					</view>
+			<view class="tui-header-icon" :style="{marginTop:top+'px'}">
+				<view class="tui-icon tui-icon-arrowleft tui-icon-back" @tap="back">
+					<tui-icon name="arrowleft" color="#fff" style="line-height:44px;"></tui-icon>
 				</view>
 			</view>
 		</view>
-		
+		<!--header-->
+		<view style="margin-top: 44px;">
+			<view class="tui-news-title">
+				我们充分尊重联赛新政，武汉队战术多变训练有素1
+			</view>
+			<view class="tui-sub-info">
+				<view class="tui-sub-left">
+					<text class="tui-author">早安君</text>
+					<text>昨天 17:12</text>
+				</view>
+				<view class="tui-sub-right">阅读 2453</view>
+				<view @click="showPop" v-if="showShare" style="padding: 10rpx 30rpx;border-radius: 10rpx; display: flex;align-items: center;">
+					<tui-icon name="partake" :size="15" color="#333"></tui-icon>
+					<text class="tui-black">分享得金币</text>
+				</view>
+			</view>
+			<view class="tui-news-content">
+				<view class="tui-article">
+					北京时间6月22日，重庆斯威队召开了赛前新闻发布会，主教练小克鲁伊夫和球员彭欣力出席。
+				</view>
+				<view class="tui-article">
+					这是一场很重要的比赛，武汉卓尔在中超目前打的还是不错的，现在积分与我们一样。我们面对这个对手做了充分的准备，他们的战术变化很多，我也认为他们是一支训练有素的队伍。虽然这是一场艰难的比赛，我们也充满了动力去拿到我们想要的分数，实现我们的目标。联赛上半程还有两场比赛，我们也会竭尽全力拿到尽量多的分数。
+				</view>
+				<image src="/static/images/mall/activity/activity_2.jpg" class="tui-article-pic" mode="widthFix"></image>
+				<view class="tui-article">
+					大家下午好，明天非常重要，这星期我们的备战时间比较充裕，我们针对对手做了有效的布置，希望明天给大家呈现精彩的比赛。
+				</view>
+				<view class="tui-article">
+					我相信大家比我更了解他，但是就像刚刚提到的一样，这支球队的战术是丰富而多变的，这就意味着他在应对不同比赛时做了充分的准备。我们非常尊重明天的对手，他们最近状态出色，拿到许多分数。
+				</view>
+				<image src="/static/images/news/1.jpg" class="tui-article-pic" mode="widthFix"></image>
+				<view class="tui-article">
+					对我而言，我还是想保持沉默，我不打算就这个问题做过多的评论。因为这个政策的变化是马上实施了，我们肯定是尊重它，然后在我们力所能及的范围上找到最好的应对的方案，我个人意见并不重要，我们尊重和遵守相关决定。
+				</view>
 
+			</view>
+
+			<view class="tui-news-source">消息参考来源：体坛大精汇</view>
+
+			<view class="w69">
+				<view class="x">
+					<view class="Mode">
+						<view class="ModeImg">
+							<image src="/static/images/basic/badge.png"></image>
+						</view>
+						<view class="ModeName">
+							<view class="name1">消息参考来源</view>
+							<view class="name2">￥&nbsp;800.0</view>
+						</view>
+					</view>
+				</view>
+			</view>
+
+		</view>
 		<!--加载loadding-->
 		<tui-loadmore :visible="loadding" :index="3" type="primary"></tui-loadmore>
 		<!-- <tui-nomore :visible="!pullUpOn" bgcolor="#fff" text="没有更多评论"></tui-nomore> -->
@@ -61,7 +73,7 @@
 		<!-- <GuidancePopup :show='show' ></GuidancePopup> -->
 		<view v-show="ShowGuidance">
 			<view class="Bg" @click="colse"></view>
-			<view class="Guidance"  @click="colse">
+			<view class="Guidance" @click="colse">
 				<image src="/static/images/index/zhidaole.png" mode="widthFix"></image>
 			</view>
 		</view>
@@ -88,8 +100,14 @@
 		},
 		data() {
 			return {
+				height: 0, //header高度
+				top: 0, //标题图标距离顶部距离
+				scrollH: 0, //滚动总高度
+				opcity: 0,
+				iconOpcity: 0.5,
+				from: 'h5',
 				fabulous: 123,
-				ShowGuidance:false,
+				ShowGuidance: false,
 				isFabulous: false,
 				isCollection: false,
 				cmtList: [{
@@ -151,7 +169,10 @@
 				}
 			}
 		},
-		onLoad: function(){
+		onLoad: function(options) {
+			if (options.from) {
+				this.from = options.from
+			}
 			this.showShare = this.tui.wechatBowser();
 		},
 		methods: {
@@ -159,7 +180,7 @@
 				// 确认弹窗回调
 				this.ShowGuidance = true
 			},
-			colse:function(){
+			colse: function() {
 				this.ShowGuidance = false
 			},
 			btnFabulous: function() {
@@ -195,7 +216,10 @@
 				uni.navigateTo({
 					url: '../news-cmt-reply/news-cmt-reply'
 				})
-			}
+			},
+			back: function() {
+				this.tui.goBack(this.from);
+			},
 		},
 		// 页面上拉触底事件的处理函数
 		onReachBottom: function() {
@@ -215,17 +239,75 @@
 </script>
 
 <style>
-	image{width: 100%;height: 100%;}
-.Bg{position: fixed;left: 0;top: 0;overflow: hidden;z-index: 99; width: 100%;height: 100%;background: rgb(0, 0, 0,0.4);}
-.Guidance{position: absolute;z-index: 100;width: 690rpx;height: 500rpx;top: -90rpx; text-align: center; margin: 0 auto;}
-.w69{width: 690rpx;margin: 50rpx auto 40rpx;}
-.x{border-bottom: 1rpx solid #eee;padding: 30rpx 20rpx;box-shadow: 0rpx 0rpx 9rpx 1rpx #ddd;}	
-.x:last-child{border-bottom: none;}
-.Mode{display: flex;flex-wrap: wrap;align-items: center;}
-.ModeImg{width: 150rpx;height: 150rpx;}
-.ModeName{margin-left: 20rpx;width: 450rpx;}
-.name1{font-weight: bold;font-size: 30rpx;color: #1A1A1A;margin-bottom: 10rpx;}
-.name2{font-size: 28rpx;color: #545454;}
+	image {
+		width: 100%;
+		height: 100%;
+	}
+
+	.Bg {
+		position: fixed;
+		left: 0;
+		top: 0;
+		overflow: hidden;
+		z-index: 99;
+		width: 100%;
+		height: 100%;
+		background: rgb(0, 0, 0, 0.4);
+	}
+
+	.Guidance {
+		position: absolute;
+		z-index: 100;
+		width: 690rpx;
+		height: 500rpx;
+		top: -90rpx;
+		text-align: center;
+		margin: 0 auto;
+	}
+
+	.w69 {
+		width: 690rpx;
+		margin: 50rpx auto 40rpx;
+	}
+
+	.x {
+		border-bottom: 1rpx solid #eee;
+		padding: 30rpx 20rpx;
+		box-shadow: 0rpx 0rpx 9rpx 1rpx #ddd;
+	}
+
+	.x:last-child {
+		border-bottom: none;
+	}
+
+	.Mode {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+
+	.ModeImg {
+		width: 150rpx;
+		height: 150rpx;
+	}
+
+	.ModeName {
+		margin-left: 20rpx;
+		width: 450rpx;
+	}
+
+	.name1 {
+		font-weight: bold;
+		font-size: 30rpx;
+		color: #1A1A1A;
+		margin-bottom: 10rpx;
+	}
+
+	.name2 {
+		font-size: 28rpx;
+		color: #545454;
+	}
+
 	page {
 		background: #fff;
 		color: #333;
@@ -520,4 +602,69 @@
 		margin: 0;
 		padding: 0;
 	}
+
+	/* header*/
+	.tui-header-box {
+		width: 100%;
+		position: fixed;
+		left: 0;
+		top: 0;
+		z-index: 9998;
+		background-color: #FC4034;
+	}
+
+	.tui-header {
+		width: 100%;
+		font-size: 18px;
+		line-height: 18px;
+		font-weight: 500;
+		height: 44px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.tui-header-icon {
+		position: fixed;
+		top: 0;
+		left: 10px;
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		height: 44px;
+		transform: translateZ(0);
+		z-index: 99999;
+	}
+
+
+
+	.tui-header-icon .tui-badge {
+		background: #e41f19 !important;
+		position: absolute;
+		right: -4px;
+	}
+
+	.tui-icon-ml {
+		margin-left: 20rpx;
+	}
+
+	.tui-icon {
+		border-radius: 16px;
+	}
+
+
+	.tui-icon-back {
+		height: 44px !important;
+		width: 44px !important;
+		display: block !important;
+	}
+
+	.tui-header-icon .tui-icon-more-fill {
+		height: 20px !important;
+		width: 20px !important;
+		padding: 6px !important;
+		display: block !important;
+	}
+
+	/* header*/
 </style>

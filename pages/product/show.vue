@@ -1,6 +1,5 @@
 <template>
-	<view class="container">
-		
+	<view class="page">
 		<!--header-->
 		<view class="tui-header-box" :style="{height:height+'px',background:'rgba(255,255,255,'+opcity+')'}">
 			<view class="tui-header" :style="{paddingTop:top+'px', opacity:opcity}">
@@ -9,7 +8,7 @@
 			<view class="tui-header-icon" :style="{marginTop:top+'px'}">
 				<view class="tui-icon tui-icon-arrowleft tui-icon-back" :style="{color:opcity>=1?'#000':'#fff',background:'rgba(0, 0, 0,'+iconOpcity+')'}"
 				 @tap="back"></view>
-			
+
 			</view>
 		</view>
 		<!--header-->
@@ -33,7 +32,7 @@
 				<view class="tui-padding">
 					<view class="tui-pro-title">{{product.name}}</view>
 				</view>
-				
+
 				<view class="tui-pro-titbox">
 					<view class="tui-pro-pricebox ">
 						<view class="tui-pro-price">
@@ -57,15 +56,15 @@
 					</view>
 				</view> -->
 			</view>
-			
-			
+
+
 			<view class="tui-basic-info tui-mtop">
-				<view class="tui-list-cell" @tap="showPopup" >
+				<view class="tui-list-cell" @tap="showPopup">
 					<view class="tui-bold tui-cell-title">已选</view>
 					<view class="tui-selected-box">{{norm.spec_attr_names}}</view>
 					<tui-icon name="more-fill" :size="20" class="tui-right" color="#666"></tui-icon>
 				</view>
-				
+
 				<view class="tui-list-cell tui-last">
 					<view class="tui-bold tui-cell-title">运费</view>
 					<view class="tui-selected-box">在线支付免运费</view>
@@ -98,7 +97,7 @@
 				</view>
 			 -->
 			</view>
-			
+
 			<!-- ComPany -->
 			<view style="margin: 30rpx auto 0;border-bottom: 1rpx solid #ddd; background: #fff;">
 				<view class="w69">
@@ -116,13 +115,13 @@
 								</view>
 							</view>
 						</view>
-						<view class="ComPanyGZ"  @tap="_ComPany">
+						<view class="ComPanyGZ" @tap="_ComPany">
 							进店逛逛<text class="h" style="margin-left: 10rpx;">></text>
 						</view>
 					</view>
 				</view>
 			</view>
-			
+
 			<view class="tui-basic-info">
 				<view class="tui-list-cell">
 					<view class="tui-bold tui-cell-title">产品信息</view>
@@ -145,7 +144,7 @@
 					<tui-icon name="kefu" :size="22" color='#333'></tui-icon>
 					<view class="tui-operation-text tui-scale-small">客服</view>
 				</view> -->
-				<view class="tui-operation-item"  @tap="_company" hover-class="opcity" :hover-stay-time="150">
+				<view class="tui-operation-item" @tap="_company" hover-class="opcity" :hover-stay-time="150">
 					<tui-icon name="shop" :size="22" color='#333'></tui-icon>
 					<view class="tui-operation-text tui-scale-small">店铺</view>
 				</view>
@@ -167,7 +166,7 @@
 
 
 		<!--底部操作栏-->
-		
+
 		<!--底部选择层-->
 		<tui-bottom-popup :show="popupShow" @close="hidePopup">
 			<view class="tui-popup-box">
@@ -179,23 +178,23 @@
 					</view>
 				</view>
 				<scroll-view scroll-y class="tui-popup-scroll">
-					
+
 					<view class="tui-scrollview-box">
-						<block v-for="(spec) in product.specs" >
+						<block v-for="(spec) in product.specs">
 							<view class="tui-bold tui-attr-title">{{spec.name}}</view>
 							<view class="tui-attr-box">
-							<block v-for="(spec_value) in spec.spec_values" >
-								<view class="tui-attr-item" :class="norm.spec_attrs.split('/').indexOf(String(spec_value.id)) >=0 ? 'tui-attr-active' : ''">
-									{{spec_value.name}}
-								</view>
-							</block>
+								<block v-for="(spec_value) in spec.spec_values">
+									<view class="tui-attr-item" :class="norm.spec_attrs.split('/').indexOf(String(spec_value.id)) >=0 ? 'tui-attr-active' : ''">
+										{{spec_value.name}}
+									</view>
+								</block>
 							</view>
 						</block>
 
 						<view class="tui-number-box tui-bold tui-attr-title">
 							<view class="tui-attr-title">数量</view>
 							<tui-numberbox :max="99" :min="1" :value="value" @change="change"></tui-numberbox>
-						</view>	
+						</view>
 					</view>
 				</scroll-view>
 				<view class="tui-operation tui-operation-right tui-right-flex tui-popup-btn">
@@ -213,7 +212,7 @@
 		<!--底部选择层-->
 		<view v-show="ShowGuidance">
 			<view class="Bg" @tap="_colse"></view>
-			<view class="Guidance"  @tap="_colse">
+			<view class="Guidance" @tap="_colse">
 				<image src="/static/images/index/zhidaole.png" mode="widthFix"></image>
 			</view>
 		</view>
@@ -243,7 +242,7 @@
 		},
 		data() {
 			return {
-				ShowGuidance:false,
+				ShowGuidance: false,
 				height: 64, //header高度
 				top: 0, //标题图标距离顶部距离
 				scrollH: 0, //滚动总高度
@@ -294,50 +293,55 @@
 				popupShow: false,
 				value: 1,
 				collected: false,
-				shareShow: false
+				shareShow: false,
+				from: 'h5'
 			}
 		},
 		onReady: function(options) {
-			
+
 		},
 		onLoad: function(options) {
+			if (options.from) {
+				this.from = options.from;
+				if(options.from == 'app'){
+					uni.postMessage({ event: 'hideTabs', params: {}})
+				}
+			}
 			let that = this;
 			this.shareShow = this.tui.wechatBowser();
-			api.product(options.id).then(function(data){
+			api.product(options.id).then(function(data) {
 				console.log(data);
 				that.banner = data.images;
 				that.product = data;
 				that.norms = data.norms;
 				that.norm = data.norms[0];
-				if (!this.tui.wechatBowser()) return;
+				if (!that.tui.wechatBowser()) return;
 				if (!that.product.task_id) return;
-				api.fission(that.product.task_id, options.token).then(function(fission_log){
+				api.fission(that.product.task_id, options.token).then(function(fission_log) {
 					console.log(fission_log);
-					that.tui.jssdk().then(function(jweixin){
-						console.log(222222222)
-						console.log(3333);
+					that.tui.jssdk().then(function(jweixin) {
 						jweixin.onMenuShareAppMessage({
-						  title: that.product.name, // 分享标题
-						  desc: '分享链接赚金币,提现赢大奖', // 分享描述
-						  link: (location.origin + location.pathname + '?id=' + that.product.id + '&token=' + fission_log.token), // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-						  imgUrl: that.product.images[0].image_path, // 分享图标
-						  type: '', // 分享类型,music、video或link，不填默认为link
-						  dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-						  success: function () {
-						    // 用户点击了分享后执行的回调函数
-							console.log('share')
-							api.share(fission_log.token).then(function(data){
-								console.log(data);
-							})
-						  }
+							title: that.product.name, // 分享标题
+							desc: '分享链接赚金币,提现赢大奖', // 分享描述
+							link: (location.origin + location.pathname + '?id=' + that.product.id + '&token=' + fission_log.token), // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+							imgUrl: that.product.images[0].image_path, // 分享图标
+							type: '', // 分享类型,music、video或link，不填默认为link
+							dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+							success: function() {
+								// 用户点击了分享后执行的回调函数
+								console.log('share')
+								api.share(fission_log.token).then(function(data) {
+									console.log(data);
+								})
+							}
 						});
-					}).catch(function(e){
+					}).catch(function(e) {
 						console.log(e);
 					})
-				}).catch(function(){
-					
+				}).catch(function() {
+
 				})
-			}).catch(function(e){
+			}).catch(function(e) {
 				console.log(e);
 				//跳转到回上一页
 			})
@@ -363,9 +367,9 @@
 				})
 			}, 50)
 		},
-		onShow: function(options){
+		onShow: function(options) {
 			//let that = this;
-			
+
 		},
 		methods: {
 			bannerChange: function(e) {
@@ -379,7 +383,7 @@
 				})
 			},
 			back: function() {
-				uni.navigateBack()
+				this.tui.goBack(this.from);
 			},
 			openMenu: function() {
 				this.menuShow = true
@@ -420,22 +424,22 @@
 				// 确认弹窗回调
 				this.ShowGuidance = true
 			},
-			_colse:function(){
+			_colse: function() {
 				this.ShowGuidance = false
 			},
-			_ComPany(){
+			_ComPany() {
 				uni.navigateTo({
-					url:'../company/show'
+					url: '../company/show'
 				})
 			},
-			_cart(){
+			_cart() {
 				uni.navigateTo({
-					url:'../cart/show'
+					url: '../cart/show'
 				})
 			},
-			_company(){
+			_company() {
 				uni.navigateTo({
-					url:'../company/show'
+					url: '../company/show'
 				})
 			}
 		},
@@ -454,64 +458,135 @@
 <style>
 	/* icon 也可以使用组件*/
 	@import "../../static/style/icon.css";
-image {
-	width: 100%;
-	height: 100%;
-}
-image{width: 100%;height: 100%;}
-.Bg{position: fixed;left: 0;overflow: hidden; top: 0;z-index: 99; width: 100%;height: 100%;background: rgb(0, 0, 0,0.4);}
-.Guidance{position: absolute;top:-85rpx; left: 30rpx; z-index: 100;width: 690rpx;height: 500rpx;text-align: center; margin: 0 auto;}
-.w69{width: 690rpx;margin: 50rpx auto 40rpx;}
-.x{border-bottom: 1rpx solid #eee;padding: 30rpx 20rpx;box-shadow: 0rpx 0rpx 9rpx 1rpx #ddd;}	
-.x:last-child{border-bottom: none;}
-.Mode{display: flex;flex-wrap: wrap;align-items: center;}
-.ModeImg{width: 150rpx;height: 150rpx;}
-.ModeName{margin-left: 20rpx;width: 450rpx;}
-.name1{font-weight: bold;font-size: 30rpx;color: #1A1A1A;margin-bottom: 10rpx;}
-.name2{font-size: 28rpx;color: #545454;}
-.FlexComPany{
-	padding: 20rpx 0;
-	margin: 10rpx auto 0;
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: space-between;
-}
-.ComPanyName{
-	font-weight: bold;
-	font-size: 32rpx;
-	color: #000000;
-}
-.ComPanyTi{
-	font-size: 28rpx;
-	color: #999999;
-	margin-top: 20rpx;
-}
-.ComPany{
-	width: 500rpx;
-	display: flex;
-	align-items: center;
-}
-.ComPanyImg{
-	padding: 10rpx;
-	border: 1rpx solid #eee;
-	margin-right: 20rpx;
-	width: 120rpx;
-	height: 120rpx;
-}
-.h{color: #666;}
-.ComPanyGZ{
-	font-size: 28rpx;
-	color: red;
-	/* border-radius: 40rpx; */
-	letter-spacing: 3rpx;
-	/* padding: 5rpx 20rpx; */
-	/* background: red; */
-}
-.w69 {
-	width: 690rpx;
-	margin: 0 auto;
-}
+
+	image {
+		width: 100%;
+		height: 100%;
+	}
+
+	image {
+		width: 100%;
+		height: 100%;
+	}
+
+	.Bg {
+		position: fixed;
+		left: 0;
+		overflow: hidden;
+		top: 0;
+		z-index: 99;
+		width: 100%;
+		height: 100%;
+		background: rgb(0, 0, 0, 0.4);
+	}
+
+	.Guidance {
+		position: absolute;
+		top: -85rpx;
+		left: 30rpx;
+		z-index: 100;
+		width: 690rpx;
+		height: 500rpx;
+		text-align: center;
+		margin: 0 auto;
+	}
+
+	.w69 {
+		width: 690rpx;
+		margin: 50rpx auto 40rpx;
+	}
+
+	.x {
+		border-bottom: 1rpx solid #eee;
+		padding: 30rpx 20rpx;
+		box-shadow: 0rpx 0rpx 9rpx 1rpx #ddd;
+	}
+
+	.x:last-child {
+		border-bottom: none;
+	}
+
+	.Mode {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+
+	.ModeImg {
+		width: 150rpx;
+		height: 150rpx;
+	}
+
+	.ModeName {
+		margin-left: 20rpx;
+		width: 450rpx;
+	}
+
+	.name1 {
+		font-weight: bold;
+		font-size: 30rpx;
+		color: #1A1A1A;
+		margin-bottom: 10rpx;
+	}
+
+	.name2 {
+		font-size: 28rpx;
+		color: #545454;
+	}
+
+	.FlexComPany {
+		padding: 20rpx 0;
+		margin: 10rpx auto 0;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.ComPanyName {
+		font-weight: bold;
+		font-size: 32rpx;
+		color: #000000;
+	}
+
+	.ComPanyTi {
+		font-size: 28rpx;
+		color: #999999;
+		margin-top: 20rpx;
+	}
+
+	.ComPany {
+		width: 500rpx;
+		display: flex;
+		align-items: center;
+	}
+
+	.ComPanyImg {
+		padding: 10rpx;
+		border: 1rpx solid #eee;
+		margin-right: 20rpx;
+		width: 120rpx;
+		height: 120rpx;
+	}
+
+	.h {
+		color: #666;
+	}
+
+	.ComPanyGZ {
+		font-size: 28rpx;
+		color: red;
+		/* border-radius: 40rpx; */
+		letter-spacing: 3rpx;
+		/* padding: 5rpx 20rpx; */
+		/* background: red; */
+	}
+
+	.w69 {
+		width: 690rpx;
+		margin: 0 auto;
+	}
+
 	page {
 		background: #f7f7f7;
 	}

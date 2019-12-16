@@ -1,48 +1,62 @@
 <template>
-	<view class="" style="position: relative;">
-		<image class='Imgs' src="/static/images/game/stage.png" mode="widthFix"></image>
-		<view @click="shows" v-if="showShare" style="width: 180rpx;background: #b3241b; padding: 10rpx 30rpx;border-radius: 10rpx ;position: absolute;right: 0; display: flex;align-items: center;">
-			<tui-icon name="partake" :size="15" color="#fff"></tui-icon>
-			<text style="color: #fff;font-size: 28rpx;margin-left: 10rpx;">分享得金币</text>
-		</view>
-		<view v-show="ShowGuidance">
-			<view class="Bg" @click="colse"></view>
-			<view class="Guidance"  @click="colse">
-				<image src="/static/images/index/zhidaole.png" mode="widthFix"></image>
+	<view class="page">
+		<!--header-->
+		<view class="tui-header-box" :style="{height:height+'px;'}" style="color:#fff">
+			<view class="tui-header" :style="{paddingTop:top+'px'}" >
+				大转盘
+			</view>
+			<view class="tui-header-icon" :style="{marginTop:top+'px'}">
+				<view class="tui-icon tui-icon-arrowleft tui-icon-back" 
+				 @tap="back">
+				 <tui-icon name="arrowleft" color="#fff" style="line-height:44px;"></tui-icon>
+				 </view>
 			</view>
 		</view>
-		<view class="container">
-			<view class="tui-dot" :class="['tui-dot-'+(index+1)]" v-for="(item,index) in circleList" :key="index"></view>
-			<view class="tui-container-in">
-				<view class="tui-content-out" :class="['tui-award-'+(index+1),index==indexSelect?'tui-awardSelect':'']" v-for="(item,index) in awardList"
-				 :key="index">
-					<view>{{item.img}}</view>
-					<!-- <image class="tui-award-image" :src="'../../static/images/luck/'+item.img"></image> -->
+		<!--header-->
+		<view class="stage" style="margin-top: -6px;">
+			<image class='Imgs' src="/static/images/game/stage.png" mode="widthFix"></image>
+			<view @click="shows" v-if="showShare" style="width: 180rpx;background: #b3241b; padding: 10rpx 30rpx;border-radius: 10rpx ;position: absolute;right: 0; display: flex;align-items: center;">
+				<tui-icon name="partake" :size="15" color="#fff"></tui-icon>
+				<text style="color: #fff;font-size: 28rpx;margin-left: 10rpx;">分享得金币</text>
+			</view>
+			<view v-show="ShowGuidance">
+				<view class="Bg" @click="colse"></view>
+				<view class="Guidance" @click="colse">
+					<image src="/static/images/index/zhidaole.png" mode="widthFix"></image>
 				</view>
-				<view class="tui-btn-start" :class="[isRunning?'tui-ative':'']" @tap="startDrawing">立即抽奖</view>
 			</view>
-		</view>		
-		<view  style="position: relative;top: 340rpx;">
-			<view class="explain">
-				<view class="ExplainTitle">游戏说明</view>
-				<view class="ExplainTxt">
-					<view class="TxtTitle">活动时间</view>
-					<view class="TxtCon">2019年09月09日 - 2019年09月09日</view>
-					<view class="TxtTitle">活动奖品</view>
-					<view class="TxtCon">一等奖：Iphone XS 一台</view>
-					<view class="TxtCon">二等奖：HUAWEI 手机一台</view>
-					<view class="TxtCon">三等奖：空气进化器一个</view>
-					<view class="TxtZ">
-						<text class="TZ">注：</text>
-						本次活动奖品仅限在2019年09月09日前有效，过期自动作废。
+			<view class="container">
+				<view class="tui-dot" :class="['tui-dot-'+(index+1)]" v-for="(item,index) in circleList" :key="index"></view>
+				<view class="tui-container-in">
+					<view class="tui-content-out" :class="['tui-award-'+(index+1),index==indexSelect?'tui-awardSelect':'']" v-for="(item,index) in awardList"
+					 :key="index">
+						<view>{{item.img}}</view>
+						<!-- <image class="tui-award-image" :src="'../../static/images/luck/'+item.img"></image> -->
 					</view>
-					<view class="TxtTitle">主办方</view>
-					<view class="TxtCon">趣图美业有限公司提供</view>
-					
+					<view class="tui-btn-start" :class="[isRunning?'tui-ative':'']" @tap="startDrawing">立即抽奖</view>
+				</view>
+			</view>
+			<view style="position: relative;top: 340rpx;">
+				<view class="explain">
+					<view class="ExplainTitle">游戏说明</view>
+					<view class="ExplainTxt">
+						<view class="TxtTitle">活动时间</view>
+						<view class="TxtCon">2019年09月09日 - 2019年09月09日</view>
+						<view class="TxtTitle">活动奖品</view>
+						<view class="TxtCon">一等奖：Iphone XS 一台</view>
+						<view class="TxtCon">二等奖：HUAWEI 手机一台</view>
+						<view class="TxtCon">三等奖：空气进化器一个</view>
+						<view class="TxtZ">
+							<text class="TZ">注：</text>
+							本次活动奖品仅限在2019年09月09日前有效，过期自动作废。
+						</view>
+						<view class="TxtTitle">主办方</view>
+						<view class="TxtCon">趣图美业有限公司提供</view>
+
+					</view>
 				</view>
 			</view>
 		</view>
-		
 	</view>
 </template>
 
@@ -56,49 +70,59 @@
 		},
 		data() {
 			return {
-				ShowGuidance:false,
+				ShowGuidance: false,
 				circleList: 24, //圆点
-				awardList: [
-					{
-						img: "10金币",
-						name: "10金币"
-					}, {
-						img: "102金币",
-						name: "102金币"
-					}, {
-						img: "1金币",
-						name: "1金币"
-					}, {
-						img: "10金币",
-						name: "10金币"
-					}, {
-						img: "10金币",
-						name: "10金币"
-					}, {
-						img: "10金币",
-						name: "10金币"
-					}, {
-						img: "10金币",
-						name: "10金币"
-					}, {
-						img: "220金币",
-						name: "220金币"
-					},
-				], //奖品数组
+				from: 'h5',
+				height: 0, //header高度
+				top: 0, //标题图标距离顶部距离
+				scrollH: 0, //滚动总高度
+				opcity: 1,
+				iconOpcity: 0.5,
+				awardList: [{
+					img: "10金币",
+					name: "10金币"
+				}, {
+					img: "102金币",
+					name: "102金币"
+				}, {
+					img: "1金币",
+					name: "1金币"
+				}, {
+					img: "10金币",
+					name: "10金币"
+				}, {
+					img: "10金币",
+					name: "10金币"
+				}, {
+					img: "10金币",
+					name: "10金币"
+				}, {
+					img: "10金币",
+					name: "10金币"
+				}, {
+					img: "220金币",
+					name: "220金币"
+				}, ], //奖品数组
 				indexSelect: 0, //被选中的奖品index
-				isRunning: false ,//是否正在抽奖
+				isRunning: false, //是否正在抽奖
 				showShare: false
 			}
 		},
-		onLoad: function(){
+		onLoad: function(options) {
+			if (options.from) {
+				this.from = options.from
+			}
 			this.showShare = this.tui.wechatBowser();
 		},
 		methods: {
-			shows:function(){
+			back: function() {
+				this.tui.goBack(this.from);
+			},
+			shows: function() {
 				console.log(this.ShowGuidance)
 				this.ShowGuidance = true
 			},
-			colse:function(){
+			colse: function() {
 				this.ShowGuidance = false
 			},
 			//获取随机数
@@ -113,7 +137,7 @@
 			//开始抽奖
 			startDrawing: function() {
 				if (this.isRunning) return
-				this.isRunning= true;
+				this.isRunning = true;
 				let indexSelect = 0;
 				let i = 0;
 				let randomNum = this.getRandom(3);
@@ -122,7 +146,7 @@
 					++indexSelect;
 					//这里用y=30*x+150函数做的处理.可根据自己的需求改变转盘速度
 					indexSelect = indexSelect % 8;
-					this.indexSelect= indexSelect;
+					this.indexSelect = indexSelect;
 					i += 40;
 					if (i > randomNum) {
 						//去除循环
@@ -131,12 +155,12 @@
 						//获奖提示
 						uni.showModal({
 							title: '恭喜您',
-							content: '获得了奖品【'+this.awardList[indexSelect].name+'】',
+							content: '获得了奖品【' + this.awardList[indexSelect].name + '】',
 							confirmColor: '#5677FC',
 							showCancel: false, //去掉取消按钮
 							success: (res) => {
 								if (res.confirm) {
-									this.isRunning= false
+									this.isRunning = false
 								}
 							}
 						})
@@ -148,18 +172,82 @@
 </script>
 
 <style>
-	image{width: 100%;height: 100%;}
-	.Bg{position: fixed;left: 0;top: 0;z-index: 99;overflow: hidden; width: 100%;height: 100%;background: rgb(0, 0, 0,0.4);}
-	.Guidance{position: absolute;z-index: 100;width: 690rpx;height: 500rpx;top: -180rpx;left: 30rpx; text-align: center; margin: 0 auto;}
-	
-.Imgs{position: absolute;top: -100rpx;left: 0;width: 100%;height: 100%;}
-.explain{width: 690rpx;margin: 60rpx auto 100rpx;}
-.ExplainTitle{text-align: center;font-size: 36rpx;font-weight: bold;color: #8a0a0a;}
-.ExplainTxt{text-align: left;margin: 20rpx auto;}
-.TxtTitle{font-size: 30rpx;color: #545454;font-weight: bold;margin-top: 30rpx;margin-bottom: 10rpx;}
-.TxtCon{font-size: 26rpx;color: #999;}
-.TxtZ{color: #d20b0b;font-size: 24rpx;margin-top: 10rpx;letter-spacing: 0.5px;}
-.TZ{font-weight: bold;font-size: 26rpx; color: #d20b0b;}
+	image {
+		width: 100%;
+		height: 100%;
+	}
+
+	.Bg {
+		position: fixed;
+		left: 0;
+		top: 0;
+		z-index: 99;
+		overflow: hidden;
+		width: 100%;
+		height: 100%;
+		background: rgb(0, 0, 0, 0.4);
+	}
+
+	.Guidance {
+		position: absolute;
+		z-index: 100;
+		width: 690rpx;
+		height: 500rpx;
+		top: -180rpx;
+		left: 30rpx;
+		text-align: center;
+		margin: 0 auto;
+	}
+
+	.Imgs {
+		position: absolute;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	.explain {
+		width: 690rpx;
+		margin: 60rpx auto 100rpx;
+	}
+
+	.ExplainTitle {
+		text-align: center;
+		font-size: 36rpx;
+		font-weight: bold;
+		color: #8a0a0a;
+	}
+
+	.ExplainTxt {
+		text-align: left;
+		margin: 20rpx auto;
+	}
+
+	.TxtTitle {
+		font-size: 30rpx;
+		color: #545454;
+		font-weight: bold;
+		margin-top: 30rpx;
+		margin-bottom: 10rpx;
+	}
+
+	.TxtCon {
+		font-size: 26rpx;
+		color: #999;
+	}
+
+	.TxtZ {
+		color: #d20b0b;
+		font-size: 24rpx;
+		margin-top: 10rpx;
+		letter-spacing: 0.5px;
+	}
+
+	.TZ {
+		font-weight: bold;
+		font-size: 26rpx;
+		color: #d20b0b;
+	}
 
 	.container {
 		height: 600rpx;
@@ -171,6 +259,7 @@
 		position: relative;
 		top: 100rpx;
 	}
+
 	.tui-container-in {
 		width: 580rpx;
 		height: 530rpx;
@@ -393,12 +482,12 @@
 	}
 
 	.tui-award-3 {
-		left:423rpx;
+		left: 423rpx;
 		top: 55rpx;
 	}
 
 	.tui-award-4 {
-		left:423rpx;
+		left: 423rpx;
 		top: 220rpx;
 	}
 
@@ -461,4 +550,68 @@
 		background-color: #fcf400 !important;
 		box-shadow: 0 4px 0 rgb(240, 208, 12) !important;
 	}
+	/* header*/
+	.tui-header-box {
+		width: 100%;
+		position: fixed;
+		left: 0;
+		top: 0;
+		z-index: 9998;
+		background-color: #FC4034;
+	}
+	
+	.tui-header {
+		width: 100%;
+		font-size: 18px;
+		line-height: 18px;
+		font-weight: 500;
+		height: 44px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	
+	.tui-header-icon {
+		position: fixed;
+		top: 0;
+		left: 10px;
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		height: 44px;
+		transform: translateZ(0);
+		z-index: 99999;
+	}
+	
+	
+	
+	.tui-header-icon .tui-badge {
+		background: #e41f19 !important;
+		position: absolute;
+		right: -4px;
+	}
+	
+	.tui-icon-ml {
+		margin-left: 20rpx;
+	}
+	
+	.tui-icon {
+		border-radius: 16px;
+	}
+	
+	
+	.tui-icon-back {
+		height: 44px !important;
+		width: 44px !important;
+		display: block !important;
+	}
+	
+	.tui-header-icon .tui-icon-more-fill {
+		height: 20px !important;
+		width: 20px !important;
+		padding: 6px !important;
+		display: block !important;
+	}
+	/* header*/
+	
 </style>
