@@ -92,7 +92,7 @@
 				<view class="tui-category-name">文章</view>
 			</view>
 			<!-- <view class="tui-category-item" :data-key="'../voucher/voucher'" @tap="next"> -->
-			<view class="tui-category-item" :data-key="'../task/questionnaire'" @tap="next">
+			<view class="tui-category-item" :data-key="'../task/questionnaire?id=39'" @tap="next">
 				<image :src="'../../static/images/mall/category/1.jpg'" class="tui-category-img" mode="scaleToFill"></image>
 				<view class="tui-category-name">问券</view>
 			</view>

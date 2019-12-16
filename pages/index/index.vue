@@ -676,9 +676,9 @@
 				}else if (index == 2) {
 					this.tabIndex = 2
 				} else if (index == 3) {
-					this.isList = !this.isList
-				} else if (index == 4) {
 					this.drawer = true
+				} else if (index == 4) {
+					this.isList = !this.isList
 				}
 			},
 			closeDrawer: function() {
@@ -705,7 +705,7 @@
 			},
 			detail: function() {
 				uni.navigateTo({
-					url: '../product/show'
+					url: '../product/show?id=25'
 				})
 			}
 		},
