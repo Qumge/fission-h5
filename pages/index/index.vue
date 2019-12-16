@@ -689,7 +689,7 @@
 					this.closeDrawer()
 				} else {
 					if (this.from == 'app') {
-						uni.postMessage({
+						window.postMessage({
 							event: 'backEvent',
 							params: {}
 						});
