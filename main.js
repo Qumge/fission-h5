@@ -10,22 +10,27 @@ let jweixin = require('jweixin-module')
 
 Vue.mixin({
 	onLoad: function(options) {
-		console.log(options.from);
-		// if (options.from == 'app') {
-			console.log('post hidetabs')
+		
+	},
+	onShow: function(){
+		let that = this;
+		console.log(that);
+		console.log(1);
+		if(that._route){
 			window.postMessage({
 				event: 'hideTabs',
 				params: {
-					hide: this.$page.route == "pages/index/index"
+					hide: that._route.meta.pagePath == "pages/index/index"
 				}
 			}, '*')
 			window.parent.postMessage({
 				event: 'hideTabs',
 				params: {
-					hide: this.$page.route == "pages/index/index"
+					hide: that._route.meta.pagePath == "pages/index/index"
 				}
 			}, '*')
-		// }
+		}
+		
 	}
 });
 
