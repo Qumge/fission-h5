@@ -16,7 +16,13 @@ Vue.mixin({
 			window.postMessage({
 				event: 'hideTabs',
 				params: {
-					hide: this.$page.route != "pages/index/index"
+					hide: this.$page.route == "pages/index/index"
+				}
+			}, '*')
+			window.parent.postMessage({
+				event: 'hideTabs',
+				params: {
+					hide: this.$page.route == "pages/index/index"
 				}
 			}, '*')
 		// }
@@ -213,7 +219,13 @@ const tui = {
 	goBack: function(from) {
 		if (from == 'app') {
 			window.postMessage({
-				event: 'backEVent',
+				event: 'backEvent',
+				params: {
+					hide: true
+				}
+			}, '*')
+			window.parent.postMessage({
+				event: 'backEvent',
 				params: {
 					hide: true
 				}
