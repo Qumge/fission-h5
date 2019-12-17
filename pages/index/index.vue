@@ -3,9 +3,9 @@
 		<!--header-->
 		<view class="tui-header-box">
 			<view class="tui-header" :style="{width:width+'px',height:height+'px'}">
-				<view class="tui-back" :style="{marginTop:arrowTop+'px'}" @tap="back">
+				<!-- <view class="tui-back" :style="{marginTop:arrowTop+'px'}" @tap="back">
 					<tui-icon name="arrowleft" color="#000"></tui-icon>
-				</view>
+				</view> -->
 				<view class="tui-searchbox tui-search-mr" :style="{marginTop:inputTop+'px'}" @tap="search">
 					<!-- #ifdef APP-PLUS || MP -->
 					<icon type="search" :size='13' color='#999'></icon>
@@ -16,10 +16,10 @@
 						<tui-icon name="shut" :size='12' color='#fff'></tui-icon>
 					</view>
 				</view>
-				
 				<view class="tui-back" @tap="screen" data-index="4" :style="{marginTop:arrowTop+'px'}">
-					<tui-icon :name="isList?'manage':'listview'" :size="isList?22:18" :bold="isList?false:true" color="#333"></tui-icon>
+					<tui-icon :name="isList?'manage':'listview'" :size="isList?25:23"  :bold="isList?false:true" color="#333"></tui-icon>
 				</view>
+				
 				
 			</view>
 		</view>
@@ -773,12 +773,14 @@
 		margin-left: 8rpx;
 		height: 32px !important;
 		width: 32px !important;
+		line-height: 32px;
 	}
 
 	.tui-searchbox {
 		width: 100%;
 		height: 30px;
-		margin-right: 30rpx;
+		margin-right: 5rpx;
+		margin-left: 15rpx;
 		border-radius: 15px;
 		font-size: 12px;
 		background: #f7f7f7;
