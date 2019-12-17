@@ -213,7 +213,7 @@ const tui = {
 	goBack: function(from) {
 		if (from == 'app') {
 			window.postMessage({
-				event: 'hideTabs',
+				event: 'backEVent',
 				params: {
 					hide: true
 				}
