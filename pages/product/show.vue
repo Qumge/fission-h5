@@ -304,7 +304,7 @@
 			if (options.from) {
 				this.from = options.from;
 				if(options.from == 'app'){
-					window.postMessage({ event: 'hideTabs', params: {}})
+					window.postMessage({ event: 'hideTabs', params: {}}, '*')
 				}
 			}
 			let that = this;

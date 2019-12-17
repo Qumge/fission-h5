@@ -9,8 +9,17 @@ Vue.config.productionTip = false
 let jweixin = require('jweixin-module')
 
 Vue.mixin({
-	onShow: function(options) {
-		
+	onLoad: function(options) {
+		console.log(options.from);
+		if (options.from == 'app') {
+			console.log('post hidetabs')
+			window.postMessage({
+				event: 'hideTabs',
+				params: {
+					hide: this.$page.route != "pages/index/index"
+				}
+			}, '*')
+		}
 	}
 });
 
@@ -22,8 +31,8 @@ const tui = {
 			duration: duration || 2000
 		})
 	},
-	jssdk: function(){
-		return new Promise(function(resolve, reject){
+	jssdk: function() {
+		return new Promise(function(resolve, reject) {
 			if (!uni.getStorageSync('sessionToken')) return;
 			api.getJssdk().then(function(data) {
 				let apiList = [ // 可能需要用到的能力
@@ -52,7 +61,7 @@ const tui = {
 					//jweixin.onMenuShareAppMessage(shareParams);
 				});
 				console.log(data)
-			}).catch(function(e){
+			}).catch(function(e) {
 				console.log(e)
 			})
 		})
@@ -113,13 +122,13 @@ const tui = {
 		}
 		return args;
 	},
-	wechatBowser: function(){
+	wechatBowser: function() {
 		return this.browser('wechat');
 	},
-	browser: function(type){
+	browser: function(type) {
 		var s = false;
 		let ua = navigator.userAgent.toLowerCase();
-		if(type == 'wechat'){
+		if (type == 'wechat') {
 			s = ua.search('micromessenger') > -1
 		}
 		return s;
@@ -131,7 +140,7 @@ const tui = {
 		//uni.setStorageSync('sessionToken', null)
 		if (uni.getStorageSync('sessionToken')) return;
 		//判断是否来自app
-		if(params.session && params.from && params.from == 'app'){
+		if (params.session && params.from && params.from == 'app') {
 			uni.setStorageSync('sessionToken', params.session)
 		}
 		if (!this.wechatBowser()) return;
@@ -148,7 +157,7 @@ const tui = {
 		} else {
 			let appid = Vue.prototype.appid;
 			let uri = encodeURIComponent(link);
-			
+
 			//uri = encodeURIComponent('http://h5.shjietui.com');
 			let authURL =
 				`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${uri}&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`;
@@ -201,13 +210,14 @@ const tui = {
 	webURL: function() {
 		return "https://www.thorui.cn/wx"
 	},
-	goBack: function(from){
+	goBack: function(from) {
 		if (from == 'app') {
-			console.log('postMessage');
 			window.postMessage({
-				event: 'backEvent',
-				params: {}
-			});
+				event: 'hideTabs',
+				params: {
+					hide: true
+				}
+			}, '*')
 		} else {
 			const pages = getCurrentPages();
 			if (pages.length > 1) {

@@ -17,10 +17,10 @@
 					</view>
 				</view>
 				<view class="tui-back" @tap="screen" data-index="4" :style="{marginTop:arrowTop+'px'}">
-					<tui-icon :name="isList?'manage':'listview'" :size="isList?25:23"  :bold="isList?false:true" color="#333"></tui-icon>
+					<tui-icon :name="isList?'manage':'listview'" :size="isList?25:23" :bold="isList?false:true" color="#333"></tui-icon>
 				</view>
-				
-				
+
+
 			</view>
 		</view>
 		<!--header-->
@@ -37,7 +37,7 @@
 					<text>筛选</text>
 					<tui-icon name="screen" :size="12" color="#333" tui-icon-class="tui-ml" :bold="true"></tui-icon>
 				</view>
-				
+
 
 				<!--下拉选择列表--综合-->
 				<view class="tui-dropdownlist" :class="[selectH>0?'tui-dropdownlist-show':'']" :style="{height:selectH+'rpx'}">
@@ -673,7 +673,7 @@
 					this.showDropdownList();
 				} else if (index == 1) {
 					this.tabIndex = 1
-				}else if (index == 2) {
+				} else if (index == 2) {
 					this.tabIndex = 2
 				} else if (index == 3) {
 					this.drawer = true

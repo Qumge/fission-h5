@@ -116,30 +116,7 @@
 		},
 		methods: {
 			back: function() {
-				// this.tui.goBack(this.from);
-				if (this.from == 'app') {
-					console.log('postMessage parent');
-					window.parent.postMessage({
-						event: 'backEvent',
-						params: {},
-						type: 'parent'
-					}, '*');
-					console.log('postMessage');
-					window.postMessage({
-						event: 'backEvent',
-						params: {},
-						type: 'parent'
-					}, '*');
-				} else {
-					const pages = getCurrentPages();
-					if (pages.length > 1) {
-						uni.navigateBack()
-					} else {
-						uni.reLaunch({
-							url: "/pages/index/index"
-						})
-					}
-				}
+				this.tui.goBack(this.from);
 			},
 			shows: function() {
 				console.log(this.ShowGuidance)
