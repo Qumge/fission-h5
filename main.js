@@ -203,6 +203,7 @@ const tui = {
 	},
 	goBack: function(from){
 		if (from == 'app') {
+			console.log('postMessage');
 			window.postMessage({
 				event: 'backEvent',
 				params: {}

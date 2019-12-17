@@ -116,7 +116,23 @@
 		},
 		methods: {
 			back: function() {
-				this.tui.goBack(this.from);
+				// this.tui.goBack(this.from);
+				if (this.from == 'app') {
+					console.log('postMessage');
+					window.parent.postMessage({
+						event: 'backEvent',
+						params: {}
+					});
+				} else {
+					const pages = getCurrentPages();
+					if (pages.length > 1) {
+						uni.navigateBack()
+					} else {
+						uni.reLaunch({
+							url: "/pages/index/index"
+						})
+					}
+				}
 			},
 			shows: function() {
 				console.log(this.ShowGuidance)
