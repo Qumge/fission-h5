@@ -221,13 +221,11 @@ const tui = {
 			window.postMessage({
 				event: 'backEvent',
 				params: {
-					hide: true
 				}
 			}, '*')
 			window.parent.postMessage({
 				event: 'backEvent',
 				params: {
-					hide: true
 				}
 			}, '*')
 		} else {
