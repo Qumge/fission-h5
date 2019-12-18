@@ -10,13 +10,13 @@ let jweixin = require('jweixin-module')
 
 Vue.mixin({
 	onLoad: function(options) {
-		
+		console.log('onLoad111')
 	},
 	onShow: function(){
 		let that = this;
-		console.log(that);
-		console.log(1);
+		console.log(that._route);
 		if(that._route){
+			console.log(that._route.meta.pagePath)
 			window.postMessage({
 				event: 'hideTabs',
 				params: {
