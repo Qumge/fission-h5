@@ -6,7 +6,7 @@
 				<!-- <view class="tui-back" :style="{marginTop:arrowTop+'px'}" @tap="back">
 					<tui-icon name="arrowleft" color="#000"></tui-icon>
 				</view> -->
-				<view class="tui-searchbox tui-search-mr" :style="{marginTop:inputTop+'px'}" @tap="search">
+				<view class="tui-searchbox tui-search-mr" :style="{marginTop:inputTop+'px'}">
 					<!-- #ifdef APP-PLUS || MP -->
 					<icon type="search" :size='13' color='#999'></icon>
 					<!-- #endif -->
@@ -52,63 +52,32 @@
 				<!--下拉选择列表--综合-->
 
 			</view>
-			<view class="tui-screen-bottom">
-				<block v-for="(item,index) in attrArr" :key="index">
-					<view class="tui-bottom-item tui-icon-ml" :class="[item.isActive?'tui-btmItem-active':'',attrIndex==index?'tui-btmItem-tap':'']"
-					 :data-index="index" @tap="btnDropChange">
-						<view class="tui-bottom-text" :class="[attrIndex==index?'tui-active':'']">{{item.isActive?item.selectedName:item.name}}</view>
-						<tui-icon :name="attrIndex==index?'arrowup':'arrowdown'" :size="14" :color="attrIndex==index || item.isActive?'#e41f19':'#444'"
-						 tui-icon-class="tui-ml" v-if="item.list.length>0"></tui-icon>
-					</view>
-				</block>
-			</view>
 		</view>
 		<!--screen-->
 
 		<!--list-->
 		<view class="tui-product-list" :style="{marginTop:px(dropScreenH+18)}">
 			<view class="tui-product-container">
-				<block v-for="(item,index) in productList" :key="index" v-if="(index+1)%2!=0 || isList">
+				<block v-for="(product,index) in products" :key="index" v-if="(index+1)%2!=0 || isList">
 					<!-- <template is="productItem" data="{{item,index:index,isList:isList}}" /> -->
 					<!--商品列表-->
 					<view class="tui-pro-item" :class="[isList?'tui-flex-list':'']" hover-class="hover" :hover-start-time="150" @tap="detail">
-						<image :src="'../../static/images/mall/product/'+item.img+'.jpg'" class="tui-pro-img" :class="[isList?'tui-proimg-list':'']"
+						<image :src="product.default_image" class="tui-pro-img" :class="[isList?'tui-proimg-list':'']"
 						 mode="widthFix" />
 						<view class="tui-pro-content">
-							<view class="tui-pro-tit">{{item.name}}</view>
+							<view class="tui-pro-tit">{{product.name}}</view>
 							<view>
 								<view class="tui-pro-price">
-									<text class="tui-sale-price">￥{{item.sale}}</text>
-									<text class="tui-factory-price">￥{{item.factory}}</text>
+									<text class="tui-sale-price">￥{{product.price}}</text>
 								</view>
-								<view class="tui-pro-pay">{{item.payNum}}人付款</view>
+								<view class="tui-pro-pay">{{product.sale}}人付款</view>
 							</view>
 						</view>
 					</view>
 					<!--商品列表-->
 				</block>
 			</view>
-			<view class="tui-product-container" v-if="!isList">
-				<block v-for="(item,index) in productList" :key="index" v-if="(index+1)%2==0">
-					<!-- <template is="productItem" data="{{item,index:index}}" /> -->
-					<!--商品列表-->
-					<view class="tui-pro-item" :class="[isList?'tui-flex-list':'']" hover-class="hover" :hover-start-time="150" @tap="detail">
-						<image :src="'../../static/images/mall/product/'+item.img+'.jpg'" class="tui-pro-img" :class="[isList?'tui-proimg-list':'']"
-						 mode="widthFix" />
-						<view class="tui-pro-content">
-							<view class="tui-pro-tit">{{item.name}}</view>
-							<view>
-								<view class="tui-pro-price">
-									<text class="tui-sale-price">￥{{item.sale}}</text>
-									<text class="tui-factory-price">￥{{item.factory}}</text>
-								</view>
-								<view class="tui-pro-pay">{{item.payNum}}人付款</view>
-							</view>
-						</view>
-					</view>
-					<!--商品列表-->
-				</block>
-			</view>
+			
 		</view>
 
 		<!--list-->
@@ -290,6 +259,7 @@
 	import tuiLoadmore from "@/components/loadmore/loadmore"
 	import tuiNomore from "@/components/nomore/nomore"
 	import tuiTopDropdown from "@/components/top-dropdown/top-dropdown"
+	import api from "../../api.js"
 	export default {
 		components: {
 			tuiIcon,
@@ -487,7 +457,7 @@
 						selected: false
 					}]
 				}],
-				productList: [{
+				products: [{
 						img: 1,
 						name: "欧莱雅（LOREAL）奇焕光彩粉嫩透亮修颜霜 30ml（欧莱雅彩妆 BB霜 粉BB 遮瑕疵 隔离）",
 						sale: 599,
@@ -567,6 +537,11 @@
 			if (options.from) {
 				this.from = options.from
 			}
+			api.products().then(function(data){
+				this.products = data
+			}).catch(function(){
+				
+			})
 			let obj = {};
 			// #ifdef MP-WEIXIN
 			obj = wx.getMenuButtonBoundingClientRect();
@@ -585,7 +560,7 @@
 					this.arrowTop = obj.top ? (obj.top + (obj.height - 32) / 2) : (res.statusBarHeight + 6);
 					this.searchKey = options.searchKey || "";
 					//略小，避免误差带来的影响
-					this.dropScreenH = this.height * 750 / res.windowWidth + 186;
+					this.dropScreenH = this.height * 750 / res.windowWidth ;
 					this.drawerH = res.windowHeight - uni.upx2px(100) - this.height
 				}
 			})

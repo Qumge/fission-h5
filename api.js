@@ -19,6 +19,20 @@ const api = {
 			});
 		})
 	},
+	categories: function(){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/categories', //仅为示例，并非真实接口地址。
+				method: 'GET',
+				success: (res) => {
+					resolve(res.data)
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
 	wxAuth: function(code) {
 		return new Promise(function(resolve, reject) {
 			uni.request({
@@ -64,6 +78,20 @@ const api = {
 				method: 'GET',
 				success: (res) => {
 					// console.log(res.data);
+					resolve(res.data)
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	products: function() {
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/products', //仅为示例，并非真实接口地址。
+				method: 'GET',
+				success: (res) => {
 					resolve(res.data)
 				},
 				fail: (res) => {
