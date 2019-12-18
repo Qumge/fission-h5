@@ -10,12 +10,10 @@
 					<!-- #ifdef APP-PLUS || MP -->
 					<icon type="search" :size='13' color='#999'></icon>
 					<!-- #endif -->
-					<text class="tui-search-text" v-if="!searchKey">搜索商品名称</text>
-					<view class="tui-search-key" v-if="searchKey">
-						<view class="tui-key-text">{{searchKey}}</view>
-						<tui-icon name="shut" :size='12' color='#fff'></tui-icon>
-					</view>
+					<input confirm-type="search" placeholder="商品名搜索" :focus="true" @confirm="confirmSearch"
+					auto-focus placeholder-class="tui-input-plholder" class="tui-input"  :value="search"/>
 				</view>
+				
 				<view class="tui-back" @tap="screen" data-index="4" :style="{marginTop:arrowTop+'px'}">
 					<tui-icon :name="isList?'manage':'listview'" :size="isList?25:23" :bold="isList?false:true" color="#333"></tui-icon>
 				</view>
@@ -27,7 +25,8 @@
 		<!--screen-->
 		<view class="tui-header-screen" :style="{top:height+'px'}">
 			<view class="tui-screen-top">
-				<view class="tui-top-item tui-icon-ml" :class="[tabIndex==0?'tui-active tui-bold':'']" data-index="0" @tap="screen">
+				<view class="tui-top-item tui-icon-ml" :class="[([0,5,6].indexOf(tabIndex))>=0?'tui-active tui-bold':'']"
+				 data-index="0" @tap="screen">
 					<view>{{selectedName}}</view>
 					<tui-icon :name="selectH>0?'arrowup':'arrowdown'" :size="14" :color="tabIndex==0?'#e41f19':'#444'" tui-icon-class="tui-ml"></tui-icon>
 				</view>
@@ -41,10 +40,10 @@
 
 				<!--下拉选择列表--综合-->
 				<view class="tui-dropdownlist" :class="[selectH>0?'tui-dropdownlist-show':'']" :style="{height:selectH+'rpx'}">
-					<view class="tui-dropdownlist-item tui-icon-middle" :class="[item.selected?'tui-bold':'']" v-for="(item,index) in dropdownList"
-					 :key="index" @tap.stop="dropdownItem" :data-index="index">
+					<view class="tui-dropdownlist-item tui-icon-middle" :class="[item.tabIndex == tabIndex ? 'tui-bold':'']" v-for="(item,index) in dropdownList"
+					 :key="index" @tap.stop="dropdownItem" :data-index="item.tabIndex">
 						<text class="tui-ml tui-middle">{{item.name}}</text>
-						<tui-icon name="check" :size="16" color="#e41f19" :bold="true" v-if="item.selected" tui-icon-class="tui-middle"></tui-icon>
+						<tui-icon name="check" :size="16" color="#e41f19" :bold="true" v-if="item.tabIndex == tabIndex" tui-icon-class="tui-middle"></tui-icon>
 					</view>
 
 				</view>
@@ -61,185 +60,77 @@
 				<block v-for="(product,index) in products" :key="index" v-if="(index+1)%2!=0 || isList">
 					<!-- <template is="productItem" data="{{item,index:index,isList:isList}}" /> -->
 					<!--商品列表-->
-					<view class="tui-pro-item" :class="[isList?'tui-flex-list':'']" hover-class="hover" :hover-start-time="150" @tap="detail">
-						<image :src="product.default_image" class="tui-pro-img" :class="[isList?'tui-proimg-list':'']"
-						 mode="widthFix" />
+					<view class="tui-pro-item" :class="[isList?'tui-flex-list':'']" hover-class="hover" :hover-start-time="150" @tap="detail" :data-id="product.id">
+						<image :src="product.default_image" class="tui-pro-img" :class="[isList?'tui-proimg-list':'']" mode="widthFix" />
 						<view class="tui-pro-content">
 							<view class="tui-pro-tit">{{product.name}}</view>
 							<view>
 								<view class="tui-pro-price">
 									<text class="tui-sale-price">￥{{product.price}}</text>
+
 								</view>
-								<view class="tui-pro-pay">{{product.sale}}人付款</view>
+								<view class="tui-pro-pay">{{product.sale}}人购买</view>
 							</view>
 						</view>
 					</view>
 					<!--商品列表-->
 				</block>
 			</view>
-			
+			<view class="tui-product-container" v-if="!isList">
+				<block v-for="(product,index) in products" :key="index" v-if="(index+1)%2==0">
+					<!-- <template is="productItem" data="{{item,index:index}}" /> -->
+					<!--商品列表-->
+					<view class="tui-pro-item" :class="[isList?'tui-flex-list':'']" hover-class="hover" :hover-start-time="150" @tap="detail" :data-id="product.id">
+						<image :src="product.default_image" class="tui-pro-img" :class="[isList?'tui-proimg-list':'']" mode="widthFix" />
+						<view class="tui-pro-content">
+							<view class="tui-pro-tit">{{product.name}}</view>
+							<view>
+								<view class="tui-pro-price">
+									<text class="tui-sale-price">￥{{product.price}}</text>
+								</view>
+								<view class="tui-pro-pay">{{product.sale}}人购买</view>
+							</view>
+						</view>
+					</view>
+					<!--商品列表-->
+				</block>
+			</view>
 		</view>
 
 		<!--list-->
-
-		<!--顶部下拉筛选弹层 属性-->
-		<tui-top-dropdown bgcolor="#f7f7f7" :show="dropScreenShow" :paddingbtm="110" :translatey="dropScreenH" @close="btnCloseDrop">
-			<scroll-view class="tui-scroll-box" scroll-y :scroll-top="scrollTop">
-				<view class="tui-seizeaseat-20"></view>
-				<view class="tui-drop-item tui-icon-middle" :class="[item.selected?'tui-bold':'']" v-for="(item,index) in attrData"
-				 :key="index" @tap.stop="btnSelected" :data-index="index">
-					<tui-icon name="check" :size="16" color="#e41f19" :bold="true" v-if="item.selected" tui-icon-class="tui-middle"></tui-icon>
-					<text class="tui-ml tui-middle">{{item.name}}</text>
-				</view>
-				<view class="tui-seizeaseat-30"></view>
-			</scroll-view>
-			<view class="tui-drop-btnbox">
-				<view class="tui-drop-btn tui-btn-white" hover-class="tui-white-hover" :hover-stay-time="150" @tap="reset">重置</view>
-				<view class="tui-drop-btn tui-btn-red" hover-class="tui-red-hover" :hover-stay-time="150" @tap="btnSure">确定</view>
-			</view>
-		</tui-top-dropdown>
-		<!---顶部下拉筛选弹层 属性-->
-
-
 		<!--左抽屉弹层 筛选 -->
 		<tui-drawer mode="right" :visible="drawer" @close="closeDrawer">
 			<view class="tui-drawer-box" :style="{paddingTop:height+'px'}">
 				<scroll-view class="tui-drawer-scroll" scroll-y :style="{height:drawerH+'px'}">
 					<view class="tui-drawer-title">
-						<text class="tui-title-bold">价格区间</text>
-						<view class="tui-attr-right">
-							<tui-icon name="position-fill" color="#e41f19" :size="14" class="tui-location"></tui-icon>
-							<text>北京朝阳区三环到四环之间</text>
-						</view>
+						<text class="tui-title-bold">大分类</text>
 					</view>
-					<view class="tui-drawer-content">
-						<input placeholder-class="tui-phcolor" class="tui-input" placeholder="最低价" maxlength="11" type='number' />
-						<tui-icon name="reduce" color="#333" :size="14"></tui-icon>
-						<input placeholder-class="tui-phcolor" class="tui-input" placeholder="最高价" maxlength="11" type='number' />
+					<view class="tui-drawer-content tui-flex-attr">
+						<block v-for="(category, index) in categories1" :key="index">
+							<view class="tui-attr-item" :class="category1 == category.id ? 'tui-btmItem-active' : ''" :data-id="category.id"
+							 @tap="select1">
+								<view class="tui-attr-ellipsis">{{category.name}}</view>
+							</view>
+						</block>
 					</view>
 
 					<view class="tui-drawer-title">
-						<text class="tui-title-bold">全部分类</text>
-						<view class="tui-all-box tui-icon-ml">
-							<view class="tui-attr-right">全部</view>
-							<tui-icon name="arrowdown" :size="14" color="#444" tui-icon-class="tui-ml"></tui-icon>
-						</view>
+						<text class="tui-title-bold">小分类</text>
 					</view>
 					<view class="tui-drawer-content tui-flex-attr">
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">男装</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">女装</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">运动服饰</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">户外鞋服</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">文化</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">服饰配件</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">流行男鞋</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">艺术</view>
-						</view>
-					</view>
-
-					<view class="tui-drawer-title">
-						<text class="tui-title-bold">品牌</text>
-						<view class="tui-all-box tui-icon-ml">
-							<view class="tui-attr-right tui-active ">花花公子，七匹狼（SEPTWOLVES）</view>
-							<tui-icon name="arrowdown" :size="14" color="#444" tui-icon-class="tui-ml"></tui-icon>
-						</view>
-					</view>
-					<view class="tui-drawer-content tui-flex-attr">
-						<view class="tui-attr-item tui-btmItem-active">
-							<view class="tui-attr-ellipsis">花花公子</view>
-						</view>
-						<view class="tui-attr-item tui-btmItem-active">
-							<view class="tui-attr-ellipsis">七匹狼（SEPTWOLVES）</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">吉普</view>
-						</view>
-					</view>
-
-					<view class="tui-drawer-title">
-						<text class="tui-title-bold">尺码</text>
-						<view class="tui-all-box tui-icon-ml">
-							<view class="tui-attr-right">全部</view>
-							<tui-icon name="arrowup" :size="14" color="#444" tui-icon-class="tui-ml"></tui-icon>
-						</view>
-					</view>
-					<view class="tui-drawer-content tui-flex-attr">
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">27</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">28</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">29</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">30</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">31</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">32</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">33</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">34</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">35</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">36</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">37</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">38</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">39</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">40</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">41</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">42</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">43</view>
-						</view>
-						<view class="tui-attr-item">
-							<view class="tui-attr-ellipsis">44</view>
-						</view>
+						<block v-for="(category, index) in categories2" :key="index">
+							<view class="tui-attr-item" :class="category2 == category.id ? 'tui-btmItem-active' : ''" :data-id="category.id"
+							 @tap="select2">
+								<view class="tui-attr-ellipsis">{{category.name}}</view>
+							</view>
+						</block>
 					</view>
 					<view class="tui-safearea-bottom"></view>
 				</scroll-view>
 				<view class="tui-attr-btnbox">
 					<view class="tui-attr-safearea">
-						<view class="tui-drawer-btn tui-drawerbtn-black" hover-class="tui-white-hover" :hover-stay-time="150">重置</view>
-						<view class="tui-drawer-btn tui-drawerbtn-primary" hover-class="tui-red-hover" :hover-stay-time="150" @tap="closeDrawer">确定(80万+件商品)</view>
+						<view class="tui-drawer-btn tui-drawerbtn-black" hover-class="tui-white-hover" :hover-stay-time="150" @tap="reset">重置</view>
+						<view class="tui-drawer-btn tui-drawerbtn-primary" hover-class="tui-red-hover" :hover-stay-time="150" @tap="closeDrawer">确定</view>
 					</view>
 				</view>
 			</view>
@@ -289,259 +180,46 @@
 				selectH: 0,
 				dropdownList: [{
 					name: "综合",
-					selected: true
+					tabIndex: 0
 				}, {
 					name: "价格升序",
-					selected: false,
+					tabIndex: 5,
 				}, {
 					name: "价格降序",
-					selected: false,
+					tabIndex: 6,
 				}],
-				attrArr: [{
-					name: "大类",
-					selectedName: "大类",
-					isActive: false,
-					list: [{
-						name: "trendsetter",
-						selected: false
-					}, {
-						name: "维肯（Viken）",
-						selected: false
-					}, {
-						name: "AORO",
-						selected: false
-					}, {
-						name: "苏发",
-						selected: false
-					}, {
-						name: "飞花令（FHL）",
-						selected: false
-					}, {
-						name: "叶梦丝",
-						selected: false
-					}, {
-						name: "ITZOOM",
-						selected: false
-					}, {
-						name: "亿魅",
-						selected: false
-					}, {
-						name: "LEIKS",
-						selected: false
-					}, {
-						name: "雷克士",
-						selected: false
-					}, {
-						name: "蕊芬妮",
-						selected: false
-					}, {
-						name: "辉宏达",
-						selected: false
-					}, {
-						name: "英西达",
-						selected: false
-					}, {
-						name: "戴为",
-						selected: false
-					}, {
-						name: "魔风者",
-						selected: false
-					}, {
-						name: "即满",
-						selected: false
-					}, {
-						name: "北比",
-						selected: false
-					}, {
-						name: "娱浪",
-						selected: false
-					}, {
-						name: "搞怪猪",
-						selected: false
-					}]
-				}, {
-					name: "小类",
-					selectedName: "类型",
-					isActive: false,
-					list: [{
-						name: "线充套装",
-						selected: false
-					}, {
-						name: "单条装",
-						selected: false
-					}, {
-						name: "车载充电器",
-						selected: false
-					}, {
-						name: "PD快充",
-						selected: false
-					}, {
-						name: "数据线转换器",
-						selected: false
-					}, {
-						name: "多条装",
-						selected: false
-					}, {
-						name: "充电插头",
-						selected: false
-					}, {
-						name: "无线充电器",
-						selected: false
-					}, {
-						name: "座式充电器",
-						selected: false
-					}, {
-						name: "万能充",
-						selected: false
-					}, {
-						name: "转换器/转接线",
-						selected: false
-					}, {
-						name: "MFI苹果认证",
-						selected: false
-					}, {
-						name: "转换器",
-						selected: false
-					}, {
-						name: "苹果认证",
-						selected: false
-					}]
-				}, {
-					name: "适用手机",
-					selectedName: "适用手机",
-					isActive: false,
-					list: [{
-						name: "通用",
-						selected: false
-					}, {
-						name: "vivo",
-						selected: false
-					}, {
-						name: "OPPO",
-						selected: false
-					}, {
-						name: "魅族",
-						selected: false
-					}, {
-						name: "苹果",
-						selected: false
-					}, {
-						name: "华为",
-						selected: false
-					}, {
-						name: "三星",
-						selected: false
-					}, {
-						name: "荣耀",
-						selected: false
-					}, {
-						name: "诺基亚5",
-						selected: false
-					}, {
-						name: "荣耀4",
-						selected: false
-					}, {
-						name: "诺基",
-						selected: false
-					}, {
-						name: "荣耀",
-						selected: false
-					}, {
-						name: "诺基亚2",
-						selected: false
-					}, {
-						name: "荣耀2",
-						selected: false
-					}, {
-						name: "诺基",
-						selected: false
-					}]
-				}],
-				products: [{
-						img: 1,
-						name: "欧莱雅（LOREAL）奇焕光彩粉嫩透亮修颜霜 30ml（欧莱雅彩妆 BB霜 粉BB 遮瑕疵 隔离）",
-						sale: 599,
-						factory: 899,
-						payNum: 2342
-					},
-					{
-						img: 2,
-						name: "德国DMK进口牛奶  欧德堡（Oldenburger）超高温处理全脂纯牛奶1L*12盒",
-						sale: 29,
-						factory: 69,
-						payNum: 999
-					},
-					{
-						img: 3,
-						name: "【第2支1元】柔色尽情丝柔口红唇膏女士不易掉色保湿滋润防水 珊瑚红",
-						sale: 299,
-						factory: 699,
-						payNum: 666
-					},
-					{
-						img: 4,
-						name: "百雀羚套装女补水保湿护肤品",
-						sale: 1599,
-						factory: 2899,
-						payNum: 236
-					},
-					{
-						img: 5,
-						name: "百草味 肉干肉脯 休闲零食 靖江精制猪肉脯200g/袋",
-						sale: 599,
-						factory: 899,
-						payNum: 2399
-					},
-					{
-						img: 6,
-						name: "短袖睡衣女夏季薄款休闲家居服短裤套装女可爱韩版清新学生两件套 短袖粉色长颈鹿 M码75-95斤",
-						sale: 599,
-						factory: 899,
-						payNum: 2399
-					},
-					{
-						img: 1,
-						name: "欧莱雅（LOREAL）奇焕光彩粉嫩透亮修颜霜",
-						sale: 599,
-						factory: 899,
-						payNum: 2342
-					},
-					{
-						img: 2,
-						name: "德国DMK进口牛奶",
-						sale: 29,
-						factory: 69,
-						payNum: 999
-					},
-					{
-						img: 3,
-						name: "【第2支1元】柔色尽情丝柔口红唇膏女士不易掉色保湿滋润防水 珊瑚红",
-						sale: 299,
-						factory: 699,
-						payNum: 666
-					},
-					{
-						img: 4,
-						name: "百雀羚套装女补水保湿护肤品",
-						sale: 1599,
-						factory: 2899,
-						payNum: 236
-					}
+				categories1: [
+
 				],
+				categories2: [
+
+				],
+				category1: '',
+				category2: '',
+				sorts: {
+					0: '',
+					1: 'sale desc',
+					2: 'created_at desc',
+					3: '',
+					4: '',
+					5: 'price asc',
+					6: 'price desc'
+				},
+				search: '',
+				products: [],
 				pageIndex: 1,
 				loadding: false,
-				pullUpOn: true
+				pullUpOn: true,
+				page: 1
 			}
 		},
 		onLoad: function(options) {
+			let that = this;
 			if (options.from) {
 				this.from = options.from
 			}
-			api.products().then(function(data){
-				this.products = data
-			}).catch(function(){
-				
-			})
+
+			this.getData(options);
 			let obj = {};
 			// #ifdef MP-WEIXIN
 			obj = wx.getMenuButtonBoundingClientRect();
@@ -560,12 +238,45 @@
 					this.arrowTop = obj.top ? (obj.top + (obj.height - 32) / 2) : (res.statusBarHeight + 6);
 					this.searchKey = options.searchKey || "";
 					//略小，避免误差带来的影响
-					this.dropScreenH = this.height * 750 / res.windowWidth ;
+					this.dropScreenH = this.height * 750 / res.windowWidth;
 					this.drawerH = res.windowHeight - uni.upx2px(100) - this.height
 				}
 			})
 		},
 		methods: {
+			confirmSearch: function(e){
+				this.search = e.detail.value;
+				this.getData(e);
+			},
+			getData: function(options) {
+				let that = this;
+				this.page = 1;
+				api.categories().then(function(data) {
+					that.categories1 = data
+				}).catch(function() {
+
+				})
+				let selectCategory = this.category1
+				if (this.category2) {
+					selectCategory = this.category2
+				}
+				api.products(selectCategory, this.search, this.sorts[this.tabIndex], this.page).then(function(data) {
+					that.products = data
+				}).catch(function() {
+
+				})
+			},
+			select1: function(e) {
+				this.category2 = null
+				this.category1 = e.currentTarget.dataset.id;
+				let category = this.categories1.find(category => category.id == this.category1)
+				if (category) {
+					this.categories2 = category.children
+				}
+			},
+			select2: function(e) {
+				this.category2 = e.currentTarget.dataset.id;
+			},
 			px(num) {
 				return uni.upx2px(num) + "px"
 			},
@@ -590,11 +301,9 @@
 				this.$set(this.attrData[index], "selected", !this.attrData[index].selected)
 			},
 			reset() {
-				let arr = this.attrData;
-				for (let item of arr) {
-					item.selected = false;
-				}
-				this.attrData = arr
+				this.category1 = null
+				this.category2 = null
+				this.categories2 = []
 			},
 			btnCloseDrop() {
 				this.scrollTop = 1;
@@ -630,17 +339,12 @@
 			},
 			dropdownItem: function(e) {
 				let index = e.currentTarget.dataset.index;
-				let arr = this.dropdownList;
-				for (let i = 0; i < arr.length; i++) {
-					if (i === index) {
-						arr[i].selected = true;
-					} else {
-						arr[i].selected = false;
-					}
-				}
-				this.dropdownList = arr;
-				this.selectedName = index == 0 ? '综合' : '价格';
-				this.selectH = 0
+				console.log(index);
+				let selectDropDown = this.dropdownList.find(element => element.tabIndex == index)
+				this.selectedName = selectDropDown.name;
+				this.tabIndex = selectDropDown.tabIndex;
+				this.selectH = 0;
+				this.getData(e);
 			},
 			screen: function(e) {
 				let index = e.currentTarget.dataset.index;
@@ -648,16 +352,19 @@
 					this.showDropdownList();
 				} else if (index == 1) {
 					this.tabIndex = 1
+					this.getData(e)
 				} else if (index == 2) {
 					this.tabIndex = 2
+					this.getData(e)
 				} else if (index == 3) {
 					this.drawer = true
 				} else if (index == 4) {
 					this.isList = !this.isList
 				}
 			},
-			closeDrawer: function() {
+			closeDrawer: function(e) {
 				this.drawer = false
+				this.getData(e)
 			},
 			back: function() {
 				if (this.drawer) {
@@ -667,20 +374,25 @@
 						window.postMessage({
 							event: 'backEvent',
 							params: {}
-						});
+						}, '*');
+						window.parent.postMessage({
+							event: 'backEvent',
+							params: {}
+						}, '*');
 					} else {
 						uni.navigateBack()
 					}
 				}
 			},
-			search: function() {
+			// search: function() {
+			// 	uni.navigateTo({
+			// 		url: '../news-search/news-search'
+			// 	})
+			// },
+			detail: function(e) {
+				console.log(e);
 				uni.navigateTo({
-					url: '../news-search/news-search'
-				})
-			},
-			detail: function() {
-				uni.navigateTo({
-					url: '../product/show?id=25'
+					url: '../product/show?id=' + e.currentTarget.dataset.id
 				})
 			}
 		},
@@ -700,13 +412,17 @@
 				this.loadding = false;
 				this.pullUpOn = false
 			} else {
-				let loadData = JSON.parse(JSON.stringify(this.productList));
-				loadData = loadData.splice(0, 10);
-				if (this.pageIndex == 1) {
-					loadData = loadData.reverse();
+				let that = this;
+				this.page = this.page + 1;
+				let selectCategory = this.category1
+				if (this.category2) {
+					selectCategory = this.category2
 				}
-				this.productList = this.productList.concat(loadData);
-				this.pageIndex = this.pageIndex + 1;
+				api.products(selectCategory, this.search, this.sorts[this.tabIndex], this.page).then(function(data) {
+					that.products = that.products.concat(data)
+				}).catch(function() {
+				
+				})
 				this.loadding = false
 			}
 		}
@@ -1121,7 +837,7 @@
 		border: 0;
 		height: 64rpx;
 		border-radius: 32rpx;
-		width: 45%;
+		width: 100%;
 		background: #f7f7f7;
 		text-align: center;
 		font-size: 24rpx;

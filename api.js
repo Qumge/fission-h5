@@ -19,7 +19,7 @@ const api = {
 			});
 		})
 	},
-	categories: function(){
+	categories: function() {
 		return new Promise(function(resolve, reject) {
 			uni.request({
 				url: Vue.prototype.apiUrl + '/v1/users/categories', //仅为示例，并非真实接口地址。
@@ -86,11 +86,31 @@ const api = {
 			});
 		})
 	},
-	products: function() {
+	categories: function() {
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/categories', //仅为示例，并非真实接口地址。
+				method: 'GET',
+				success: (res) => {
+					resolve(res.data)
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	products: function(category_id, search, sort, page) {
 		return new Promise(function(resolve, reject) {
 			uni.request({
 				url: Vue.prototype.apiUrl + '/v1/users/products', //仅为示例，并非真实接口地址。
 				method: 'GET',
+				data: {
+					category_id: category_id,
+					sort: sort,
+					search: search,
+					page: page
+				},
 				success: (res) => {
 					resolve(res.data)
 				},
