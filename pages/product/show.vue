@@ -317,24 +317,46 @@
 				that.norm = data.norms[0];
 				if (!that.tui.wechatBowser()) return;
 				if (!that.product.task_id) return;
+				//查看
+				console.log(that.product.task_id);
+				api.view(that.product.task_id, options.token).then(function(data){
+					console.log(data);
+				}).catch(function(){
+					
+				})
 				api.fission(that.product.task_id, options.token).then(function(fission_log) {
 					console.log(fission_log);
 					that.tui.jssdk().then(function(jweixin) {
-						jweixin.onMenuShareAppMessage({
-							title: that.product.name, // 分享标题
-							desc: '分享链接赚金币,提现赢大奖', // 分享描述
-							link: (location.origin + location.pathname + '?id=' + that.product.id + '&token=' + fission_log.token), // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-							imgUrl: that.product.images[0].image_path, // 分享图标
-							type: '', // 分享类型,music、video或link，不填默认为link
-							dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-							success: function() {
-								// 用户点击了分享后执行的回调函数
-								console.log('share')
-								api.share(fission_log.token).then(function(data) {
-									console.log(data);
-								})
-							}
-						});
+						let image_path = ''
+						if(fission_log.task.image){
+							image_path = fission_log.task.image.image_path
+						}
+						jweixin.updateAppMessageShareData({ 
+						    title: that.product.name, // 分享标题
+						    desc: '分享链接赚金币,提现赢大奖', // 分享描述
+						    link: (location.origin + location.pathname + '?id=' + that.product.id + '&token=' + fission_log.token), // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致// 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+						    imgUrl: image_path, // 分享图标
+						    success: function () {
+						      // 设置成功
+							  console.log('updateAppMessageShareData');
+						    }
+						  })
+						// jweixin.onMenuShareAppMessage({
+							
+						// 	title: that.product.name, // 分享标题
+						// 	desc: '分享链接赚金币,提现赢大奖', // 分享描述
+						// 	link: (location.origin + location.pathname + '?id=' + that.product.id + '&token=' + fission_log.token), // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+						// 	imgUrl: that.product.images[0].image_path, // 分享图标
+						// 	type: '', // 分享类型,music、video或link，不填默认为link
+						// 	dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+						// 	success: function() {
+						// 		// 用户点击了分享后执行的回调函数
+						// 		console.log('share')
+						// 		api.share(fission_log.token).then(function(data) {
+						// 			console.log(data);
+						// 		})
+						// 	}
+						// });
 					}).catch(function(e) {
 						console.log(e);
 					})
