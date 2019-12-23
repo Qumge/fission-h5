@@ -24,12 +24,12 @@
 					<tui-list-cell style="background: #eaeaea;margin-top: 30rpx;" :hover="false" :lineLeft="false">
 						<view class="tui-goods-title">
 							<image src="/static/images/basic/color.png" mode="widthFix" style="width: 40rpx;height: 40rpx;margin-right: 10rpx; "></image>
-							第一家店商品信息
+							第{{index+1}}家店商品信息
 						</view>
 					</tui-list-cell>
 					<tui-list-cell :hover="false" padding="0">
 						<view class="tui-goods-item">
-							<image :src="`/static/images/mall/product/${index+3}.jpg`" class="tui-goods-img"></image>
+							<image :src="`/static/images/mall/product/${index+2}.jpg`" class="tui-goods-img"></image>
 							<view class="tui-goods-center">
 								<view class="tui-goods-name">欧莱雅（LOREAL）奇焕光彩粉嫩透亮修颜霜 30ml（欧莱雅彩妆 BB霜 粉BB 遮瑕疵 隔离）</view>
 								<view class="tui-goods-attr">黑色，50ml</view>

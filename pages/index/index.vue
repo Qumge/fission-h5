@@ -260,7 +260,7 @@
 				if (this.category2) {
 					selectCategory = this.category2
 				}
-				api.products(selectCategory, this.search, this.sorts[this.tabIndex], this.page).then(function(data) {
+				api.products(selectCategory, this.search, this.sorts[this.tabIndex], this.page, null).then(function(data) {
 					that.products = data
 				}).catch(function() {
 

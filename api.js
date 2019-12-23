@@ -1,6 +1,48 @@
 import Vue from 'vue'
 import App from './App'
 const api = {
+	cart:function(id,number, reset){
+		// return new Promise(function(resolve, reject) {
+			// uni.setStorageSync('cart', null)
+			//查
+			var norms = uni.getStorageSync('cart')
+			// console.log(norms);
+			if(norms){
+				var flag = true
+				norms.findIndex(function(norm, index, arr){
+					if(norm.id == id){
+						// console.log(1);
+						// console.log(norms[index].number)
+						// console.log(number)
+						if(reset){
+							norms[index] = {id: id, number: number}
+						}else{
+							norms[index] = {id: id, number: norms[index].number + number}
+						}
+						
+						console.log(norms)
+						flag = false
+					}
+				})
+				if(flag){
+					norms.push({id: id, number: number})
+				}
+			}else{
+				norms = [{id: id, number: number}]
+			}
+			// 存
+			uni.setStorage({
+				key:'cart',
+				data: norms,
+				success(yes) {
+					console.log(yes)
+				},
+				fail(no) {
+					console.log(no)
+				}
+			})
+		// })
+	},
 	//问卷
 	task_questionnaiire: function(id) {
 		return new Promise(function(resolve, reject) {
@@ -150,6 +192,24 @@ const api = {
 			uni.request({
 				url: Vue.prototype.apiUrl + '/v1/users/products/' + id, //仅为示例，并非真实接口地址。
 				method: 'GET',
+				success: (res) => {
+					resolve(res.data)
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	norms: function(ids, page) {
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/products/norms', //仅为示例，并非真实接口地址。
+				method: 'GET',
+				data: {
+					ids: ids,
+					page: page
+				},
 				success: (res) => {
 					resolve(res.data)
 				},

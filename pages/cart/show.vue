@@ -9,39 +9,40 @@
 		</view>
 		<!-- #endif -->
 		<!-- <form @submit="formSubmit" @reset="formReset"> -->
-		<view class="tui-cart-cell  tui-mtop" v-for="(item,index) in dataList" :key="index">
-			<checkbox-group @change="CheckboxChange" :name='String(item.id)'>
-				<view class="tui-activity" v-if="index%2==0">
+		<view class="tui-cart-cell  tui-mtop" v-for="(item,index) in productCart" :key="index">
+			<checkbox-group @change="CheckboxChange">
+				<!-- <view class="tui-activity" v-if="index%2==0">
 					<view class="tui-bold">满3件享受优惠</view>
 					<view class="tui-buy">去凑单<tui-icon name="arrowright" :size="18" color="#333"></tui-icon>
 					</view>
-				</view>
-				<tui-swipe-action :actions="actions" @click="handlerButton" :params="item">
+				</view> -->
+				<!-- <tui-swipe-action :actions="actions" @click="handlerButton" :params="item"> -->
+				<tui-swipe-action >
 					<template v-slot:content>
 						<view class="tui-goods-item">
 							<label class="tui-checkbox">
 								<checkbox :value="String(item.id)" :checked="checked" color="#fff"></checkbox>
 							</label>
-							<image :src="'/static/images/mall/product/'+(index%2==0?'1.jpg':'4.jpg')" class="tui-goods-img" />
+							<image :src="item.product.default_image" class="tui-goods-img" />
 							<view class="tui-goods-info">
 								<view class="tui-goods-title">
-									{{index%2==0?"欧莱雅（LOREAL）奇焕光彩粉嫩透亮修颜霜彩粉嫩透亮修颜霜透亮修颜霜透亮修颜霜":"百雀羚套装女补水保湿护肤品"}}
+									{{item.product.name}}
 								</view>
 								<view class="tui-goods-model">
-									<view class="tui-model-text">{{index%2==0?"440ml;10件;套装":"500ml;2支"}}</view>
-									<tui-icon name="arrowdown" :size="16" color="#333"></tui-icon>
+									<view class="tui-model-text">{{item.spec_attr_names}}</view>
+									<!-- <tui-icon name="arrowdown" :size="16" color="#333"></tui-icon> -->
 								</view>
 								<view class="tui-price-box">
-									<view class="tui-goods-price">￥500</view>
-									<view class="tui-scale">
-										<tui-numberbox :value="item.buyNum" :height="40" :width="74" :min="1" :index="index" @change="changeNum"></tui-numberbox>
+									<view class="tui-goods-price">￥{{item.product.price*norms.find(function(norm){return norm.id == item.id}).number}}</view>
+									<view class="tui-scale"> 
+										<tui-numberbox :value="norms.find(function(norm){return norm.id == item.id}).number" :height="40" :width="74" :min="1" :index="item.id" @change="changeNum"></tui-numberbox>
 									</view>
 								</view>
 							</view>
 						</view>
 					</template>
 				</tui-swipe-action>
-				<view class="tui-sub-info" v-if="index%2==0">赠品：柔色尽情丝柔口红唇膏1支柔色尽情丝柔口红唇膏1支</view>
+				<!-- <view class="tui-sub-info" v-if="index%2==0">赠品：柔色尽情丝柔口红唇膏1支柔色尽情丝柔口红唇膏1支</view> -->
 			</checkbox-group>
 		</view>
 
@@ -155,6 +156,7 @@
 	import tuiIcon from "@/components/icon/icon"
 	import tuiDivider from "@/components/divider/divider"
 	import tuiLoadmore from "@/components/loadmore/loadmore"
+	import api from "../../api.js"
 	export default {
 		components: {
 			tuiSwipeAction,
@@ -166,15 +168,13 @@
 		},
 		data() {
 			return {
+				normsnumber:1,
+				cartNumber:1,
+				productCart:[],
+				TotalPrice:null,
 				checkeds:false,
 				checked:false,
-				dataList: [{
-					id: 1,
-					buyNum:2
-				}, {
-					id: 2,
-					buyNum:1
-				}],
+				norms: [],
 				actions: [{
 						name: '收藏',
 						width: 64,
@@ -284,28 +284,67 @@
 						payNum: 236
 					}
 				],
-				pageIndex: 1,
+				page: 1,
 				loadding: false,
 				pullUpOn: true
 			}
 		},
+		onLoad() {
+			let that = this;
+			//查
+			var norms = uni.getStorageSync('cart')
+			console.log(norms);
+			if(norms){
+				this.norms = norms;
+				let ids = norms.map(function(norm){
+					return norm.id
+				})
+				api.norms(JSON.stringify(ids), this.page).then(function(data) {
+					console.log(data)
+					that.productCart = data
+				});
+			}
+			
+			
+		},
 		methods: {
 			CheckboxChange:function(e){
-				console.log(e.detail.value)
+				let that = this;
+				let detail = e.detail.value
+				console.log(detail)
 				
+				var norms = uni.getStorageSync('cart')
+				
+				console.log(norms)
+				
+			
 			},
 			_checked:function(e){
 				console.log(e)
 				this.checked = !this.checked
 			},
 			changeNum: function(e) {
-				this.dataList[e.index].buyNum=e.value
+				this.norms.find(function(norm){
+					console.log(norm.id)
+					return norm.id == e.index
+				}).number = e.value
+					
+				if(e.index!="" && e.value!=""){
+					api.cart(e.index,e.value, true)
+				}
+				else{
+					uni.showToast({
+						icon:'none',
+						title:'不能为空',
+					})
+					console.log("不能为空")
+				}
 			},
-			handlerButton: function(e) {
-				let index = e.index;
-				let item = e.item;
-				this.tui.toast(`商品id：${item.id}，按钮index：${index}`);
-			},
+			// handlerButton: function(e) {
+			// 	let index = e.index;
+			// 	let item = e.item;
+			// 	this.tui.toast(`商品id：${item.id}，按钮index：${index}`);
+			// },
 			editGoods: function() {
 				
 				this.isEdit = !this.isEdit;
@@ -367,8 +406,11 @@
 	}
 </script>
 
-
+<style scoped>
+	.ui-swipeout-item{transform:translate(0px, 0px);}
+</style>
 <style>
+	
 	.container {
 		padding-bottom: 120rpx;
 	}
@@ -447,8 +489,8 @@
 	}
 	/* #endif */
 	.tui-goods-img {
-		width: 220rpx;
-		height: 220rpx !important;
+		width: 180rpx;
+		height: 180rpx !important;
 		border-radius: 12rpx;
 		flex-shrink: 0;
 		display: block;

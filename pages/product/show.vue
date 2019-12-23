@@ -37,7 +37,7 @@
 					<view class="tui-pro-pricebox ">
 						<view class="tui-pro-price">
 							<text class="tui-price">￥{{product.price}}起</text>
-							<tui-tag size="small" :plain="true" type="high-green" shape="circle">购买返10金币</tui-tag>
+							<tui-tag size="small" :plain="true" type="high-green" shape="circle">购买返{{product.coin}}金币</tui-tag>
 						</view>
 					</view>
 					<button open-type="share" v-if="shareShow" class="tui-share-btn tui-share-position" @tap="_showPop">
@@ -104,18 +104,19 @@
 					<view class="FlexComPany">
 						<view class="ComPany">
 							<view class="ComPanyImg">
-								<image src="/static/images/basic/badge.png" mode=""></image>
+								<image src="/static/images/basic/badge.png" mode=""></image>	
+								<!-- <image :src="product.company.image" mode=""></image> -->
 							</view>
 							<view>
 								<view class="ComPanyName">
-									锐步官方旗舰店
+									{{product.company.name}}
 								</view>
-								<view class="ComPanyTi">
+								<!-- <view class="ComPanyTi">
 									在售商品100件
-								</view>
+								</view> -->
 							</view>
 						</view>
-						<view class="ComPanyGZ" @tap="_ComPany">
+						<view class="ComPanyGZ" :data-id="product.company.id" @tap="_ComPany">
 							进店逛逛<text class="h" style="margin-left: 10rpx;">></text>
 						</view>
 					</view>
@@ -128,10 +129,10 @@
 				</view>
 			</view>
 			<view class="tui-product-img">
-				<view class="">
+				<view class="" style="padding: 20rpx 0;background: #fff;">
 					<rich-text :nodes="product.desc"></rich-text>
 				</view>
-				<image :src="'https://www.thorui.cn/img/detail/'+(index+1)+'.jpg'" v-for="(img,index) in 20" :key="index" mode="widthFix"></image>
+				<!-- <image :src="'https://www.thorui.cn/img/detail/'+(index+1)+'.jpg'" v-for="(img,index) in 20" :key="index" mode="widthFix"></image> -->
 			</view>
 			<tui-nomore text="已经到最底了" :visible="true" bgcolor="#f7f7f7"></tui-nomore>
 			<view class="tui-safearea-bottom"></view>
@@ -151,7 +152,7 @@
 				<view class="tui-operation-item" @tap="_cart" hover-class="opcity" :hover-stay-time="150">
 					<tui-icon name="cart" :size="22" color='#333'></tui-icon>
 					<view class="tui-operation-text tui-scale-small">购物车</view>
-					<tui-badge type="danger" size="small">9</tui-badge>
+					<tui-badge type="danger" size="small">{{cart}}</tui-badge>
 				</view>
 			</view>
 			<view class="tui-operation-right tui-right-flex tui-col-7 tui-btnbox-4">
@@ -173,18 +174,19 @@
 				<view class="tui-product-box tui-padding">
 					<image src="https://www.thorui.cn/img/product/11.jpg" class="tui-popup-img"></image>
 					<view class="tui-popup-price">
-						<view class="tui-amount tui-bold">￥{{norm.price}}</view>
+						<view class="tui-amount tui-bold">￥<text v-show="norm.price">{{norm.price*value}}</text></view>
 						<view class="tui-number">编号:{{product.no}}</view>
 					</view>
 				</view>
 				<scroll-view scroll-y class="tui-popup-scroll">
 
 					<view class="tui-scrollview-box">
-						<block v-for="(spec) in product.specs">
+						<block v-for="(spec,index) in product.specs">
 							<view class="tui-bold tui-attr-title">{{spec.name}}</view>
 							<view class="tui-attr-box">
 								<block v-for="(spec_value) in spec.spec_values">
-									<view class="tui-attr-item" :class="norm.spec_attrs.split('/').indexOf(String(spec_value.id)) >=0 ? 'tui-attr-active' : ''">
+									<!-- <view class="tui-attr-item" :class="norm.spec_attrs.split('/').indexOf(String(spec_value.id)) >=0 ? 'tui-attr-active' : ''"> -->
+									<view class="tui-attr-item" :class="{'tui-attr-active':ID2 == spec_value.id || ID1 == spec_value.id }" :data-id="spec_value.id" :data-index1="index" @tap="_List">
 										{{spec_value.name}}
 									</view>
 								</block>
@@ -242,16 +244,30 @@
 		},
 		data() {
 			return {
+				cart:0,
+				productid:'',
+				ID1:null,
+				ID2:null,
 				ShowGuidance: false,
 				height: 64, //header高度
 				top: 0, //标题图标距离顶部距离
 				scrollH: 0, //滚动总高度
 				opcity: 0,
 				iconOpcity: 0.5,
-				product: {},
+				product: {
+					company:{
+						name:''
+					}
+				},
 				banner: [],
-				norm: {},
-				norms: [],
+				norm: {
+					price:null
+				},
+				norms: [
+					{
+						price:null
+					}
+				],
 				bannerIndex: 0,
 				topMenu: [{
 					icon: "message",
@@ -301,6 +317,8 @@
 
 		},
 		onLoad: function(options) {
+			this.cart = uni.getStorageSync('cart').length
+			console.log(this.cart );
 			if (options.from) {
 				this.from = options.from;
 				if(options.from == 'app'){
@@ -314,7 +332,7 @@
 				that.banner = data.images;
 				that.product = data;
 				that.norms = data.norms;
-				that.norm = data.norms[0];
+				that.norm = data.norms;
 				if (!that.tui.wechatBowser()) return;
 				if (!that.product.task_id) return;
 				//查看
@@ -390,10 +408,29 @@
 			}, 50)
 		},
 		onShow: function(options) {
-			//let that = this;
-
+			
 		},
 		methods: {
+			_List:function(e){
+				let that = this;
+				let index1 = e.currentTarget.dataset.index1
+				let id = e.currentTarget.dataset.id
+				if(index1==0){this.ID1 = e.currentTarget.dataset.id}
+				else if(index1==1){this.ID2 = e.currentTarget.dataset.id}
+				// console.log(this.product.norm)
+				var arr = this.product.norms
+				for(let i=0; i<arr.length; i++) {
+				    if(arr[i].spec_attrs === this.ID1+'/'+this.ID2) {
+						// console.log('ok');
+						// console.log(this.ID1+"/"+this.ID2 + '--id='+arr[i].id + '--price='+arr[i].price)
+						this.norm = arr[i]
+						this.productid = arr[i].id
+						// console.log(this.norm)
+				    }
+				}
+				
+			},
+			
 			bannerChange: function(e) {
 				this.bannerIndex = e.detail.current
 			},
@@ -417,6 +454,19 @@
 				this.popupShow = true
 			},
 			hidePopup: function() {
+				//存缓存
+				if(this.productid!="" && this.value!=""){
+					api.cart(this.productid,this.value, false)
+				}
+				else{
+					uni.showToast({
+						icon:'none',
+						title:'不能为空',
+					})
+					console.log("不能为空")
+				}
+				this.cart = uni.getStorageSync('cart').length
+				console.log(this.cart);
 				this.popupShow = false
 			},
 			change: function(e) {
