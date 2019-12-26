@@ -28,7 +28,24 @@
 			tuiButton
 		},
 		data() {
-			return {}
+			return {
+				id: null
+			}
+		},
+		onLoad(options){
+			this.id = options.id
+			api.order(id).then(function(order){
+				if(order.status == 'pay'){
+				}else{
+					uni.switchTab({
+						url: "/pages/index/index"
+					})
+				}
+			}).catch(function(e){
+				uni.switchTab({
+					url: "/pages/index/index"
+				})
+			})
 		},
 		methods: {
 			go(page) {

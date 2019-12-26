@@ -16,7 +16,7 @@
 			<tui-list-cell :hover="false" padding="0">
 				<view class="tui-swipe-cell">
 					<view>设为默认地址</view>
-					<switch color="#30CC67" class="tui-switch-small"  @change="tt"/>
+					<switch :checked="info.default === 1" color="#30CC67" class="tui-switch-small"  @change="tt"/>
 				</view>
 			</tui-list-cell>
 			
@@ -61,6 +61,7 @@
 				hideRequiredAsterisk: false,
 				loading: false,
 				disabled: false,
+				id: null,
 				info: {
 					name: '',
 					content: '',
@@ -96,12 +97,23 @@
 				}
 			}
 		},
-		onLoad: function(e) {
+		onLoad: function(options) {
+			let that = this
 			this.$nextTick(() => {
-				console.log(1);
-				console.log(this.$refs);
-				console.log(this)
 				this.$refs.form.setRules(this.rules)
+			})
+			api.address(options.id).then(function(data){
+				that.info.name = data.name
+				that.info.phone = data.phone
+				that.info.content = data.content
+				that.id = options.id
+				if(data.tag == 'default'){
+					that.info.default = 1
+				}else{
+					that.info.default = 0
+				}
+			}).catch(function(e){
+				
 			})
 			// this.multiArray = [
 			// 	this.toArr(this.selectList),
@@ -133,7 +145,7 @@
 					if (res) {
 						that.loading = true
 						that.disabled = true
-						api.createAddress(this.info).then(function(address){
+						api.updateAddress(this.id, this.info).then(function(address){
 							if(address.id){
 								uni.navigateBack({
 									

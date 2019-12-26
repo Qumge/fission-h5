@@ -4,96 +4,48 @@
 		 @change="change"></tui-tabs>
 		<!--选项卡逻辑自己实现即可，此处未做处理-->
 		<view :class="{'tui-order-list':scrollTop>=0}">
-			<view class="tui-order-item" v-for="(model,orderIndex) in 3" :key="orderIndex">
+			<view class="tui-order-item" v-for="(order,orderIndex) in orders" :key="orderIndex">
 				<tui-list-cell :hover="false" :lineLeft="false">
 					<view class="tui-goods-title">
 						<view>
-							<text v-show="1==1">金币订单</text>
-							<text v-show="1>2">游戏订单</text>
-							<text v-show="1>2">交易订单</text>
-							：T201910000
+							下单时间
+							：{{order.created_at}}
 						</view>
-						<view class="tui-order-status">已完成</view>
+		
+						<view class="tui-order-status" :style="'color:'+ getColor(order.status)">{{order.get_status}}</view>
 					</view>
 				</tui-list-cell>
-				<block v-for="(item,index) in 2" :key="index">
-					<tui-list-cell padding="0" @click="detail">
+				<block v-for="(order_product,index) in order.order_products" :key="index">
+					<tui-list-cell padding="0">
 						<view class="tui-goods-item">
-							<image :src="`/static/images/mall/product/${index+3}.jpg`" class="tui-goods-img"></image>
+							<image :src="order_product.product.default_image" class="tui-goods-img"></image>
 							<view class="tui-goods-center">
-								<view class="tui-goods-name">欧莱雅（LOREAL）奇焕光彩粉嫩透亮修颜霜 30ml（欧莱雅彩妆 BB霜 粉BB 遮瑕疵 隔离）</view>
-								<view class="tui-goods-attr">黑色，50ml</view>
+								<view class="tui-goods-name">{{order_product.product.name}}）</view>
+								<view class="tui-goods-attr" v-if="order.type == 'Order::MoneyOrder'">{{order_product.norm.spec_attr_names}}</view>
 							</view>
 							<view class="tui-price-right">
-								<view>￥298.00</view>
-								<view>x2</view>
+								<view v-if="order.type == 'Order::MoneyOrder'">￥{{order_product.norm.price}}</view>
+								<view v-if="order.type == 'Order::CoinOrder'">{{order_product.product.price}}金币</view>
+								<view>x{{order_product.number}}</view>
 							</view>
 						</view>
 					</tui-list-cell>
 				</block>
 				<tui-list-cell :hover="false" :last="true">
 					<view class="tui-goods-price">
-						<view>共4件商品 合计：</view>
-						<view class="tui-size-24">￥</view>
-						<view class="tui-price-large">1192</view>
-						<view class="tui-size-24">.00</view>
+						<view>共{{order.number}}件商品 合计：</view>
+						
+						<view class="tui-size-24" v-if="order.type == 'Order::MoneyOrder'">￥</view>
+						<view class="tui-price-large">{{order.view_amount}}</view>
+						<view v-if="order.type == 'Order::CoinOrder'">金币</view>
 					</view>
 				</tui-list-cell>
 				<view class="tui-order-btn">
 					<view class="tui-btn-ml">
-						<tui-button type="black" :plain="true" width="148rpx" height="56rpx" :size="26" shape="circle"  @click="detail">查看详情</tui-button>
-					</view>
-					<view class="tui-btn-ml">
-						<tui-button type="danger" :plain="true" width="148rpx" height="56rpx" :size="26" shape="circle">再次购买</tui-button>
+						<tui-button type="black" :plain="true" width="148rpx" height="56rpx" :size="26" shape="circle"  @click="detail(order.id)">查看详情</tui-button>
 					</view>
 				</view>
 			</view>
-
-			<view class="tui-order-item">
-				<tui-list-cell :hover="false" :lineLeft="false">
-					<view class="tui-goods-title">
-						<view>
-							<text v-show="1>2">金币订单</text>
-							<text v-show="1<2">游戏订单</text>
-							<text v-show="1>2">交易订单</text>
-							：T201910000
-						</view>
-						<view class="tui-order-status">已取消</view>
-					</view>
-				</tui-list-cell>
-				<block v-for="(item,index) in 1" :key="index">
-					<tui-list-cell padding="0" @click="detail">
-						<view class="tui-goods-item">
-							<image :src="`/static/images/mall/product/${index+3}.jpg`" class="tui-goods-img"></image>
-							<view class="tui-goods-center">
-								<view class="tui-goods-name">欧莱雅（LOREAL）奇焕光彩粉嫩透亮修颜霜 30ml（欧莱雅彩妆 BB霜 粉BB 遮瑕疵 隔离）</view>
-								<view class="tui-goods-attr">黑色，50ml</view>
-							</view>
-							<view class="tui-price-right">
-								<view>￥298.00</view>
-								<view>x2</view>
-							</view>
-						</view>
-					</tui-list-cell>
-				</block>
-				<tui-list-cell :hover="false" :last="true">
-					<view class="tui-goods-price">
-						<view>共4件商品 合计：</view>
-						<view class="tui-size-24">￥</view>
-						<view class="tui-price-large">596</view>
-						<view class="tui-size-24">.00</view>
-					</view>
-				</tui-list-cell>
-				<view class="tui-order-btn">
-					<view class="tui-btn-ml">
-						<tui-button type="black" :plain="true" width="148rpx" height="56rpx" :size="26" shape="circle">删除订单</tui-button>
-					</view>
-					<view class="tui-btn-ml">
-						<tui-button type="danger" :plain="true" width="148rpx" height="56rpx" :size="26" shape="circle">再次购买</tui-button>
-					</view>
-				</view>
-			</view>
-
 		</view>
 		<!--加载loadding-->
 		<tui-loadmore :visible="loadding" :index="3" type="red"></tui-loadmore>
@@ -110,6 +62,7 @@
 	import tuiNomore from "@/components/nomore/nomore"
 	import tuiListCell from "@/components/list-cell/list-cell"
 	import tuiSticky from "@/components/sticky/sticky"
+	import api from "../../api.js"
 	export default {
 		components: {
 			tuiTabs,
@@ -122,30 +75,65 @@
 		data() {
 			return {
 				tabs: [{
-					name: "全部"
+					name: "全部订单"
 				}, {
-					name: "待付款"
+					name: "交易订单"
 				}, {
-					name: "待发货"
+					name: "换购订单"
 				}, {
-					name: "待收货"
-				}, {
-					name: "待评价"
+					name: "游戏订单"
 				}],
+				orders: [],
 				currentTab: 0,
+				types: ['', 'Order::MoneyOrder', 'Order::CoinOrder', 'Order::GameOrder'],
 				pageIndex: 1,
 				loadding: false,
 				pullUpOn: true,
-				scrollTop: 0
+				scrollTop: 0,
+				page: 1,
 			}
 		},
+		onLoad(){
+			this.getData();
+		},
 		methods: {
+			getColor: function(status){
+				if(status){
+					if(status == 'pay'){
+						return 'red'
+					}
+					if(status == 'send'){
+						return 'green'
+					}
+					if(status == 'receive'){
+						return 'red'
+					}
+					if(status == 'receive'){
+						return 'green'
+					}
+					if(status == 'after_sale'){
+						return 'red'
+					}
+				}
+				return 'red'
+			},
+			getData: function() {
+				let that = this;
+				this.page = 1;
+				api.orders(this.types[this.currentTab], this.page).then(function(data) {
+					console.log(data);
+					that.orders = data
+				}).catch(function() {
+					
+				})
+			},
 			change(e) {
 				this.currentTab = e.index
+				this.getData();
 			},
-			detail() {
+			detail(id) {
 				uni.navigateTo({
-					url: '../order/show'
+					url: '../order/show?id=' + id
 				})
 			}
 		},
@@ -156,12 +144,19 @@
 		},
 		onReachBottom() {
 			//只是测试效果，逻辑以实际数据为准
-			this.loadding = true
-			this.pullUpOn = true
-			setTimeout(() => {
-				this.loadding = false
-				this.pullUpOn = false
-			}, 1000)
+			if (!this.pullUpOn) return;
+			this.loadding = true;
+			this.pullUpOn = true;
+			let that = this;
+			this.page = this.page + 1;
+			let selectCategory = this.category1;
+			api.orders(this.types[this.currentTab], this.page)
+				.then(function(data) {
+					that.orders = that.orders.concat(data);
+					this.loadding = false;
+					this.pullUpOn = false;
+				})
+				.catch(function() {});
 		},
 		onPageScroll(e) {
 			this.scrollTop = e.scrollTop;

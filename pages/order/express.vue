@@ -2,128 +2,22 @@
 	<view class="container">
 		<view class="tui-order-header">
 			<view class="tui-text">物流单号：
-				<text class="tui-bold">9136257866</text>
+				<text class="tui-bold">{{express.result.number}}</text>
 			</view>
-			<view class="tui-text">国内承运人：华南众包站</view>
-			<view class="tui-text">预计送达：
-				<text class="tui-bold">2020</text>年<text class="tui-bold">5</text>月<text class="tui-bold">1</text>日</view>
 		</view>
 		<view class="tui-order-tracking">
 			<tui-time-axis>
-
-				<tui-timeaxis-item bgcolor="none">
-					<template v-slot:node>
-						<view class="tui-node tui-bg-primary">
-							<tui-icon name="check" color="#fff" :size="14" :bold="true"></tui-icon>
-						</view>
-					</template>
-
-					<template v-slot:content>
-						<view>
-							<view class="tui-order-title">已签收</view>
-							<view class="tui-order-desc">您的订单已由本人签收。感谢您在商城购物，欢迎再次光临。</view>
-							<view class="tui-order-time tui-gray">2019-05-01 18:48:26</view>
-						</view>
-					</template>
-				</tui-timeaxis-item>
-
-				<tui-timeaxis-item bgcolor="none">
+				<tui-timeaxis-item bgcolor="none" v-for="(item,index) in express.result.list" :key="index">
 					<template v-slot:node>
 						<view class="tui-node">
 							<tui-icon name="people" color="#fff" :size="13"></tui-icon>
 						</view>
 					</template>
 					<template v-slot:content>
-						<view class="tui-order-title tui-gray">派送中</view>
-						<view class="tui-order-desc tui-light-gray">您的订单正在配送途中（快递员：echo.，电话：
-							<text class='tui-primary'>13822448855</text>），请您耐心等待。</view>
-						<view class="tui-order-time tui-gray">2019-05-01 16:29:07</view>
-					</template>
-				</tui-timeaxis-item>
-
-				<tui-timeaxis-item bgcolor="none">
-					<template v-slot:node>
-						<view class="tui-node">
-							<tui-icon name="transport" color="#fff" :size="13"></tui-icon>
+						<view class="tui-order-desc tui-light-gray">
+							{{item.status}}
 						</view>
-					</template>
-					<template v-slot:content>
-						<view class="tui-order-title tui-gray">运输中</view>
-						<view class="tui-order-desc tui-light-gray">您的订单已到达XX【北京XX营业部】</view>
-						<view class="tui-order-time tui-gray">2019-05-01 16:17:32</view>
-					</template>
-				</tui-timeaxis-item>
-
-				<tui-timeaxis-item bgcolor="none">
-					<template v-slot:node>
-						<view class="tui-node tui-node-small"></view>
-					</template>
-
-					<template v-slot:content>
-						<view class="tui-order-desc tui-light-gray tui-ptop">您的订单已在XX【北京XX营业部】收货完成</view>
-						<view class="tui-order-time tui-gray">2019-05-01 08:40:32</view>
-					</template>
-				</tui-timeaxis-item>
-
-				<tui-timeaxis-item bgcolor="none">
-					<template v-slot:node>
-						<view class="tui-node tui-node-small"></view>
-					</template>
-					<template v-slot:content>
-						<view class="tui-order-desc tui-light-gray tui-ptop">您的订单由XXXX送往XX【北京XX营业部】</view>
-						<view class="tui-order-time tui-gray">2019-05-01 08:17:32</view>
-					</template>
-				</tui-timeaxis-item>
-
-				<tui-timeaxis-item bgcolor="none">
-					<template v-slot:node>
-						<view class="tui-node">
-							<tui-icon name="home" color="#fff" :size="12"></tui-icon>
-						</view>
-					</template>
-					<template v-slot:content>
-						<view class="tui-order-title tui-gray">仓库处理中</view>
-						<view class="tui-order-desc tui-light-gray">打包完成</view>
-						<view class="tui-order-time tui-gray">2019-05-01 08:09:16</view>
-					</template>
-				</tui-timeaxis-item>
-
-				<tui-timeaxis-item bgcolor="none">
-					<template v-slot:node>
-						<view class="tui-node">
-							<tui-icon name="order" color="#fff" :size="12"></tui-icon>
-						</view>
-					</template>
-					<template v-slot:content>
-						<view class="tui-order-title tui-gray">已下单</view>
-						<view class="tui-order-desc tui-light-gray">您的订单将下传XXX仓库，准备出库</view>
-						<view class="tui-order-time tui-gray">2019-05-01 02:09:16</view>
-					</template>
-				</tui-timeaxis-item>
-
-				<tui-timeaxis-item bgcolor="none">
-					<template v-slot:node>
-						<view class="tui-node">
-							<tui-icon name="notice" color="#fff" :size="12"></tui-icon>
-						</view>
-					</template>
-					<template v-slot:content>
-						<view class="tui-order-title tui-gray">温馨提示</view>
-						<view class="tui-order-desc tui-light-gray">您的订单预计5月1日送达您手中</view>
-						<view class="tui-order-time tui-gray">2019-05-01 02:05:16</view>
-					</template>
-				</tui-timeaxis-item>
-
-				<tui-timeaxis-item bgcolor="none">
-					<template v-slot:node>
-						<view class="tui-node">
-							<tui-icon name="order" color="#fff" :size="12"></tui-icon>
-						</view>
-					</template>
-					<template v-slot:content>
-						<view class="tui-order-title tui-gray">已下单</view>
-						<view class="tui-order-desc tui-light-gray">您提交了订单，请等待第三方卖家系统弄确认</view>
-						<view class="tui-order-time tui-gray">2019-05-01 02:04:16</view>
+						<view class="tui-order-time tui-gray">{{item.time}}</view>
 					</template>
 				</tui-timeaxis-item>
 
@@ -136,6 +30,7 @@
 	import tuiIcon from "@/components/icon/icon"
 	import tuiTimeAxis from "@/components/time-axis/time-axis"
 	import tuiTimeaxisItem from "@/components/timeaxis-item/timeaxis-item"
+	import api from "../../api.js"
 	export default {
 		components: {
 			tuiIcon,
@@ -144,11 +39,19 @@
 		},
 		data() {
 			return {
-
+				express: {}
 			}
 		},
+		onLoad(options){
+			let that = this
+			api.express(options.id).then(function(data){
+				that.express = data
+			}).catch(function(e){
+				
+			})
+		},
 		methods: {
-
+			
 		}
 	}
 </script>

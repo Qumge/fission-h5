@@ -1,24 +1,11 @@
 <template>
 	<view class="container">
-		<view class="tui-order-header">
-			<image :src="webURL+'img_detail_bg.png'" mode="widthFix" class="tui-img-bg"></image>
-			<view class="tui-header-content">
-				<view>
-					<view class="tui-status-text">{{order.get_status}}</view>
-					<view class="tui-reason"><text class="tui-reason-text">{{order.get_status_desc}}</text>
-						<tui-countdown :time="1800" color="rgba(254,254,254,0.75)" colonColor="rgba(254,254,254,0.75)" bcolor="transparent"
-						 bgcolor="transparent" v-if="status===1"></tui-countdown>
-					</view>
-				</view>
-				<!-- <image :src="getImg(status)" class="tui-status-img" mode="widthFix"></image> -->
-			</view>
-		</view>
 		<tui-list-cell :arrow="true" bgcolor="#fefefe">
 			<view class="tui-flex-box" @tap="_express">
 				<image :src="webURL+'img_order_logistics3x.png'" class="tui-icon-img"></image>
 				<view class="tui-logistics">
-					<view class="tui-logistics-text"><text class="tui-name" style="font-size:14px;">{{order.address.name}}</text> {{order.address.phone}}</view>
-					<view class="tui-logistics-time">{{order.address.content}}</view>
+					<view class="tui-logistics-text">快递已到收货点，请注意查收哦! 投递员: XXX 联系电话: 17788849992</view>
+					<view class="tui-logistics-time">2019-06-03 12:02</view>
 				</view>
 			</view>
 		</tui-list-cell>
@@ -32,30 +19,34 @@
 			</view>
 		</tui-list-cell> -->
 
-		<view class="tui-order-item">
+		<view class="tui-order-item"  v-for="(order,index) in orders" >
 			<tui-list-cell :hover="false" :lineLeft="false">
 				<view class="tui-goods-title">
-					商品信息
+					{{order.company.name}}
 				</view>
 			</tui-list-cell>
-			<block v-for="(order_product,index) in order.order_products" :key="index">
+			<tui-list-cell :hover="false">
+				<view class="tui-order-title">
+					订单信息
+				</view>
+			</tui-list-cell>
+			<block v-for="(orderProduct,index) in order.order_products" :key="index">
 				<tui-list-cell padding="0">
 					<view class="tui-goods-item">
-						<image :src="`/static/images/mall/product/${index+3}.jpg`" class="tui-goods-img"></image>
+						<image :src="orderProduct.product.default_image" class="tui-goods-img"></image>
 						<view class="tui-goods-center">
-							<view class="tui-goods-name">{{order_product.product.name}}</view>
-							<view class="tui-goods-attr" v-if="order.type == 'Order::MoneyOrder'">{{order_product.norm.spec_attr_names}}</view>
+							<view class="tui-goods-name">{{orderProduct.product.name}}</view>
+							<view class="tui-goods-attr">{{orderProduct.norm.spec_attr_names}}</view>
 						</view>
 						<view class="tui-price-right">
-							<view v-if="order.type == 'Order::MoneyOrder'">￥{{order_product.norm.price}}</view>
-							<view v-if="order.type == 'Order::CoinOrder'">{{order_product.product.price}}金币</view>
-							<view>x{{order_product.number}}</view>
+							<view>￥{{orderProduct.norm.price}}</view>
+							<view>x{{orderProduct.number}}</view>
 						</view>
 					</view>
 				</tui-list-cell>
 			</block>
 			<view class="tui-goods-info">
-				<view class="tui-price-flex tui-size24" v-if="order.type == 'Order::MoneyOrder'">
+				<view class="tui-price-flex tui-size24">
 					<view>返金币</view>
 					<view>{{order.coin}}</view>
 				</view>
@@ -71,6 +62,10 @@
 					<view>配送方式</view>
 					<view>快递</view>
 				</view>
+				<view class="tui-price-flex  tui-size24">
+					<view>备注</view>
+					<view><input type="text" placeholder="选填,填写订单的备注信息" style="font-size:12px"></input></view>
+				</view>
 				<!-- <view class="tui-price-flex tui-size32 tui-pbtm20">
 					<view class="tui-flex-shrink">合计</view>
 					<view class="tui-goods-price">
@@ -82,60 +77,16 @@
 				<view class="tui-price-flex tui-size32">
 					<!-- <view class="tui-flex-shrink">实付款</view> -->
 					<view class="tui-goods-price tui-primary-color">
-						<view v-if="order.type == 'Order::MoneyOrder'">￥{{order.view_amount}} </view>
-						<view v-if="order.type == 'Order::CoinOrder'">{{order.view_amount}} 金币</view>
+						<view class="tui-size-24">￥</view>
+						<view class="tui-price-large">{{order.view_amount}}</view>
 					</view>
-				</view>
-			</view>
-		</view>
-
-		<view class="tui-order-info">
-			<tui-list-cell :hover="false">
-				<view class="tui-order-title">
-					订单信息
-				</view>
-			</tui-list-cell>
-			<view class="tui-order-content">
-				<view class="tui-order-flex">
-					<view class="tui-item-title">订单号:</view>
-					<view class="tui-item-content">48690010100035</view>
-				</view>
-				<view class="tui-order-flex">
-					<view class="tui-item-title">物流单号:</view>
-					<view class="tui-item-content">33655511251265578556</view>
-				</view>
-				<view class="tui-order-flex">
-					<view class="tui-item-title">创建时间:</view>
-					<view class="tui-item-content">2019-05-26 10:36</view>
-				</view>
-				<view class="tui-order-flex">
-					<view class="tui-item-title">付款时间:</view>
-					<view class="tui-item-content">2019-05-26 10:44</view>
-				</view>
-				<view class="tui-order-flex">
-					<view class="tui-item-title">发货时间:</view>
-					<view class="tui-item-content">2019-05-27 10:20</view>
-				</view>
-				<view class="tui-order-flex">
-					<view class="tui-item-title">配送方式:</view>
-					<view class="tui-item-content">包邮</view>
-				</view>
-				<view class="tui-order-flex">
-					<view class="tui-item-title">订单备注:</view>
-					<view class="tui-item-content">麻烦尽快发货，打包包裹时请多拿几个泡沫放在纸箱盒内，防止摔碎</view>
 				</view>
 			</view>
 		</view>
 		<view class="tui-safe-area"></view>
 		<view class="tui-tabbar tui-order-btn">
-			<!-- <view class="tui-btn-mr">
-				<tui-button type="black" :plain="true" width="148rpx" height="56rpx" :size="26" shape="circle">取消订单</tui-button>
-			</view> -->
 			<view class="tui-btn-mr">
-				<tui-button type="green" :plain="true" width="148rpx" height="56rpx" :size="26" shape="circle" @tap='receive' v-if="order.status == 'send'">签收</tui-button>
-			</view>
-			<view class="tui-btn-mr">
-				<tui-button type="black" :plain="true" width="148rpx" height="56rpx" :size="26" shape="circle" @tap='back'>返回</tui-button>
+				<tui-button type="danger" :plain="true" height="56rpx" :size="26" shape="circle">立即支付(￥{{amount}})</tui-button>
 			</view>
 		</view>
 	</view>
@@ -159,35 +110,41 @@
 				webURL: "https://www.thorui.cn/wx/static/images/mall/order/",
 				//1-待付款 2-付款成功 3-待收货 4-订单已完成 5-交易关闭
 				status: 2,
-				order: {order_products: [], address: {}}
+				orders: [],
+				amount: 0
 			}
 		},
-		onLoad(options){
+		onLoad(options) {
 			let that = this
-			api.order(options.id).then(function(data){
-				that.order = data
+			api.orders(options.ids).then(function(orders){
+				console.log(orders);
+				that.orders = orders
+				let amount = 0
+				orders.forEach(function(order){
+					amount += order.view_amount
+				})
+				console.log(amount)
+				that.amount = amount
 			}).catch(function(e){
-				
+				console.log(e)
 			})
 		},
 		methods: {
 			_express:function(){
 				uni.navigateTo({
-					url:'../order/express?id=' + this.order.id
+					url:'./express'
 				})
 			},
-			receive: function(){
-				let that = this
-				api.receive(this.order.id).then(function(data){
-					that.order = data
-				}).catch(function(e){
-					console.log(e);
-				})
+			getImg: function(status) {
+				return this.webURL + ["img_order_payment3x.png", "img_order_send3x.png", "img_order_received3x.png",
+					"img_order_signed3x.png", "img_order_closed3x.png"
+				][status - 1]
 			},
-			back: function(){
-				uni.navigateBack({
-					
-				})
+			getStatusText: function(status) {
+				return ["等待您付款", "付款成功", "待收货", "订单已完成", "交易关闭"][status - 1]
+			},
+			getReason: function(status) {
+				return ["剩余时间", "等待卖家发货", "还剩X天XX小时自动确认", "", "超时未付款，订单自动取消"][status - 1]
 			}
 		}
 	}

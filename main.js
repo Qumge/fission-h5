@@ -17,12 +17,12 @@ Vue.mixin({
 		console.log(that._route);
 		if(that._route){
 			console.log(that._route.meta.pagePath)
-			window.postMessage({
-				event: 'hideTabs',
-				params: {
-					hide: that._route.meta.pagePath == "pages/index/index"
-				}
-			}, '*')
+			// window.postMessage({
+			// 	event: 'hideTabs',
+			// 	params: {
+			// 		hide: that._route.meta.pagePath == "pages/index/index"
+			// 	}
+			// }, '*')
 			window.parent.postMessage({
 				event: 'hideTabs',
 				params: {

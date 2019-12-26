@@ -3,13 +3,13 @@
 		<view class="tui-box">
 			<tui-list-cell :arrow="true" :last="true" :radius="true" @click="chooseAddr">
 				<view class="tui-address">
-					<view v-if="true">
+					<view v-if="address.id">
 						<view class="tui-userinfo">
-							<text class="tui-name">王大大</text> 139****7708
+							<text class="tui-name">{{address.name}}</text> {{address.phone}}
 						</view>
 						<view class="tui-addr">
-							<view class="tui-addr-tag">公司</view>
-							<text>广东省深圳市南山区高新科技园中区一路</text>
+							<view class="tui-addr-tag" v-if="address.tag && address.tag =='default'">默认</view>
+							<text>{{address.content}}</text>
 						</view>
 					</view>
 					<view class="tui-none-addr" v-else>
@@ -20,58 +20,38 @@
 				<view class="tui-bg-img"></view>
 			</tui-list-cell>
 			<view class="tui-top tui-goods-info">
-				<block v-for="(item,index) in 2" :key="index">
-					<tui-list-cell style="background: #eaeaea;margin-top: 30rpx;" :hover="false" :lineLeft="false">
+					<tui-list-cell :hover="false" :lineLeft="true">
 						<view class="tui-goods-title">
-							<image src="/static/images/basic/color.png" mode="widthFix" style="width: 40rpx;height: 40rpx;margin-right: 10rpx; "></image>
-							第{{index+1}}家店商品信息
+							<image :src="norm.product.company.image ? norm.product.company.image.image_path : ''" mode="widthFix" style="width: 40rpx;height: 40rpx;margin-right: 10rpx; "></image>
+							{{norm.product.company.name}}
 						</view>
 					</tui-list-cell>
-					<tui-list-cell :hover="false" padding="0">
+					<tui-list-cell :hover="false" padding="0" >
 						<view class="tui-goods-item">
-							<image :src="`/static/images/mall/product/${index+2}.jpg`" class="tui-goods-img"></image>
+							<image :src="norm.product.default_image" class="tui-goods-img"></image>
 							<view class="tui-goods-center">
-								<view class="tui-goods-name">欧莱雅（LOREAL）奇焕光彩粉嫩透亮修颜霜 30ml（欧莱雅彩妆 BB霜 粉BB 遮瑕疵 隔离）</view>
-								<view class="tui-goods-attr">黑色，50ml</view>
+								<view class="tui-goods-name">{{norm.product.name}}</view>
+								<view class="tui-goods-attr">{{norm.spec_attr_names}}</view>
 							</view>
 							<view class="tui-price-right">
-								<view>￥298.00</view>
-								<view>x2</view>
+								<view>￥{{norm.price}}</view>
+								<view>x{{number}}</view>
 							</view>
 						</view>
 					</tui-list-cell>
-					<tui-list-cell :hover="false" padding="0">
-						<view class="tui-goods-item">
-							<image :src="`/static/images/mall/product/${index+3}.jpg`" class="tui-goods-img"></image>
-							<view class="tui-goods-center">
-								<view class="tui-goods-name">欧莱雅（LOREAL）奇焕光彩粉嫩透亮修颜霜 30ml（欧莱雅彩妆 BB霜 粉BB 遮瑕疵 隔离）</view>
-								<view class="tui-goods-attr">黑色，50ml</view>
-							</view>
-							<view class="tui-price-right">
-								<view>￥298.00</view>
-								<view>x2</view>
-							</view>
-						</view>
-					</tui-list-cell>
+
 					<tui-list-cell :hover="false">
 						<view class="tui-padding tui-flex">
-							<view>合计：</view>
-							<view>￥200.00</view>
+							<view>商品总额：</view>
+							<view>￥{{norm.price * number}}</view>
 						</view>
 					</tui-list-cell>
 					<tui-list-cell :hover="false" :lineLeft="false" padding="0">
 						<view class="tui-remark-box tui-padding tui-flex">
 							<view>订单备注</view>
-							<input type="text" class="tui-remark" placeholder="选填: 请先和商家协商一致" placeholder-class="tui-phcolor"></input>
+							<input type="text" class="tui-remark" placeholder="选填: 请先和商家协商一致" placeholder-class="tui-phcolor" @input="onKeyInput"></input>
 						</view>
 					</tui-list-cell>
-				</block>
-				<tui-list-cell :hover="false" style="border-top: 1rpx solid #ddd;">
-					<view class="tui-padding tui-flex">
-						<view>商品总额</view>
-						<view>￥1192.00</view>
-					</view>
-				</tui-list-cell>
 				<!-- <tui-list-cell :arrow="hasCoupon" :hover="hasCoupon" >
 					<view class="tui-padding tui-flex">
 						<view>优惠券</view>
@@ -87,7 +67,13 @@
 				<tui-list-cell :hover="false">
 					<view class="tui-padding tui-flex">
 						<view>配送费</view>
-						<view>￥0.00</view>
+						<view>包邮</view>
+					</view>
+				</tui-list-cell>
+				<tui-list-cell :hover="false">
+					<view class="tui-padding tui-flex">
+						<view>返还金币：</view>
+						<view>{{norm.product.coin * number}}</view>
 					</view>
 				</tui-list-cell>
 				
@@ -96,8 +82,7 @@
 						<view class="tui-flex-end tui-color-red">
 							<view class="tui-black">合计： </view>
 							<view class="tui-size-26">￥</view>
-							<view class="tui-price-large">1192</view>
-							<view class="tui-size-26">.00</view>
+							<view class="tui-price-large">{{norm.price * number}}</view>
 						</view>
 					</view>
 				</tui-list-cell>
@@ -118,14 +103,13 @@
 			<view class="tui-flex-end tui-color-red tui-pr-20">
 				<view class="tui-black">实付金额: </view>
 				<view class="tui-size-26">￥</view>
-				<view class="tui-price-large">1192</view>
-				<view class="tui-size-26">.00</view>
+				<view class="tui-price-large">{{number * norm.price}}</view>
 			</view>
 			<view class="tui-pr25">
-				<tui-button width="200rpx" height="70rpx" type="danger" shape="circle" @click="btnPay">确认支付</tui-button>
+				<tui-button width="200rpx" height="70rpx" type="danger" shape="circle" @click="btnPay" :disabled="applied">确认支付</tui-button>
 			</view>
 		</view>
-
+		<tui-loading :visible="loading"></tui-loading>
 	</view>
 </template>
 
@@ -133,17 +117,68 @@
 	import tuiButton from "@/components/extend/button/button"
 	import tuiListCell from "@/components/list-cell/list-cell"
 	import tuiBottomPopup from "@/components/bottom-popup/bottom-popup"
+	import api from "../../api.js"
+	import tuiLoading from "@/components/loading/loading"
 	export default {
 		components: {
 			tuiButton,
 			tuiListCell,
-			tuiBottomPopup
+			tuiBottomPopup,
+			tuiLoading
 		},
 		data() {
 			return {
 				hasCoupon: true,
-				insufficient: false
+				insufficient: false,
+				orders: [],
+				amount: 0,
+				norm: {product: {company: {image: {}}}},
+				address: {},
+				ids: '',
+				desc: '',
+				number: 1,
+				applied: false,
+				loading: false
 			}
+		},
+		onShow(){
+			let that = this
+			let id = uni.getStorageSync('addressId')
+			console.log('show')
+			if(id){
+				console.log(1)
+				api.address(id).then(function(data){
+					console.log(data)
+					that.address = data
+				}).catch(function(e){
+					console.log(e)
+				})
+			}else{
+				api.defaultAddress().then(function(data){
+					console.log(data)
+					that.address = data
+				}).catch(function(e){
+					console.log(e)
+				})
+			}
+		},
+		onLoad(options){
+			let intervalID = setInterval(function(){
+				console.log(1);
+				clearInterval(intervalID);
+			}, 2000);
+			console.log('load')
+			let that = this
+			if(options.number){
+				that.number = options.number
+			}
+			api.norm(options.id).then(function(norm){
+				if(norm.id){
+					that.norm = norm
+				}
+			}).catch(function(e){
+				console.log(e)
+			})
 		},
 		methods: {
 			chooseAddr() {
@@ -151,10 +186,75 @@
 					url: "../address/index"
 				})
 			},
+			onKeyInput: function(event) {
+				this.desc = event.target.value
+			},
 			btnPay() {
-				uni.navigateTo({
-					url: "../order/success"
-				})
+				let that = this
+				if(!that.address.id){
+					this.tui.toast('请填写收件人信息', 2000, false)
+					return
+				}
+				this.applied = true
+				this.loading = true
+				let norms = [{id: that.norm.product.id, norm: {id: that.norm.id, number: that.number}}]
+				if(this.tui.wechatBowser()){
+					console.log('wechat')
+					this.tui.jssdk().then(function(jweixin){
+						api.applyOrder(JSON.stringify(norms), that.address.id, that.desc, 'web').then(function(data){
+							console.log(data)
+							let js_pay = data[0].current_payment.js_pay
+							jweixin.chooseWXPay({
+							  appId: js_pay.appId,
+							  timestamp: js_pay.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+							  nonceStr: js_pay.nonceStr, // 支付签名随机串，不长于 32 位
+							  package: js_pay.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
+							  signType: js_pay.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+							  paySign: js_pay.paySign, // 支付签名
+							  success: function (res) {
+							    // 支付成功后的回调函数
+								let intervalID = setInterval(function(){
+									console.log(1);
+									api.order(data[0].id).then(function(order){
+										if(order.status == 'pay'){
+											clearInterval(intervalID);
+											uni.navigateTo({
+												url: '../order/success?id=' + order.id
+											})
+										}
+									}).catch(function(e){
+										alert(e)
+									})
+								}, 2000);
+							  }
+							});
+						}).catch(function(e){
+							console.log(e)
+						})
+						
+					}).catch(function(e){
+						
+					})
+				}else{
+					console.log('app')
+					api.applyOrder(JSON.stringify(norms), that.address.id, that.desc, 'app').then(function(data){
+						if(data[0].id){
+							console.log(data)
+							window.parent.postMessage({
+								event: 'pay',
+								params: {
+									payment: data[0].current_payment
+								}
+							}, '*')
+						}
+					}).catch(function(e){
+						
+					})
+					
+				}
+				// uni.navigateTo({
+				// 	url: "../order/success"
+				// })
 			}
 		}
 	}
@@ -431,5 +531,21 @@
 	.tui-safe-area {
 		height: 1rpx;
 		padding-bottom: env(safe-area-inset-bottom);
+	}
+	.tui-order-title {
+		position: relative;
+		font-size: 28rpx;
+		line-height: 28rpx;
+		padding-left: 12rpx;
+		box-sizing: border-box;
+	}
+	
+	.tui-order-title::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0;
+		border-left: 4rpx solid #EB0909;
+		height: 100%;
 	}
 </style>

@@ -1,21 +1,20 @@
 <template>
 	<view class="tui-safe-area">
 		<view class="tui-address">
-			<block v-for="(item,index) in 1" :key="index">
+			<block v-for="(address,index) in addresses" :key="index">
 				<tui-list-cell padding="0">
 					<view class="tui-address-flex">
-						<view class="tui-address-left">
+						<view class="tui-address-left" @tap="selectAddress(address.id)" >
 							<view class="tui-address-main">
-								<view class="tui-address-name tui-ellipsis">{{["echo.","王大大","大长腿"][index]}}</view>
-								<view class="tui-address-tel">138****7708</view>
+								<view class="tui-address-name tui-ellipsis">{{address.name}}</view>
+								<view class="tui-address-tel">{{address.phone}}</view>
 							</view>
 							<view class="tui-address-detail">
-								<view class="tui-address-label" v-if="index===0">默认</view>
-								<view class="tui-address-label" v-if="index!=2">{{["公司","住宅","其它"][index]}}</view>
-								<text>广东省深圳市南山区高新科技园中区一路</text>
+								<view class="tui-address-label" v-if="address.tag==='default'">默认</view>
+								<text>{{address.content}}</text>
 							</view>
 						</view>
-						<view class="tui-address-imgbox">
+						<view class="tui-address-imgbox" @tap="editAddress(address.id)" :data-id="address.id">
 							<image class="tui-address-img" src="/static/images/mall/my/icon_addr_edit.png" />
 						</view>
 					</view>
@@ -24,7 +23,7 @@
 		</view>
 		<!-- 新增地址 -->
 		<view class="tui-address-new">
-			<tui-button type="danger" height="88rpx" @click="editAddr">+ 新增收货地址</tui-button>
+			<tui-button type="danger" height="88rpx" @click="newAddress">+ 新增收货地址</tui-button>
 		</view>
 	</view>
 </template>
@@ -32,6 +31,7 @@
 <script>
 	import tuiButton from "@/components/extend/button/button"
 	import tuiListCell from "@/components/list-cell/list-cell"
+	import api from "../../api.js"
 	export default {
 		components: {
 			tuiButton,
@@ -39,18 +39,39 @@
 		},
 		data() {
 			return {
-				addressList: []
+				addresses: []
 			}
 		},
 		onLoad: function(options) {
-
+			let that = this
+			api.addresses().then(function(data){
+				console.log(data)
+				that.addresses = data
+			}).catch(function(e){
+				
+			})
 		},
 		onShow: function() {},
 		methods: {
-			editAddr(index, addressType) {
+			newAddress() {
+				console.log(1);
 				uni.navigateTo({
-					url: "../address/new"
+					url: '../address/new'
 				})
+			},
+			editAddress(id){
+				uni.navigateTo({
+					url: '../address/edit?id=' + id
+				})
+				console.log(id)
+			},
+			selectAddress(id){
+				if(id){
+					uni.setStorageSync('addressId', id)
+					uni.navigateBack({
+						
+					})
+				}
 			}
 		}
 	}

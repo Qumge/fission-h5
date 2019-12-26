@@ -1,46 +1,278 @@
 import Vue from 'vue'
 import App from './App'
 const api = {
-	cart:function(id,number, reset){
+	wxPay: function(ids, desc){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/orders/wx_pay', //仅为示例，并非真实接口地址。
+				method: 'POST',
+				data: {
+					ids: ids,
+					desc: desc
+				},
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	address: function(id){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/addresses/' + id, //仅为示例，并非真实接口地址。
+				method: 'GET',
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	defaultAddress: function(){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/addresses/default', //仅为示例，并非真实接口地址。
+				method: 'GET',
+				success: (res) => {
+					
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	addresses: function(){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/addresses', //仅为示例，并非真实接口地址。
+				method: 'GET',
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	createAddress: function(data){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/addresses', //仅为示例，并非真实接口地址。
+				method: 'POST',
+				data: data,
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	updateAddress: function(id, data){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/addresses/' + id, //仅为示例，并非真实接口地址。
+				method: 'PUT',
+				data: data,
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	orders: function(type, page){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/orders/my', //仅为示例，并非真实接口地址。
+				method: 'GET',
+				data: {
+					page: page,
+					type: type
+				},
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	receive: function(id){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/orders/' + id+ '/receive', //仅为示例，并非真实接口地址。
+				method: 'POST',
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	express: function(id){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/orders/' + id+ '/express', //仅为示例，并非真实接口地址。
+				method: 'GET',
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	order: function(id){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/orders/' + id, //仅为示例，并非真实接口地址。
+				method: 'GET',
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	applyOrder: function(product_norms, addressId, desc, platform){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/orders', //仅为示例，并非真实接口地址。
+				method: 'POST',
+				data: {
+					product_norms: product_norms,
+					desc: desc,
+					address_id: addressId,
+					platform: platform
+				},
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	cart: function(id,number, reset){
 		// return new Promise(function(resolve, reject) {
 			// uni.setStorageSync('cart', null)
 			//查
 			var norms = uni.getStorageSync('cart')
 			// console.log(norms);
 			if(norms){
+				console.log(111)
+				console.log(id);
 				var flag = true
-				norms.findIndex(function(norm, index, arr){
-					if(norm.id == id){
-						// console.log(1);
-						// console.log(norms[index].number)
-						// console.log(number)
-						if(reset){
-							norms[index] = {id: id, number: number}
-						}else{
-							norms[index] = {id: id, number: norms[index].number + number}
-						}
-						
-						console.log(norms)
-						flag = false
-					}
+				let norm_index  = norms.findIndex(function(norm, index, arr){
+					return norm.id == id
 				})
-				if(flag){
-					norms.push({id: id, number: number})
+				console.log(norm_index);
+				if(norm_index >= 0){
+					if(reset){
+						if(number > 0){
+							norms[norm_index] = {id: id, number: number}
+						}else{
+							console.log(33);
+							norms.splice(norm_index, 1)
+						}
+					}else{
+						norms[norm_index] = {id: id, number: norms[norm_index].number + number}
+					}
+				}else{
+					if(number > 0){
+						norms.push({id: id, number: number})
+					}
 				}
 			}else{
 				norms = [{id: id, number: number}]
 			}
 			// 存
-			uni.setStorage({
-				key:'cart',
-				data: norms,
-				success(yes) {
-					console.log(yes)
-				},
-				fail(no) {
-					console.log(no)
-				}
-			})
+			uni.setStorageSync('cart', norms);
 		// })
 	},
 	//问卷
@@ -209,6 +441,23 @@ const api = {
 				data: {
 					ids: ids,
 					page: page
+				},
+				success: (res) => {
+					resolve(res.data)
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	norm: function(id) {
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/products/norm', //仅为示例，并非真实接口地址。
+				method: 'GET',
+				data: {
+					id: id,
 				},
 				success: (res) => {
 					resolve(res.data)

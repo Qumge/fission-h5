@@ -140,7 +140,7 @@
 
 		<!--底部操作栏-->
 		<view class="tui-operation">
-			<view class="tui-operation-left tui-col-5">
+			<view class="tui-operation-left tui-col-3">
 				<!-- <view class="tui-operation-item" hover-class="opcity" :hover-stay-time="150">
 					<tui-icon name="kefu" :size="22" color='#333'></tui-icon>
 					<view class="tui-operation-text tui-scale-small">客服</view>
@@ -149,18 +149,18 @@
 					<tui-icon name="shop" :size="22" color='#333'></tui-icon>
 					<view class="tui-operation-text tui-scale-small">店铺</view>
 				</view>
-				<view class="tui-operation-item" @tap="_cart" hover-class="opcity" :hover-stay-time="150">
-					<tui-icon name="cart" :size="22" color='#333'></tui-icon>
+				<!-- <view class="tui-operation-item" @tap="_cart" hover-class="opcity" :hover-stay-time="150">
+					<tui-icon name="cart" :size="22" color='#333x'></tui-icon>
 					<view class="tui-operation-text tui-scale-small">购物车</view>
-					<tui-badge type="danger" size="small">{{cart}}</tui-badge>
-				</view>
+					<tui-badge type="danger" size="small" v-if="cart > 0">{{cart}}</tui-badge>
+				</view> -->
 			</view>
-			<view class="tui-operation-right tui-right-flex tui-col-7 tui-btnbox-4">
-				<view class="tui-flex-1">
+			<view class="tui-operation-right tui-right-flex tui-col-9 tui-btnbox-4">
+				<!-- <view class="tui-flex-1">
 					<tui-button type="danger" shape="circle" size="mini" @click="showPopup">加入购物车</tui-button>
-				</view>
+				</view> -->
 				<view class="tui-flex-1">
-					<tui-button type="warning" shape="circle" size="mini" @click="submit">立即购买</tui-button>
+					<tui-button type="danger" shape="circle" size="mini" @click="showPopup">立即购买</tui-button>
 				</view>
 			</view>
 		</view>
@@ -186,7 +186,7 @@
 							<view class="tui-attr-box">
 								<block v-for="(spec_value) in spec.spec_values">
 									<!-- <view class="tui-attr-item" :class="norm.spec_attrs.split('/').indexOf(String(spec_value.id)) >=0 ? 'tui-attr-active' : ''"> -->
-									<view class="tui-attr-item" :class="{'tui-attr-active':ID2 == spec_value.id || ID1 == spec_value.id }" :data-id="spec_value.id" :data-index1="index" @tap="_List">
+									<view class="tui-attr-item" :class="{'tui-attr-active':ID2 == spec_value.id || ID1 == spec_value.id }" :data-id="spec_value.id" :data-index1="index" @tap="select_spec">
 										{{spec_value.name}}
 									</view>
 								</block>
@@ -201,13 +201,13 @@
 				</scroll-view>
 				<view class="tui-operation tui-operation-right tui-right-flex tui-popup-btn">
 					<view class="tui-flex-1">
-						<tui-button type="red" shape="circle" size="mini" @click="hidePopup">加入购物车</tui-button>
+						<tui-button type="red" shape="circle" size="mini" @click="buy" :disabled="norm.id ? false : 'disabled'">立即购买</tui-button>
 					</view>
-					<view class="tui-flex-1">
-						<tui-button type="warning" shape="circle" size="mini" @click="submit">立即购买</tui-button>
-					</view>
+					<!-- <view class="tui-flex-1">
+						<tui-button type="warning" shape="circle" size="mini" @click="submit" :disabled="norm.id ? false : 'disabled'">立即购买</tui-button>
+					</view> -->
 				</view>
-				<view class="tui-icon tui-icon-close-fill tui-icon-close" style="color: #999;font-size:20px" @tap="hidePopup"></view>
+				<view class="tui-icon tui-icon-close-fill tui-icon-close" style="color: #999;font-size:20px" @tap="closeShop"></view>
 				<!-- <tui-icon name="close-fill" color="#999" class="tui-icon-close" size="20" @tap="hidePopup"></tui-icon> -->
 			</view>
 		</tui-bottom-popup>
@@ -269,42 +269,7 @@
 					}
 				],
 				bannerIndex: 0,
-				topMenu: [{
-					icon: "message",
-					text: "消息",
-					size: 26,
-					badge: 3
-				}, {
-					icon: "home",
-					text: "首页",
-					size: 23,
-					badge: 0
-				}, {
-					icon: "people",
-					text: "我的",
-					size: 26,
-					badge: 0
-				}, {
-					icon: "cart",
-					text: "购物车",
-					size: 23,
-					badge: 2
-				}, {
-					icon: "kefu",
-					text: "客服小蜜",
-					size: 26,
-					badge: 0
-				}, {
-					icon: "feedback",
-					text: "我要反馈",
-					size: 23,
-					badge: 0
-				}, {
-					icon: "share",
-					text: "分享",
-					size: 26,
-					badge: 0
-				}],
+				topMenu: [],
 				menuShow: false,
 				popupShow: false,
 				value: 1,
@@ -317,8 +282,6 @@
 
 		},
 		onLoad: function(options) {
-			this.cart = uni.getStorageSync('cart').length
-			console.log(this.cart );
 			if (options.from) {
 				this.from = options.from;
 				if(options.from == 'app'){
@@ -411,7 +374,7 @@
 			
 		},
 		methods: {
-			_List:function(e){
+			select_spec:function(e){
 				let that = this;
 				let index1 = e.currentTarget.dataset.index1
 				let id = e.currentTarget.dataset.id
@@ -419,14 +382,15 @@
 				else if(index1==1){this.ID2 = e.currentTarget.dataset.id}
 				// console.log(this.product.norm)
 				var arr = this.product.norms
-				for(let i=0; i<arr.length; i++) {
-				    if(arr[i].spec_attrs === this.ID1+'/'+this.ID2) {
-						// console.log('ok');
-						// console.log(this.ID1+"/"+this.ID2 + '--id='+arr[i].id + '--price='+arr[i].price)
-						this.norm = arr[i]
-						this.productid = arr[i].id
-						// console.log(this.norm)
-				    }
+				let select_norm = this.product.norms.find(function(norm){
+					if(norm.spec_attrs === that.ID1){
+						return true
+					}else if(norm.spec_attrs === that.ID1+'/'+that.ID2){
+						return true
+					}
+				})
+				if(select_norm){
+					that.norm = select_norm
 				}
 				
 			},
@@ -454,20 +418,14 @@
 				this.popupShow = true
 			},
 			hidePopup: function() {
-				//存缓存
-				if(this.productid!="" && this.value!=""){
-					api.cart(this.productid,this.value, false)
-				}
-				else{
-					uni.showToast({
-						icon:'none',
-						title:'不能为空',
-					})
-					console.log("不能为空")
-				}
-				this.cart = uni.getStorageSync('cart').length
-				console.log(this.cart);
 				this.popupShow = false
+			},
+			buy: function(){
+				if(this.norm.id){
+					uni.navigateTo({
+						url: '../order/new?id=' + this.norm.id + '&number=' + this.value
+					})
+				}
 			},
 			change: function(e) {
 				this.value = e.value
@@ -632,6 +590,7 @@
 		display: flex;
 		align-items: center;
 	}
+	
 
 	.ComPanyImg {
 		padding: 10rpx;
@@ -1384,6 +1343,12 @@
 		padding: 20rpx 0 30rpx 0;
 		box-sizing: border-box;
 	}
+	 .tui-col-9{
+		 width: 75%
+	 }
+	 .tui-col-3{
+	 		 width: 25%
+	 }
 
 	/*底部选择弹层*/
 </style>

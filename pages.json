@@ -128,6 +128,13 @@
 				"onReachBottomDistance": 50
 			}
 		}, {
+			"path": "pages/order/apply",
+			"style": {
+				"navigationBarTitleText": "新订单",
+				"navigationBarBackgroundColor": "#fff",
+				"navigationBarTextStyle": "black"
+			}
+		},{
 			"path": "pages/order/show",
 			"style": {
 				"navigationBarTitleText": "订单详情",
@@ -154,6 +161,14 @@
 			"path": "pages/address/new",
 			"style": {
 				"navigationBarTitleText": "新增地址",
+				"navigationBarBackgroundColor": "#fff",
+				"navigationBarTextStyle": "black"
+			}
+		},
+		{
+			"path": "pages/address/edit",
+			"style": {
+				"navigationBarTitleText": "变更地址",
 				"navigationBarBackgroundColor": "#fff",
 				"navigationBarTextStyle": "black"
 			}
