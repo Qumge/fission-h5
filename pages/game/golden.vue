@@ -47,8 +47,7 @@
 				<view class="TxtTitle">活动奖品</view>
 				<template v-for="(item,index) in game.prizes">
 					<view class="TxtCon" >
-						<text v-if="index+1 == 1">一</text>
-						<text v-if="index+1 == 2">二</text> 等奖：{{item.number}}金币</view>
+						{{index}}等奖：{{item.number}}金币</view>
 					
 				</template>
 				
