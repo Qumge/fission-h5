@@ -14,22 +14,12 @@ Vue.mixin({
 	},
 	onShow: function(){
 		let that = this;
-		console.log(that._route);
-		if(that._route){
-			console.log(that._route.meta.pagePath)
-			// window.postMessage({
-			// 	event: 'hideTabs',
-			// 	params: {
-			// 		hide: that._route.meta.pagePath == "pages/index/index"
-			// 	}
-			// }, '*')
-			window.parent.postMessage({
-				event: 'hideTabs',
-				params: {
-					hide: that._route.meta.pagePath == "pages/index/index"
-				}
-			}, '*')
-		}
+		window.parent.postMessage({
+			event: 'hideTabs',
+			params: {
+				hide: false
+			}
+		}, '*')
 		
 	}
 });
@@ -250,8 +240,8 @@ Vue.prototype.tui = tui
 Vue.prototype.$eventHub = Vue.prototype.$eventHub || new Vue()
 Vue.prototype.$store = store
 App.mpType = 'app'
-Vue.prototype.apiUrl = "/dpc/api"
-// Vue.prototype.apiUrl = 'https://api.shjietui.com/api'
+// Vue.prototype.apiUrl = "/dpc/api"
+Vue.prototype.apiUrl = 'https://api.shjietui.com/api'
 // Vue.prototype.apiUrl = 'http://liebian.natapp1.cc/api'
 Vue.prototype.appid = "wx202bddcd868b179f"
 const app = new Vue({
