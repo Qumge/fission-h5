@@ -43,6 +43,9 @@
 			}
 		},
 		onLoad: function(options) {
+			
+		},
+		onShow: function() {
 			let that = this
 			api.addresses().then(function(data){
 				console.log(data)
@@ -51,7 +54,6 @@
 				
 			})
 		},
-		onShow: function() {},
 		methods: {
 			newAddress() {
 				console.log(1);
