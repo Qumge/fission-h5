@@ -243,7 +243,7 @@
 							window.parent.postMessage({
 								event: 'pay',
 								params: {
-									payment: data[0].current_payment
+									payment: data
 								}
 							}, '*')
 						}
