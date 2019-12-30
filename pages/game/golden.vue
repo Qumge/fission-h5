@@ -23,7 +23,7 @@
 	   		<image src="/static/images/index/zhidaole.png" mode="widthFix"></image>
 	   	</view>
 	   </view>
-		<view class="stage">
+		<view class="stage" style="margin-top: 40px;">
 			<!-- 背景图 -->
 			<img src="/static/images/game/stage.png" class="stage-img" mode="widthFix" />
 			<view class="lanren" :class="{ pause: paursed }">
@@ -41,15 +41,21 @@
 		<view class="explain">
 			<view class="ExplainTitle">游戏说明</view>
 			<view class="ExplainTxt">
-				<view class="TxtTitle">活动时间</view>
-				<view class="TxtCon">2019年09月09日 - 2019年09月09日</view>
+				<view class="TxtTitle">玩法说明</view>
+				<view class="TxtCon" v-if="!game.task_game_task">每抽奖一次平台扣去{{game.cost}}积分</view>
+				<view class="TxtCon" v-else>任务状态用户可以免费抽奖一次</view>
 				<view class="TxtTitle">活动奖品</view>
-				<view class="TxtCon">一等奖：Iphone XS 一台</view>
-				<view class="TxtCon">二等奖：HUAWEI 手机一台</view>
-				<view class="TxtCon">三等奖：空气进化器一个</view>
+				<template v-for="(item,index) in game.prizes">
+					<view class="TxtCon" >
+						{{index}}等奖：{{item.number}}金币</view>
+					
+				</template>
+				
+				<view class="TxtTitle">活动时间</view>
+				<view class="TxtCon">{{game.task_game_task.valid_from}}-{{game.task_game_task.valid_to}}</view>
 				<view class="TxtZ">
 					<text class="TZ">注：</text>
-					本次活动奖品仅限在2019年09月09日前有效，过期自动作废。
+					本次活动奖品仅限在{{game.task_game_task.valid_to}}日前有效，过期自动作废。
 				</view>
 				<view class="TxtTitle">主办方</view>
 				<view class="TxtCon">趣图美业有限公司提供</view>
@@ -63,6 +69,7 @@
 <script>
 import tuiIcon from "@/components/icon/icon"
 import GuidancePopup from "@/components/GuidancePopup/GuidancePopup"
+import api from "../../api.js"
 export default {
 	components: {
 		GuidancePopup,
@@ -70,6 +77,12 @@ export default {
 	},
 	data() {
 		return {
+			game:{
+				task_game_task:{
+					valid_from:'',
+					valid_to:'',
+				}
+			},
 			ShowGuidance:false,
 			from: 'h5',
 			height: 0, //header高度
@@ -94,26 +107,100 @@ export default {
 			Ids:'', //砸蛋下标
 			paursed: false, // 初始没有蛋被砸开
 			flag: false, // 提示积分不够
-			UserIntegral:10, //用户积分
-			DeductIntegral:3, // 扣除积分
+			UserIntegral:0, //用户积分
+			DeductIntegral:500, // 扣除积分
 			// ShareIntegral:0, // 分享积分
 			Options: null,
-			showShare: false
+			showShare: false,
+			prizes:[],
 		};
 	},
-	onLoad(options) { 
+	computed: {
+	    range: function() {
+	      return this.prizes.sort((a,b)=>a.id-b.id).reverse();//升序
+		  // console.log(this.prizes.sort((a,b)=>a.id-b.id)())
+	    }
+	  },
+	onLoad(options) {
+		// 19
+		// uni.setStorageSync('sessionToken', 'oyLjzFWnnhA2FJddMJM4')
 		if (options.from) {
 			this.from = options.from
 		}
 		let that = this
 		this.showShare = this.tui.wechatBowser();
-		that.Options = options
+		api.me(options.id).then(function(data){
+			console.log(data)
+			// that.MeCoin = data
+			that.UserIntegral = data.coin
+		}).catch(function(){ })
+		
+		api.game(options.id).then(function(data) {
+				that.game = data;
+				// that.prizes = data.prizes
+				console.log(data);
+				
+				if (!that.tui.wechatBowser()) return;
+				if (!that.game.task_id) return;
+				//查看
+				console.log(that.game.task_id);
+				api.view(that.game.task_id, options.token).then(function(data){
+					console.log(data);
+				}).catch(function(){
+					
+				})
+				api.fission(that.game.task_id, options.token).then(function(fission_log) {
+					console.log(fission_log);
+					that.tui.jssdk().then(function(jweixin) {
+						let image_path = ''
+						if(fission_log.task.image){
+							image_path = fission_log.task.image.image_path
+						}
+						jweixin.updateAppMessageShareData({ 
+							title: that.game.name, // 分享标题
+							desc: '分享链接赚金币,提现赢大奖', // 分享描述
+							link: (location.origin + location.pathname + '?id=' + that.game.id + '&token=' + fission_log.token), // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致// 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+							imgUrl: image_path, // 分享图标
+							success: function () {
+							  // 设置成功
+							  console.log('updateAppMessageShareData');
+							}
+						  })
+						// jweixin.onMenuShareAppMessage({
+							
+						// 	title: that.game.name, // 分享标题
+						// 	desc: '分享链接赚金币,提现赢大奖', // 分享描述
+						// 	link: (location.origin + location.pathname + '?id=' + that.game.id + '&token=' + fission_log.token), // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+						// 	imgUrl: that.game.images[0].image_path, // 分享图标
+						// 	type: '', // 分享类型,music、video或link，不填默认为link
+						// 	dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+						// 	success: function() {
+						// 		// 用户点击了分享后执行的回调函数
+						// 		console.log('share')
+						// 		api.share(fission_log.token).then(function(data) {
+						// 			console.log(data);
+						// 		})
+						// 	}
+						// });
+					}).catch(function(e) {
+						console.log(e);
+					})
+				}).catch(function() {
+			
+				})
+			}).catch(function(e) {
+				console.log(e);
+				//跳转到回上一页
+			})
+		
+		
+		
+		
 	},
 	onShow() {
 		let that = this
-		console.log(that.Options.id)
 		//请求抽奖是否开始 获取用户信息
-		
+		console.log(this.rangeList)
 	},
 	methods: {
 		back: function() {
@@ -129,36 +216,51 @@ export default {
 		// 点击砸蛋
 		openEgg(s) {
 			let that = this;
-			// console.log(s.currentTarget.dataset.id)
-			
-			//  扣除每次抽奖积分
-			that.UserIntegral = that.UserIntegral - that.DeductIntegral;
-			if(that.UserIntegral>0 || that.UserIntegral==0){
-				console.log("ok可以抽奖")
+			console.log(that.game.id)
+			if(!that.game.task_game_task && that.UserIntegral < that.game.coin){
+				uni.showModal({
+					title:'温馨提示',
+					content: '您的金币不足'
+				})
 			}else{
-				console.log("积分不够")
-				return false;
-			}
-			console.log(that.UserIntegral)
-			
-			that.paursed = true; // 有蛋被砸开
-			that.Ids = s.currentTarget.dataset.id;
-			// 请求中奖信息 
-			
-				setTimeout(function() {
+				api.playGame(that.game.id).then(function(data){
+					console.log(data)
+					console.log(data.prize_log.prize+'1111')
+					if(data.message=="您已经玩过这个游戏了"){
+						uni.showModal({
+							title:'温馨提示',
+							content: data.message
+						})
+						return
+					}
+					// 有蛋被砸开
+					that.paursed = true;
+					that.Ids = s.currentTarget.dataset.id;
 					setTimeout(function() {
-						
-						that.celebrate(); // 提示中奖信息
-						// that.Nocelebrate()// 提示未中奖信息
-					}, 800); // 1秒后中奖提示出现
-				}, 200); // 0.6秒后开花的蛋出现
+						setTimeout(function() {
+							if(data.prize_log.prize.type === 'Prize::ProductPrize'){
+								that.celebrate(data.prize_log.prize.product.name); // 提示中奖信息
+							}else{
+								that.celebrate("金币：" + data.prize_log.prize.coin)
+							}
+							
+							// that.Nocelebrate()// 提示未中奖信息
+						}, 500); // *秒后中奖提示出现
+					}, 50); // 0.6秒后开花的蛋出现
+					
+				}).catch(function(){
+					
+				})
+			}
+
 		},
 		// 恭喜中奖提示
-		celebrate() {
+		celebrate(s) {
+			console.log(s)
 			let that = this;
 			uni.showModal({
 				title:'恭喜中奖',
-				content:"二等奖",
+				content: s,
 				success() {
 					that.Ids = ''
 					that.revert()
@@ -166,7 +268,8 @@ export default {
 			})
 		},
 		// 没有中奖
-		Nocelebrate() {
+		Nocelebrate(s) {
+			console.log(s)
 			let that = this;
 			uni.showModal({
 				title:'你没有中奖再接再厉吧',

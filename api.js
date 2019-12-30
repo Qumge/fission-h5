@@ -25,6 +25,66 @@ const api = {
 			});
 		})
 	},
+	me: function(id){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/users/me', //仅为示例，并非真实接口地址。
+				method: 'GET',
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	playGame: function(id){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/games/' + id + '/play', //仅为示例，并非真实接口地址。
+				method: 'POST',
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	game: function(id){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/games/' + id, //仅为示例，并非真实接口地址。
+				method: 'GET',
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
 	address: function(id){
 		return new Promise(function(resolve, reject) {
 			uni.request({
