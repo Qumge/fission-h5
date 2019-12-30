@@ -77,6 +77,7 @@
 		},
 		data() {
 			return {
+				optionsId:'',
 				from: 'h5',
 				showShare: false,
 				height: 0, //header高度
@@ -133,6 +134,7 @@
 		},
 		onLoad: function(options){
 			let that = this
+			that.optionsId = options.id
 			if (options.from) {
 				this.from = options.from
 			}
@@ -201,7 +203,7 @@
 				// console.log(e.detail.value)
 				var formdata = JSON.stringify(e.detail.value)
                 console.log('携带数据为：' + JSON.stringify(e.detail.value))
-				api.task_FormQuestionnaires(formdata,1).then(function(data){
+				api.task_FormQuestionnaires(formdata,this.optionsId).then(function(data){
 					console.log(data)
 					if(!data.error){
 						uni.showToast({
