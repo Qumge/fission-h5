@@ -148,12 +148,12 @@ const tui = {
 		// 已经授权登录过的就不用再授权了
 		//uni.setStorageSync('sessionToken', null)
 		console.log(uni.getStorageSync('sessionToken'))
-		if (uni.getStorageSync('sessionToken')) return;
-		
 		//判断是否来自app
 		if (params.session && params.from && params.from == 'app') {
 			uni.setStorageSync('sessionToken', params.session)
 		}
+		if (uni.getStorageSync('sessionToken')) return;
+		
 		if (!this.wechatBowser()) return;
 		// 微信如果拿到code，调用授权接口，没有拿到就跳转微信授权链接获取
 		if (params.code) {
