@@ -17,40 +17,50 @@
 			<vue-scratch-card 
 			element-id='scratchWrap'
 			:ratio=0.5
-			:move-radius=20 
+			:move-radius= moveRadius
 			:start-callback=startCallback 
 			:clear-callback=clearCallback
 			cover-color='#fff'>
 			    <div slot='result' class="vue-scratch-card ">
 			        <!-- 恭喜您中大奖啦～～ -->
-					再接再厉~~
+					{{award.name}}
+					<!-- 再接再厉～～ -->
 			    </div>
 			</vue-scratch-card >
+			<!-- <vue-scratch-card cover-color='#fff' :move-radius= 0 v-else="true"></vue-scratch-card> -->
 			 
 		</view>
 		<!-- 说明 -->
+		<view class="TxtZ TxtTitle" style="padding-left: 10px;" @tap="thisShow">
+			<text class="">我的积分：</text> {{userIntegral}}
+		</view>
 		<view class="explain">
 			<view class="ExplainTitle">游戏说明</view>
 			<view class="ExplainTxt">
 				<view class="TxtTitle">玩法说明</view>
-				<view class="TxtCon" v-if="!game.task_game_task">每抽奖一次平台扣去{{game.cost}}积分</view>
-				<view class="TxtCon" v-else>任务状态用户可以免费抽奖一次</view>
+				<view class="TxtCon" >每抽奖一次平台扣去{{game.cost}}积分</view>
 				<view class="TxtTitle">活动奖品</view>
 				<template v-for="(item,index) in game.prizes">
 					<view class="TxtCon" >
-						{{index}} 等奖：{{item.number}}金币</view>
-					
+						{{index+1}}等奖：{{item.number}}金币</view>
 				</template>
-				
-				<view class="TxtTitle">活动时间</view>
-				<view class="TxtCon">shij</view>
-				<view class="TxtZ">
+				<!-- <view class="TxtTitle">活动时间</view>
+				<view class="TxtCon">2019年09月09日 - 2019年09月09日</view> -->
+				<!-- <view class="TxtZ">
 					<text class="TZ">注：</text>
-					本次活动奖品仅限在shij日前有效，过期自动作废。
-				</view>
+					本次活动奖品仅限在2019年09月09日前有效，过期自动作废。
+				</view> -->
+				<!-- <template v-if="!game.task_game_task">
+					<view class="TxtTitle">活动时间</view>
+					<view class="TxtCon">{{game.task_game_task.valid_from}}-{{game.task_game_task.valid_to}}</view>
+					<view class="TxtZ">
+						<text class="TZ">注：</text>
+						本次活动奖品仅限在{{game.task_game_task.valid_to}}日前有效，过期自动作废。
+					</view>
+				</template> -->
 				<view class="TxtTitle">主办方</view>
 				<view class="TxtCon">趣图美业有限公司提供</view>
-				
+		
 			</view>
 		</view>
 
@@ -69,17 +79,16 @@
 		data() {
 			return {
 				game:{
-					task_game_task:{
-						valid_from:'',
-						valid_to:'',
-					}
 				},
+				userIntegral:0,
+				moveRadius:20,
 				from: 'h5',
 				height: 0, //header高度
 				top: 0, //标题图标距离顶部距离
 				scrollH: 0, //滚动总高度
 				opcity: 0,
 				iconOpcity: 0.5,
+				award:"空",
 			}
 		},
 		onLoad(options) {
@@ -89,15 +98,20 @@
 			}
 			let that = this
 			this.showShare = this.tui.wechatBowser();
-			api.me(options.id).then(function(data){
+			api.me().then(function(data){
 				console.log(data)
-				// that.MeCoin = data
-				that.UserIntegral = data.coin
+				that.userIntegral = data.coin
 			}).catch(function(){ })
-			
 			api.game(options.id).then(function(data) {
 					that.game = data;
 					console.log(data);
+					if(that.userIntegral < data.coin){
+						that.moveRadius=0
+						uni.showModal({
+							title:'温馨提示',
+							content: '您的金币不足',
+						})
+					}
 					
 					if (!that.tui.wechatBowser()) return;
 					if (!that.game.task_id) return;
@@ -158,18 +172,66 @@
 			},
 			
 			startCallback() {
+				let that = this;
 				console.log('抽奖成功！')
-				api.playGame(this.game.id).then(function(data){
+				this.apiMe()
+				// api.playGame(this.game.id).then(function(data){
+				// 	console.log(data)
+				// 	console.log(data.coin)
+				// 	if(that.userIntegral < data.cost){
+				// 		uni.showModal({
+				// 			title:'温馨提示',
+				// 			content: '您的金币不足',
+				// 		})
+				// 	}else{
+						
+				// 	}
+					
+				// }).catch(function(){
+					
+				// })
+				
+				api.me(that.game.id).then(function(data){
 					console.log(data)
-					
-					
-				}).catch(function(){
-					
-				})
+					that.userIntegral = data.coin
+				}).catch(function(){ })
+				console.log(that.game.id)
+				
+				if(!that.game.task_game_task && that.userIntegral < that.game.coin){
+					uni.showModal({
+						title:'温馨提示',
+						content: '您的积分不足'
+					})
+				}else{
+					api.playGame(that.game.id).then(function(data){
+						console.log(data)
+						that.award = data.game
+						if(data.message == "您已经玩过这个游戏了"){
+							uni.showModal({
+								title:'温馨提示',
+								content: data.message
+							})
+							return
+						}
+						
+						
+					}).catch(function(){
+						
+					})
+				}
 			},
 			clearCallback() {
 				console.log('清除完毕！')
-			}
+			},
+			thisShow(){
+				
+			},
+			apiMe(){
+				api.me(this.game.id).then(function(data){
+					console.log(data)
+					that.userIntegral = data.coin
+				}).catch(function(){ })
+			},
 		},
 	}
 </script>

@@ -14,14 +14,14 @@
 		<!--header-->
 		<view style="margin-top: 44px;">
 			<view class="tui-news-title">
-				我们充分尊重联赛新政，武汉队战术多变训练有素1
+				{{articleTask.article.subject}}
 			</view>
 			<view class="tui-sub-info">
 				<view class="tui-sub-left">
-					<text class="tui-author">早安君</text>
-					<text>昨天 17:12</text>
+					<!-- <text class="tui-author">{{article.name}}</text> -->
+					<text>{{articleTask.article.created_at}}</text>
 				</view>
-				<view class="tui-sub-right">阅读 2453</view>
+				<view class="tui-sub-right">阅读 {{articleTask.article.view_num}}</view>
 				<view @click="showPop" v-if="showShare" style="padding: 10rpx 30rpx;border-radius: 10rpx; display: flex;align-items: center;">
 					<tui-icon name="partake" :size="15" color="#333"></tui-icon>
 					<text class="tui-black">分享得金币</text>
@@ -29,36 +29,23 @@
 			</view>
 			<view class="tui-news-content">
 				<view class="tui-article">
-					北京时间6月22日，重庆斯威队召开了赛前新闻发布会，主教练小克鲁伊夫和球员彭欣力出席。
+					<rich-text :nodes="articleTask.article.content"></rich-text>
+					<!-- 北京时间6月22日，重庆斯威队召开了赛前新闻发布会，主教练小克鲁伊夫和球员彭欣力出席。 -->
 				</view>
-				<view class="tui-article">
-					这是一场很重要的比赛，武汉卓尔在中超目前打的还是不错的，现在积分与我们一样。我们面对这个对手做了充分的准备，他们的战术变化很多，我也认为他们是一支训练有素的队伍。虽然这是一场艰难的比赛，我们也充满了动力去拿到我们想要的分数，实现我们的目标。联赛上半程还有两场比赛，我们也会竭尽全力拿到尽量多的分数。
-				</view>
-				<image src="/static/images/mall/activity/activity_2.jpg" class="tui-article-pic" mode="widthFix"></image>
-				<view class="tui-article">
-					大家下午好，明天非常重要，这星期我们的备战时间比较充裕，我们针对对手做了有效的布置，希望明天给大家呈现精彩的比赛。
-				</view>
-				<view class="tui-article">
-					我相信大家比我更了解他，但是就像刚刚提到的一样，这支球队的战术是丰富而多变的，这就意味着他在应对不同比赛时做了充分的准备。我们非常尊重明天的对手，他们最近状态出色，拿到许多分数。
-				</view>
-				<image src="/static/images/news/1.jpg" class="tui-article-pic" mode="widthFix"></image>
-				<view class="tui-article">
-					对我而言，我还是想保持沉默，我不打算就这个问题做过多的评论。因为这个政策的变化是马上实施了，我们肯定是尊重它，然后在我们力所能及的范围上找到最好的应对的方案，我个人意见并不重要，我们尊重和遵守相关决定。
-				</view>
-
+		
 			</view>
 
-			<view class="tui-news-source">消息参考来源：体坛大精汇</view>
+			<!-- <view class="tui-news-source">消息参考来源：体坛大精汇</view> -->
 
 			<view class="w69">
 				<view class="x">
-					<view class="Mode">
+					<view class="Mode" @tap="product" :data-id="articleTask.article.product.id">
 						<view class="ModeImg">
-							<image src="/static/images/basic/badge.png"></image>
+							<image :src="articleTask.article.product.default_image"></image>
 						</view>
 						<view class="ModeName">
-							<view class="name1">消息参考来源</view>
-							<view class="name2">￥&nbsp;800.0</view>
+							<view class="name1">{{articleTask.article.product.name}}</view>
+							<view class="name2">￥&nbsp;{{articleTask.article.product.price}}</view>
 						</view>
 					</view>
 				</view>
@@ -88,6 +75,7 @@
 	import tuiLoadmore from "@/components/loadmore/loadmore"
 	import tuiNomore from "@/components/nomore/nomore"
 	import tuiBadge from "@/components/badge/badge"
+	import api from "../../api.js"
 	export default {
 		components: {
 			GuidancePopup,
@@ -100,6 +88,14 @@
 		},
 		data() {
 			return {
+				articleTask:{
+					article:{
+						subject:'',
+						product:{
+							default_image:null
+						}
+					}
+				},
 				height: 0, //header高度
 				top: 0, //标题图标距离顶部距离
 				scrollH: 0, //滚动总高度
@@ -170,12 +166,81 @@
 			}
 		},
 		onLoad: function(options) {
+			// 5
+			let that = this
 			if (options.from) {
 				this.from = options.from
 			}
 			this.showShare = this.tui.wechatBowser();
+			// api.me(options.id).then(function(data){
+				// console.log(data)
+				// that.userIntegral = data.coin
+			// }).catch(function(){ })
+			
+			api.task_article(options.id).then(function(data) {
+				console.log(data)
+				that.articleTask = data
+				
+				if (!that.tui.wechatBowser()) return;
+				if (!that.articleTask.id) return;
+				//查看
+				console.log(that.articleTask.id);
+				api.view(that.articleTask.id, options.token).then(function(data){
+					console.log(data);
+				}).catch(function(){
+					
+				})
+				api.fission(that.articleTask.id, options.token).then(function(fission_log) {
+					console.log(fission_log);
+					that.tui.jssdk().then(function(jweixin) {
+						let image_path = ''
+						if(fission_log.task.image){
+							image_path = fission_log.task.image.image_path
+						}
+						jweixin.updateAppMessageShareData({ 
+							title: that.articleTask.name, // 分享标题
+							desc: '分享链接赚金币,提现赢大奖', // 分享描述
+							link: (location.origin + location.pathname + '?id=' + that.articleTask.id + '&token=' + fission_log.token), // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致// 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+							imgUrl: image_path, // 分享图标
+							success: function () {
+							  // 设置成功
+							  console.log('updateAppMessageShareData');
+							}
+						  })
+						// jweixin.onMenuShareAppMessage({
+							
+						// 	title: that.articleTask.name, // 分享标题
+						// 	desc: '分享链接赚金币,提现赢大奖', // 分享描述
+						// 	link: (location.origin + location.pathname + '?id=' + that.articleTask.id + '&token=' + fission_log.token), // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+						// 	imgUrl: that.articleTask.images[0].image_path, // 分享图标
+						// 	type: '', // 分享类型,music、video或link，不填默认为link
+						// 	dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+						// 	success: function() {
+						// 		// 用户点击了分享后执行的回调函数
+						// 		console.log('share')
+						// 		api.share(fission_log.token).then(function(data) {
+						// 			console.log(data);
+						// 		})
+						// 	}
+						// });
+					}).catch(function(e) {
+						console.log(e);
+					})
+				}).catch(function() {
+							
+				})
+				
+			}).catch(function(){ })
 		},
 		methods: {
+			
+			product:function(e){
+				
+				console.log(e.currentTarget.dataset.id)
+				uni.navigateTo({
+					url:"../product/show?id="+e.currentTarget.dataset.id
+				})
+			},
 			showPop() {
 				// 确认弹窗回调
 				this.ShowGuidance = true

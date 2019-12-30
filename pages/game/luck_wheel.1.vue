@@ -36,8 +36,6 @@
 					<view class="tui-btn-start" :class="[isRunning?'tui-ative':'']" @tap="startDrawing">立即抽奖</view>
 				</view>
 			</view>
-			
-			
 			<view style="position: relative;top: 340rpx;">
 				
 				<view class="explain">
@@ -97,7 +95,7 @@
 				this.from = options.from
 			}
 			this.showShare = this.tui.wechatBowser();
-			api.me().then(function(data){
+			api.me(options.id).then(function(data){
 				console.log(data)
 				that.userIntegral = data.coin
 			}).catch(function(){ })

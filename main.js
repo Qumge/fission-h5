@@ -14,12 +14,12 @@ Vue.mixin({
 	},
 	onShow: function(){
 		let that = this;
-		console.log(1234);
-		console.log(this);
+		// console.log(1234);
+		// console.log(this);
 		if(this.route){
-			console.log(333);
+			// console.log(333);
 			let hide = this.route != 'pages/index/index'
-			console.log(hide);
+			// console.log(hide);
 			window.parent.postMessage({
 				event: 'hideTabs',
 				params: {
@@ -249,8 +249,9 @@ const tui = {
 Vue.prototype.tui = tui
 Vue.prototype.$eventHub = Vue.prototype.$eventHub || new Vue()
 Vue.prototype.$store = store
+
+
 App.mpType = 'app'
-console.log(this);
 // Vue.prototype.apiUrl = "/dpc/api"
 Vue.prototype.apiUrl = 'https://api.shjietui.com/api'
 // Vue.prototype.apiUrl = 'http://liebian.natapp1.cc/api'
