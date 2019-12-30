@@ -353,6 +353,24 @@ const api = {
 			});
 		})
 	},
+	//问卷
+	task_article: function(id) {
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/task_articles/' + id, //仅为示例，并非真实接口地址。
+				method: 'GET',
+				success: (res) => {
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
 	categories: function() {
 		return new Promise(function(resolve, reject) {
 			uni.request({

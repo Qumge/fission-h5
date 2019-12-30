@@ -47,8 +47,7 @@
 				<view class="TxtTitle">活动奖品</view>
 				<template v-for="(item,index) in game.prizes">
 					<view class="TxtCon" >
-						{{index}}等奖：{{item.number}}金币</view>
-					
+						{{index+1}}等奖：{{item.number}}金币</view>
 				</template>
 				
 				<view class="TxtTitle">活动时间</view>
@@ -107,7 +106,7 @@ export default {
 			Ids:'', //砸蛋下标
 			paursed: false, // 初始没有蛋被砸开
 			flag: false, // 提示积分不够
-			UserIntegral:0, //用户积分
+			userIntegral:0, //用户积分
 			DeductIntegral:500, // 扣除积分
 			// ShareIntegral:0, // 分享积分
 			Options: null,
@@ -131,8 +130,7 @@ export default {
 		this.showShare = this.tui.wechatBowser();
 		api.me(options.id).then(function(data){
 			console.log(data)
-			// that.MeCoin = data
-			that.UserIntegral = data.coin
+			that.userIntegral = data.coin
 		}).catch(function(){ })
 		
 		api.game(options.id).then(function(data) {
@@ -217,7 +215,7 @@ export default {
 		openEgg(s) {
 			let that = this;
 			console.log(that.game.id)
-			if(!that.game.task_game_task && that.UserIntegral < that.game.coin){
+			if(!that.game.task_game_task && that.userIntegral < that.game.coin){
 				uni.showModal({
 					title:'温馨提示',
 					content: '您的金币不足'
@@ -226,7 +224,8 @@ export default {
 				api.playGame(that.game.id).then(function(data){
 					console.log(data)
 					console.log(data.prize_log.prize+'1111')
-					if(data.message=="您已经玩过这个游戏了"){
+					if(data.error){
+						console.log(1)
 						uni.showModal({
 							title:'温馨提示',
 							content: data.message

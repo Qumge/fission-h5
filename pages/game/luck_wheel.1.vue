@@ -36,8 +36,6 @@
 					<view class="tui-btn-start" :class="[isRunning?'tui-ative':'']" @tap="startDrawing">立即抽奖</view>
 				</view>
 			</view>
-			
-			
 			<view style="position: relative;top: 340rpx;">
 				
 				<view class="explain">
