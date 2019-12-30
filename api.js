@@ -353,12 +353,34 @@ const api = {
 			});
 		})
 	},
-	//问卷
+	//推文
 	task_article: function(id) {
 		return new Promise(function(resolve, reject) {
 			uni.request({
 				url: Vue.prototype.apiUrl + '/v1/users/task_articles/' + id, //仅为示例，并非真实接口地址。
 				method: 'GET',
+				success: (res) => {
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	//问卷调查提交
+	task_FormQuestionnaires: function(answer,id) {
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/task_questionnaires/' + id + '/answer', //仅为示例，并非真实接口地址。
+				method: 'POST',
+				data: {
+					answer: answer,
+					id: id
+				},
 				success: (res) => {
 					resolve(res.data)
 				},

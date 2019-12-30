@@ -14,12 +14,20 @@ Vue.mixin({
 	},
 	onShow: function(){
 		let that = this;
-		window.parent.postMessage({
-			event: 'hideTabs',
-			params: {
-				hide: false
-			}
-		}, '*')
+		console.log(1234);
+		console.log(this);
+		if(this.route){
+			console.log(333);
+			let hide = this.route != 'pages/index/index'
+			console.log(hide);
+			window.parent.postMessage({
+				event: 'hideTabs',
+				params: {
+					hide: hide
+				}
+			}, '*')
+		}
+		
 		
 	}
 });
@@ -139,11 +147,13 @@ const tui = {
 		let params = this.getUrlParams(link); // 地址解析
 		// 已经授权登录过的就不用再授权了
 		//uni.setStorageSync('sessionToken', null)
-		if (uni.getStorageSync('sessionToken')) return;
+		console.log(uni.getStorageSync('sessionToken'))
 		//判断是否来自app
 		if (params.session && params.from && params.from == 'app') {
 			uni.setStorageSync('sessionToken', params.session)
 		}
+		if (uni.getStorageSync('sessionToken')) return;
+		
 		if (!this.wechatBowser()) return;
 		// 微信如果拿到code，调用授权接口，没有拿到就跳转微信授权链接获取
 		if (params.code) {
@@ -239,9 +249,10 @@ const tui = {
 Vue.prototype.tui = tui
 Vue.prototype.$eventHub = Vue.prototype.$eventHub || new Vue()
 Vue.prototype.$store = store
+
 App.mpType = 'app'
-Vue.prototype.apiUrl = "/dpc/api"
-// Vue.prototype.apiUrl = 'https://api.shjietui.com/api'
+// Vue.prototype.apiUrl = "/dpc/api"
+Vue.prototype.apiUrl = 'https://api.shjietui.com/api'
 // Vue.prototype.apiUrl = 'http://liebian.natapp1.cc/api'
 Vue.prototype.appid = "wx202bddcd868b179f"
 const app = new Vue({

@@ -199,8 +199,24 @@
 		methods: {
 			formSubmit: function(e) {
 				// console.log(e.detail.value)
-				var formdata = e.detail.value
+				var formdata = JSON.stringify(e.detail.value)
                 console.log('携带数据为：' + JSON.stringify(e.detail.value))
+				api.task_FormQuestionnaires(formdata,1).then(function(data){
+					console.log(data)
+					if(!data.error){
+						uni.showToast({
+							icon:"success",
+							title:"感谢您的参与！"
+						})						
+					}else{
+						uni.showToast({
+							icon:"none",
+							title:data.message
+						})
+					}
+				}).catch(function(e){
+				console.log(e)
+			})
 				
 			},
 			radioChange: function(evt) {
