@@ -104,8 +104,8 @@
 					<view class="FlexComPany">
 						<view class="ComPany">
 							<view class="ComPanyImg">
-								<image src="/static/images/basic/badge.png" mode=""></image>	
-								<!-- <image :src="product.company.image" mode=""></image> -->
+								<image v-if="product.company.image == null" src="/static/images/basic/badge.png" mode=""></image>	
+								<image v-else :src="product.company.image.image_path" mode=""></image>
 							</view>
 							<view>
 								<view class="ComPanyName">
@@ -116,7 +116,7 @@
 								</view> -->
 							</view>
 						</view>
-						<view class="ComPanyGZ" :data-id="product.company.id" @tap="_ComPany">
+						<view class="ComPanyGZ" :data-id="product.company.id" @tap="Actual">
 							进店逛逛<text class="h" style="margin-left: 10rpx;">></text>
 						</view>
 					</view>
@@ -145,7 +145,7 @@
 					<tui-icon name="kefu" :size="22" color='#333'></tui-icon>
 					<view class="tui-operation-text tui-scale-small">客服</view>
 				</view> -->
-				<view class="tui-operation-item" @tap="_company" hover-class="opcity" :hover-stay-time="150">
+				<view class="tui-operation-item" @tap="Actual" hover-class="opcity" :hover-stay-time="150">
 					<tui-icon name="shop" :size="22" color='#333'></tui-icon>
 					<view class="tui-operation-text tui-scale-small">店铺</view>
 				</view>
@@ -256,8 +256,12 @@
 				iconOpcity: 0.5,
 				product: {
 					company:{
-						name:''
-					}
+						name:'',
+						image:{
+							image_path:'',
+						}
+					},
+					
 				},
 				banner: [],
 				norm: {
@@ -389,7 +393,6 @@
 				}
 				
 			},
-			
 			bannerChange: function(e) {
 				this.bannerIndex = e.detail.current
 			},
@@ -408,6 +411,9 @@
 			},
 			closeMenu: function() {
 				this.menuShow = false
+			},
+			closeShop:function(){
+				this.popupShow = false
 			},
 			showPopup: function() {
 				this.popupShow = true
@@ -452,9 +458,10 @@
 			_colse: function() {
 				this.ShowGuidance = false
 			},
-			_ComPany() {
+			Actual(e) {
+				console.log(e.currentTarget.dataset.id)
 				uni.navigateTo({
-					url: '../company/show'
+					url: '../company/show?id='+e.currentTarget.dataset.id
 				})
 			},
 			_cart() {
@@ -462,11 +469,6 @@
 					url: '../cart/show'
 				})
 			},
-			_company() {
-				uni.navigateTo({
-					url: '../company/show'
-				})
-			}
 		},
 		onPageScroll(e) {
 			let scroll = e.scrollTop <= 0 ? 0 : e.scrollTop;

@@ -20,6 +20,7 @@
 				<view class="tui-sub-left">
 					<!-- <text class="tui-author">{{article.name}}</text> -->
 					<text>{{articleTask.article.created_at}}</text>
+					
 				</view>
 				<view class="tui-sub-right">阅读 {{articleTask.article.view_num}}</view>
 				<view @click="showPop" v-if="showShare" style="padding: 10rpx 30rpx;border-radius: 10rpx; display: flex;align-items: center;">
@@ -88,6 +89,7 @@
 		},
 		data() {
 			return {
+				date:'2019-12-30 11:05:27',
 				articleTask:{
 					article:{
 						subject:'',
@@ -150,6 +152,9 @@
 				showShare: false
 			}
 		},
+		onShow() {
+			
+		},
 		computed: {
 			iconColor() {
 				return this.isFabulous ? '#5677fc' : '#333'
@@ -172,15 +177,10 @@
 				this.from = options.from
 			}
 			this.showShare = this.tui.wechatBowser();
-			// api.me(options.id).then(function(data){
-				// console.log(data)
-				// that.userIntegral = data.coin
-			// }).catch(function(){ })
 			
 			api.task_article(options.id).then(function(data) {
 				console.log(data)
 				that.articleTask = data
-				
 				if (!that.tui.wechatBowser()) return;
 				if (!that.articleTask.id) return;
 				//查看
@@ -233,7 +233,6 @@
 			}).catch(function(){ })
 		},
 		methods: {
-			
 			product:function(e){
 				
 				console.log(e.currentTarget.dataset.id)
@@ -386,6 +385,7 @@
 	.tui-news-title {
 		font-size: 48rpx;
 		font-weight: 500;
+		letter-spacing: 2px;
 		text-align: justify;
 	}
 
@@ -410,6 +410,7 @@
 	.tui-article {
 		/* text-indent: 2em; */
 		font-size: 34rpx;
+		color: #585555;
 		padding-bottom: 40rpx;
 		line-height: 60rpx;
 		text-align: justify;

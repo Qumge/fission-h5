@@ -4,15 +4,20 @@
 		<view class="tui-header-box">
 			<view class="tui-header" :style="{ width: width + 'px', height: height + 'px' }">
 				<view class="tui-back" :style="{ marginTop: arrowTop + 'px' }" @tap="back"><tui-icon name="arrowleft" color="#000"></tui-icon></view>
-				<view class="tui-searchbox tui-search-mr" :style="{ marginTop: inputTop + 'px' }" @tap="search">
+				<view class="tui-searchbox tui-search-mr" :style="{ marginTop: inputTop + 'px' }">
 					<!-- #ifdef APP-PLUS || MP -->
 					<icon type="search" :size="13" color="#999"></icon>
 					<!-- #endif -->
-					<text class="tui-search-text" v-if="!searchKey">搜索店铺商品</text>
-					<view class="tui-search-key" v-if="searchKey">
-						<view class="tui-key-text">{{ searchKey }}</view>
-						<tui-icon name="shut" :size="12" color="#fff"></tui-icon>
-					</view>
+					<input
+						confirm-type="search"
+						placeholder="商品名搜索"
+						:focus="true"
+						@confirm="confirmSearch"
+						auto-focus
+						placeholder-class="tui-input-plholder"
+						class="tui-input"
+						:value="search"
+					/>
 				</view>
 			</view>
 		</view>
@@ -23,27 +28,33 @@
 			<view class="FlexComPany">
 				<view class="ComPany">
 					<view class="ComPanyImg">
-						<image src="/static/images/basic/badge.png" mode=""></image>
+						<image v-if="!company.image" src="/static/images/basic/badge.png" mode=""></image>
+						<image v-if="company.image"  :src="company.image.image_path" mode=""></image>
 					</view>
 					<view>
 						<view class="ComPanyName">
-							锐步官方旗舰店
+							{{company.name}}
 						</view>
-						<view class="ComPanyTi">
+						<!-- <view class="ComPanyTi">
 							在售商品100件
-						</view>
+						</view> -->
 					</view>
 				</view>
-				<view class="ComPanyGZ">
+				<view v-if="company.follow == 0" class="ComPanyGZ" @tap="follow">
 					+关注
+				</view>
+				<view v-if="company.follow == 1" class="ComPanyYGZ" @tap="cancelfollow">
+					已关注
 				</view>
 			</view>
 		</view>
 
 		<!-- banner -->
 		<swiper class="swiper">
-			<swiper-item><image src="/static/images/mall/product/1.jpg"></image></swiper-item>
-			<swiper-item><image src="/static/images/mall/product/2.jpg"></image></swiper-item>
+			<swiper-item v-for="item in companyBanner">
+				<image :data-id='item.task.image.id' @tap="_companyBanner" :src="item.task.image.image_path"></image>
+			</swiper-item>
+			<!-- <swiper-item><image  v-if="item.task.image==null" src="/static/images/mall/product/2.jpg"></image></swiper-item> -->
 		</swiper>
 
 		<!-- tab -->
@@ -59,17 +70,19 @@
 		</view>
 
 		<!--list-->
+		
 		<!-- <view class="tui-product-list" :style="{marginTop:px(dropScreenH+18)}"> -->
 		<view v-show="Id == 1">
 			<view style="width: 690rpx;margin: 0 auto;" class="tui-product-list">
 				<view class="tui-product-container">
-					<block v-for="(item, index) in productList" :key="index" v-if="(index + 1) % 2 != 0 || isList">
+					<block v-for="(task, index) in tasks" :key="index" v-if="(index + 1) % 2 != 0 || isList">
 						<!-- <template is="productItem" data="{{item,index:index,isList:isList}}" /> -->
-						<!--商品列表-->
+						<!--任务列表-->
 						<view class="tui-pro-item" :class="[isList ? 'tui-flex-list' : '']" hover-class="hover" :hover-start-time="150" @tap="detail">
-							<image :src="'../../static/images/mall/product/' + item.img + '.jpg'" class="tui-pro-img" :class="[isList ? 'tui-proimg-list' : '']" mode="widthFix" />
+							<image v-if="!task.image" src="../../static/images/basic/badge.png" class="tui-pro-img" :class="[isList ? 'tui-proimg-list' : '']" mode="widthFix" />
+							<image v-else :src="task.image.image_path" class="tui-pro-img" :class="[isList ? 'tui-proimg-list' : '']" mode="widthFix" />
 							<view class="tui-pro-content">
-								<view class="tui-pro-tit">{{ item.name }}</view>
+								<view class="tui-pro-tit">{{task.name}}</view>
 								<view>
 									<view class="tui-pro-price">
 										<!-- <text class="tui-sale-price">￥{{ item.sale }}</text> -->
@@ -79,7 +92,7 @@
 								</view>
 							</view>
 						</view>
-						<!--商品列表-->
+						<!--任务列表-->
 					</block>
 				</view>
 			</view>
@@ -88,19 +101,20 @@
 		<view v-show="Id == 2">
 			<view style="width: 690rpx;margin: 0 auto;" class="tui-product-list">
 				<view class="tui-product-container">
-					<block v-for="(item, index) in productList" :key="index" v-if="(index + 1) % 2 != 0 || isList">
+					<block v-for="(product, index) in products" :key="index" v-if="(index + 1) % 2 != 0 || isList">
 						<!-- <template is="productItem" data="{{item,index:index,isList:isList}}" /> -->
 						<!--商品列表-->
 						<view class="tui-pro-item" :class="[isList ? 'tui-flex-list' : '']" hover-class="hover" :hover-start-time="150" @tap="detail">
-							<image :src="'../../static/images/mall/product/' + item.img + '.jpg'" class="tui-pro-img" :class="[isList ? 'tui-proimg-list' : '']" mode="widthFix" />
+							<image v-if="!product.default_image" src="../../static/images/basic/badge.png" class="tui-pro-img" :class="[isList ? 'tui-proimg-list' : '']" mode="widthFix" />
+							<image v-else :src="product.default_image" class="tui-pro-img" :class="[isList ? 'tui-proimg-list' : '']" mode="widthFix" />
 							<view class="tui-pro-content">
-								<view class="tui-pro-tit">{{ item.name }}</view>
+								<view class="tui-pro-tit">{{ product.name }}</view>
 								<view>
 									<view class="tui-pro-price">
-										<text class="tui-sale-price">￥{{ item.sale }}</text>
-										<text class="tui-factory-price">￥{{ item.factory }}</text>
+										<text class="tui-sale-price">￥{{ product.price }}</text>
+										<text class="tui-factory-price">￥{{ product.price }}</text>
 									</view>
-									<view class="tui-pro-pay">{{ item.payNum }}人付款</view>
+									<view class="tui-pro-pay">{{ product.stock }}人付款</view>
 								</view>
 							</view>
 						</view>
@@ -118,6 +132,7 @@
 </template>
 
 <script>
+	import api from "../../api.js"
 import tuiIcon from '@/components/icon/icon';
 import tuiDrawer from '@/components/drawer/drawer';
 import tuiLoadmore from '@/components/loadmore/loadmore';
@@ -161,319 +176,29 @@ export default {
 			drawerH: 0, //抽屉内部scrollview高度
 			selectedName: '综合',
 			selectH: 0,
-			dropdownList: [
-				{
-					name: '综合',
-					selected: true
-				},
-				{
-					name: '价格升序',
-					selected: false
-				},
-				{
-					name: '价格降序',
-					selected: false
-				}
-			],
-			attrArr: [
-				{
-					name: '新品',
-					selectedName: '新品',
-					isActive: false,
-					list: []
-				},
-				{
-					name: '品牌',
-					selectedName: '品牌',
-					isActive: false,
-					list: [
-						{
-							name: 'trendsetter',
-							selected: false
-						},
-						{
-							name: '维肯（Viken）',
-							selected: false
-						},
-						{
-							name: 'AORO',
-							selected: false
-						},
-						{
-							name: '苏发',
-							selected: false
-						},
-						{
-							name: '飞花令（FHL）',
-							selected: false
-						},
-						{
-							name: '叶梦丝',
-							selected: false
-						},
-						{
-							name: 'ITZOOM',
-							selected: false
-						},
-						{
-							name: '亿魅',
-							selected: false
-						},
-						{
-							name: 'LEIKS',
-							selected: false
-						},
-						{
-							name: '雷克士',
-							selected: false
-						},
-						{
-							name: '蕊芬妮',
-							selected: false
-						},
-						{
-							name: '辉宏达',
-							selected: false
-						},
-						{
-							name: '英西达',
-							selected: false
-						},
-						{
-							name: '戴为',
-							selected: false
-						},
-						{
-							name: '魔风者',
-							selected: false
-						},
-						{
-							name: '即满',
-							selected: false
-						},
-						{
-							name: '北比',
-							selected: false
-						},
-						{
-							name: '娱浪',
-							selected: false
-						},
-						{
-							name: '搞怪猪',
-							selected: false
-						}
-					]
-				},
-				{
-					name: '类型',
-					selectedName: '类型',
-					isActive: false,
-					list: [
-						{
-							name: '线充套装',
-							selected: false
-						},
-						{
-							name: '单条装',
-							selected: false
-						},
-						{
-							name: '车载充电器',
-							selected: false
-						},
-						{
-							name: 'PD快充',
-							selected: false
-						},
-						{
-							name: '数据线转换器',
-							selected: false
-						},
-						{
-							name: '多条装',
-							selected: false
-						},
-						{
-							name: '充电插头',
-							selected: false
-						},
-						{
-							name: '无线充电器',
-							selected: false
-						},
-						{
-							name: '座式充电器',
-							selected: false
-						},
-						{
-							name: '万能充',
-							selected: false
-						},
-						{
-							name: '转换器/转接线',
-							selected: false
-						},
-						{
-							name: 'MFI苹果认证',
-							selected: false
-						},
-						{
-							name: '转换器',
-							selected: false
-						},
-						{
-							name: '苹果认证',
-							selected: false
-						}
-					]
-				},
-				{
-					name: '适用手机',
-					selectedName: '适用手机',
-					isActive: false,
-					list: [
-						{
-							name: '通用',
-							selected: false
-						},
-						{
-							name: 'vivo',
-							selected: false
-						},
-						{
-							name: 'OPPO',
-							selected: false
-						},
-						{
-							name: '魅族',
-							selected: false
-						},
-						{
-							name: '苹果',
-							selected: false
-						},
-						{
-							name: '华为',
-							selected: false
-						},
-						{
-							name: '三星',
-							selected: false
-						},
-						{
-							name: '荣耀',
-							selected: false
-						},
-						{
-							name: '诺基亚5',
-							selected: false
-						},
-						{
-							name: '荣耀4',
-							selected: false
-						},
-						{
-							name: '诺基',
-							selected: false
-						},
-						{
-							name: '荣耀',
-							selected: false
-						},
-						{
-							name: '诺基亚2',
-							selected: false
-						},
-						{
-							name: '荣耀2',
-							selected: false
-						},
-						{
-							name: '诺基',
-							selected: false
-						}
-					]
-				}
-			],
-			productList: [
-				{
-					img: 1,
-					name: '欧莱雅（LOREAL）奇焕光彩粉嫩透亮修颜霜 30ml（欧莱雅彩妆 BB霜 粉BB 遮瑕疵 隔离）',
-					sale: 599,
-					factory: 899,
-					payNum: 2342
-				},
-				{
-					img: 2,
-					name: '德国DMK进口牛奶  欧德堡（Oldenburger）超高温处理全脂纯牛奶1L*12盒',
-					sale: 29,
-					factory: 69,
-					payNum: 999
-				},
-				{
-					img: 3,
-					name: '【第2支1元】柔色尽情丝柔口红唇膏女士不易掉色保湿滋润防水 珊瑚红',
-					sale: 299,
-					factory: 699,
-					payNum: 666
-				},
-				{
-					img: 4,
-					name: '百雀羚套装女补水保湿护肤品',
-					sale: 1599,
-					factory: 2899,
-					payNum: 236
-				},
-				{
-					img: 5,
-					name: '百草味 肉干肉脯 休闲零食 靖江精制猪肉脯200g/袋',
-					sale: 599,
-					factory: 899,
-					payNum: 2399
-				},
-				{
-					img: 6,
-					name: '短袖睡衣女夏季薄款休闲家居服短裤套装女可爱韩版清新学生两件套 短袖粉色长颈鹿 M码75-95斤',
-					sale: 599,
-					factory: 899,
-					payNum: 2399
-				},
-				{
-					img: 1,
-					name: '欧莱雅（LOREAL）奇焕光彩粉嫩透亮修颜霜',
-					sale: 599,
-					factory: 899,
-					payNum: 2342
-				},
-				{
-					img: 2,
-					name: '德国DMK进口牛奶',
-					sale: 29,
-					factory: 69,
-					payNum: 999
-				},
-				{
-					img: 3,
-					name: '【第2支1元】柔色尽情丝柔口红唇膏女士不易掉色保湿滋润防水 珊瑚红',
-					sale: 299,
-					factory: 699,
-					payNum: 666
-				},
-				{
-					img: 4,
-					name: '百雀羚套装女补水保湿护肤品',
-					sale: 1599,
-					factory: 2899,
-					payNum: 236
-				}
-			],
-			pageIndex: 1,
+			taskPageIndex: 1,
+			productPageIndex: 1,
 			loadding: false,
-			pullUpOn: true
+			pullUpOn: true,
+			companyBanner:{},
+			products: [],
+			tasks:[],
+			company_id: '',
+			company: {},
+			search: ''
 		};
 	},
 	onLoad: function(options) {
+		let that = this
+		this.company_id = options.id
+		api.company(this.company_id).then(function(data){
+			console.log(data);
+			if(data.id){
+				that.company = data
+			}
+		}).catch(function(e){
+			console.log(e)
+		})
 		let obj = {};
 		// #ifdef MP-WEIXIN
 		obj = wx.getMenuButtonBoundingClientRect();
@@ -496,8 +221,59 @@ export default {
 				this.drawerH = res.windowHeight - uni.upx2px(100) - this.height;
 			}
 		});
+		
+		api.companyBanners(options.id).then(function(data){
+			// console.log(data)
+			that.companyBanner = data
+		}).catch(function(){ })
+		
+		this.getTasks();
+		this.getProducts();	
 	},
 	methods: {
+		getTasks: function(){
+			let that = this
+			api.tasks(this.taskPageIndex, this.company_id, this.search).then(function(data){
+				if(data==''){
+					console.log("没了")
+				}else{
+					console.log(data)
+					console.log(that.tasks)
+					console.log(11111)
+					that.tasks = that.tasks.concat(data);
+					console.log(that.tasks)
+				}
+				that.loadding = false;
+				that.pullUpOn = false;
+			}).catch(function(){
+				
+			})
+		},
+		getProducts: function(){
+			let that = this
+			api.products('', this.search, '',this.productPageIndex, this.company_id).then(function(data){
+				if(data==''){
+					console.log("没了")
+				}else{
+					console.log(data)
+					console.log(that.products)
+					console.log(11111)
+					that.products = that.products.concat(data);
+					console.log(that.products)
+				}
+				that.loadding = false;
+				that.pullUpOn = false;
+			}).catch(function(){
+				
+			})
+		},
+		_companyBanner:function(e){
+			let id = e.currentTarget.dataset.id;
+			console.log(e.currentTarget.dataset.id)
+			uni.navigateTo({
+				url:'../task/index?id='+id
+			})
+		},
 		//_Tab
 		_Tab: function(e) {
 			this.Id = e.currentTarget.dataset.id;
@@ -603,44 +379,68 @@ export default {
 				uni.navigateBack();
 			}
 		},
-		search: function() {
+		confirmSearch: function(e) {
+			this.search = e.detail.value;
+			console.log(this.search)
+			this.productPageIndex = 1
+			this.products = []
+			this.getProducts();
+			
+		},
+		detail: function(e) {
+			let id = e.currentTarget.dataset.id;
+			console.log(e.currentTarget.dataset.id);
 			uni.navigateTo({
-				url: '../news-search/news-search'
+				url: '../product/show?id='+id
 			});
 		},
-		detail: function() {
-			uni.navigateTo({
-				url: '../product/show'
-			});
+		follow: function(e){
+			let that = this
+			api.follow_company(this.company_id).then(function(data){
+				if(!data.error){
+					that.company.follow = 1
+				}
+			})
+		},
+		cancelfollow: function(e){
+			let that = this
+			api.follow_company(this.company_id).then(function(data){
+				if(!data.error){
+					that.company.follow = 0
+				}
+			})
 		}
 	},
 	onPullDownRefresh: function() {
 		console.log(1)
-		let loadData = JSON.parse(JSON.stringify(this.productList));
+		let loadData = JSON.parse(JSON.stringify(this.tasks));
 		loadData = loadData.splice(0, 10);
-		this.productList = loadData;
-		this.pageIndex = 1;
+		this.tasks = loadData;
+		this.productPageIndex = 1;
+		this.taskPageIndex = 1;
 		this.pullUpOn = true;
 		this.loadding = false;
 		uni.stopPullDownRefresh();
 	},
 	onReachBottom: function() {
-		console.log(1)
-		if (!this.pullUpOn) return;
+		let that = this
+			// if (!this.pullUpOn) return;
 		this.loadding = true;
-		if (this.pageIndex == 4) {
-			this.loadding = false;
-			this.pullUpOn = false;
-		} else {
-			let loadData = JSON.parse(JSON.stringify(this.productList));
-			loadData = loadData.splice(0, 10);
-			if (this.pageIndex == 1) {
-				loadData = loadData.reverse();
-			}
-			this.productList = this.productList.concat(loadData);
-			this.pageIndex = this.pageIndex + 1;
-			this.loadding = false;
+		this.pullUpOn = true;
+		if(this.Id == 1){
+			this.taskPageIndex = this.taskPageIndex + 1;
+			this.getTasks()
+		}else{
+			this.productPageIndex = this.productPageIndex + 1;
+			this.getProducts()
 		}
+		
+		
+		console.log(1)
+		console.log(this.pageIndex )
+		
+		
+		
 	}
 };
 </script>
@@ -687,6 +487,14 @@ image {
 	letter-spacing: 3rpx;
 	padding: 5rpx 20rpx;
 	background: red;
+}
+.ComPanyYGZ{
+	font-size: 28rpx;
+	color: #fff;
+	border-radius: 40rpx;
+	letter-spacing: 3rpx;
+	padding: 5rpx 20rpx;
+	background: grey;
 }
 .w69 {
 	width: 690rpx;
@@ -1122,7 +930,7 @@ page {
 	border: 0;
 	height: 64rpx;
 	border-radius: 32rpx;
-	width: 45%;
+	width: 90%;
 	background: #f7f7f7;
 	text-align: center;
 	font-size: 24rpx;

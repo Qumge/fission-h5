@@ -261,7 +261,7 @@ export default {
 			if (this.category2) {
 				selectCategory = this.category2;
 			}
-			api.products(selectCategory, this.search, this.sorts[this.tabIndex], this.page, null)
+			api.products(selectCategory, this.search, this.sorts[this.tabIndex], this.page, '')
 				.then(function(data) {
 					that.products = data;
 				})

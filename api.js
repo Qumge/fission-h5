@@ -1,6 +1,148 @@
 import Vue from 'vue'
 import App from './App'
 const api = {
+	follow_company: function(id){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/users/follow_company', //仅为示例，并非真实接口地址。
+				method: 'POST',
+				data: {
+					company_id: id
+				},
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	unfollow_company: function(id){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/users/unfollow_company', //仅为示例，并非真实接口地址。
+				method: 'POST',
+				data: {
+					company_id: id
+				},
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	company: function(id){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/companies/' + id, //仅为示例，并非真实接口地址。
+				method: 'GET',
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	tasks: function(page,company_id, search){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/tasks', //仅为示例，并非真实接口地址。
+				method: 'GET',
+				data: {
+					page: page,
+					per_page: '15',
+					company_id: company_id,
+					search: search,
+				},
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	taskProducts: function(page,per_page,status){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/task_products', //仅为示例，并非真实接口地址。
+				method: 'GET',
+				data: {
+					page: '1',
+					per_page: '15',
+					status: 'success',
+				},
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	companyBanners: function(company_id, page,per_page){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/tasks/company_banners', //仅为示例，并非真实接口地址。
+				method: 'GET',
+				data: {
+					company_id: company_id,
+					page: '1',
+					per_page: '15'
+				},
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
 	wxPay: function(ids, desc){
 		return new Promise(function(resolve, reject) {
 			uni.request({
@@ -499,7 +641,7 @@ const api = {
 			});
 		})
 	},
-	products: function(category_id, search, sort, page) {
+	products: function(category_id, search, sort, page, company_id) {
 		return new Promise(function(resolve, reject) {
 			uni.request({
 				url: Vue.prototype.apiUrl + '/v1/users/products', //仅为示例，并非真实接口地址。
@@ -508,7 +650,8 @@ const api = {
 					category_id: category_id,
 					sort: sort,
 					search: search,
-					page: page
+					page: page,
+					company_id: company_id
 				},
 				success: (res) => {
 					resolve(res.data)

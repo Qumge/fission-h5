@@ -19,7 +19,11 @@
 			</view>
 		</view>
 		<view class="question">
+			
 			<form @submit="formSubmit">
+				<view class="List" style="font-size: 18rpx;color: #c11d1d;letter-spacing: 2rpx;">
+					{{Forms.desc}}
+				</view>
 				<template v-for="(item,index) in Forms" >
 					<view class="List" v-if="item.type == 'Question::Single' ">
 						<!--  单选 -->
@@ -55,7 +59,7 @@
 						<view class="FormTitle">{{index+1}}、{{item.name}}</view>
 						<view class="FormName FormNames">
 							<!-- <input class="radio_Name sinput" :name="String(item.id)" value='' placeholder="请输入" /> -->
-							<textarea class="radio_Name sinput" :name="String(item.id)" placeholder="请输入"></textarea>
+							<textarea class="radio_Name sinput" :name="String(item.id)" placeholder="请输入..."></textarea>
 						</view>
 					</view>
 					
@@ -135,6 +139,7 @@
 		onLoad: function(options){
 			let that = this
 			that.optionsId = options.id
+			console.log(options.id)
 			if (options.from) {
 				this.from = options.from
 			}
@@ -237,17 +242,20 @@
 	}
 </script>
 
+<style>
+	
+</style>
 <style scoped>
-	.FormTitle{font-size: 28rpx;color: #1A1A1A;font-weight: bold;margin-bottom: 10rpx;}
+	.FormTitle{font-size: 32rpx;color: #1A1A1A;font-weight: 400;margin-bottom: 30rpx;}
 	.FormName{}
-	.List{padding: 30rpx 0;border-bottom: 1rpx solid #ddd;}
-	.List:last-child{border-bottom: none;background: #FF201F;}
+	.List{padding: 60rpx 0 30rpx;margin-top: 20rpx;margin-bottom: 30rpx; border-top: 1rpx dashed #e6e6e6;}
+	.question .List:first-child{border-top: none;}
 	.Lists{border-bottom: none;}
-	.Name{padding: 2rpx 0;margin: 3rpx 0;}
-	.radio_Name {font-size: 26rpx;color: #222222;padding: 2rpx 0;margin: 3px 0 3px 5px;}
+	.Name{padding: 3rpx 0;margin: 5rpx 0;}
+	.radio_Name {font-size: 28rpx;color: #6f6e6e;padding: 2rpx 0;margin: 3rpx 0 3rpx 5rpx;}
 	.radio_radio{width: 22px !important;height: 22px !important;}
-	.Btn{margin: 90rpx auto 150rpx;background: #16AB60;color: #fff;font-size: 26rpx;width: 410rpx;}
-	.FormNames{border: 1px solid #ccc;height: 200rpx;}
+	.Btn{margin: 90rpx auto 150rpx;background: #16AB60;color: #fff;letter-spacing: 2px; font-size: 26rpx;width: 410rpx;}
+	.FormNames{border: 1px solid #dcdcdc;height: 200rpx;border-radius:5rpx;}
 	.sinput{padding: 10rpx 10rpx;}
 	
 	
