@@ -97,7 +97,7 @@
 				this.from = options.from
 			}
 			this.showShare = this.tui.wechatBowser();
-			api.me(options.id).then(function(data){
+			api.me().then(function(data){
 				console.log(data)
 				that.userIntegral = data.coin
 			}).catch(function(){ })

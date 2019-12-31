@@ -167,7 +167,7 @@ const api = {
 			});
 		})
 	},
-	me: function(id){
+	me: function(){
 		return new Promise(function(resolve, reject) {
 			uni.request({
 				url: Vue.prototype.apiUrl + '/v1/users/users/me', //仅为示例，并非真实接口地址。

@@ -250,6 +250,7 @@ Vue.prototype.tui = tui
 Vue.prototype.$eventHub = Vue.prototype.$eventHub || new Vue()
 Vue.prototype.$store = store
 
+
 App.mpType = 'app'
 // Vue.prototype.apiUrl = "/dpc/api"
 Vue.prototype.apiUrl = 'https://api.shjietui.com/api'
