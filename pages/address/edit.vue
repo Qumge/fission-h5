@@ -221,12 +221,16 @@
 		overflow: hidden;
 		font-size: 28rpx;
 	}
+	.evan-form-item-container{
+		background: #fff;
+	}
 	.evan-form-show {
 		padding: 0 30rpx;
 		.form-input {
 			font-size: 28rpx;
 			color: #333;
 			text-align: right;
+			padding-right: 30rpx;
 		}
 		.form-input-placeholder {
 			font-size: 28rpx;

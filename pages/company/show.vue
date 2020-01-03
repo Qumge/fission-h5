@@ -51,8 +51,8 @@
 
 		<!-- banner -->
 		<swiper class="swiper">
-			<swiper-item v-for="item in companyBanner">
-				<image :data-id='item.task.image.id' @tap="_companyBanner" :src="item.task.image.image_path"></image>
+			<swiper-item v-for="banner in companyBanner">
+				<image :data-id="banner.task.id" :data-path="banner.task.h5_path" @tap="_companyBanner" :src="banner.image.image_path"></image>
 			</swiper-item>
 			<!-- <swiper-item><image  v-if="item.task.image==null" src="/static/images/mall/product/2.jpg"></image></swiper-item> -->
 		</swiper>
@@ -112,9 +112,9 @@
 								<view>
 									<view class="tui-pro-price">
 										<text class="tui-sale-price">￥{{ product.price }}</text>
-										<text class="tui-factory-price">￥{{ product.price }}</text>
+										<!-- <text class="tui-factory-price">￥{{ product.price }}</text> -->
 									</view>
-									<view class="tui-pro-pay">{{ product.stock }}人付款</view>
+									<view class="tui-pro-pay">{{ product.sale }}人付款</view>
 								</view>
 							</view>
 						</view>
@@ -225,6 +225,7 @@ export default {
 		api.companyBanners(options.id).then(function(data){
 			// console.log(data)
 			that.companyBanner = data
+			console.log(data)
 		}).catch(function(){ })
 		
 		this.getTasks();
@@ -270,9 +271,14 @@ export default {
 		_companyBanner:function(e){
 			let id = e.currentTarget.dataset.id;
 			console.log(e.currentTarget.dataset.id)
+			console.log(e.currentTarget.dataset.path)
+			var path = ''
 			uni.navigateTo({
-				url:'../task/index?id='+id
+				url: e.currentTarget.dataset.path
 			})
+			// uni.navigateTo({
+			// 	url:'../task/index?id='+id
+			// })
 		},
 		//_Tab
 		_Tab: function(e) {

@@ -103,20 +103,6 @@
 				console.log(this)
 				this.$refs.form.setRules(this.rules)
 			})
-			// this.multiArray = [
-			// 	this.toArr(this.selectList),
-			// 	this.toArr(this.selectList[0].children),
-			// 	this.toArr(this.selectList[0].children[0].children)
-			// ]
-			// console.log(this.selectList[0].name)
-			// console.log(this.selectList[0].children[0])
-			// // console.log(this.selectList[0].children[0].name)
-			// // console.log(this.selectList[0].children[0].children[0].name)
-
-			// let provice = this.selectList[0].name
-			// let city = this.selectList[0].children[0].name
-			// let district = this.selectList[0].children[0].children[0].name
-			// this.text = provice + " " + city + " " + district;
 		},
 		methods: {
 			tt(e){
@@ -209,12 +195,17 @@
 		overflow: hidden;
 		font-size: 28rpx;
 	}
+	.evan-form-item-container{
+		background: #fff;
+	}
+	
 	.evan-form-show {
 		padding: 0 30rpx;
 		.form-input {
 			font-size: 28rpx;
 			color: #333;
 			text-align: right;
+			padding-right: 30rpx;
 		}
 		.form-input-placeholder {
 			font-size: 28rpx;

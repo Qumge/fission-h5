@@ -140,7 +140,7 @@
 
 		<!--加载loadding-->
 		<tui-loadmore :visible="loadding" :index="3" type="red"></tui-loadmore>
-		<tui-nomore :visible="!pullUpOn && isList" bgcolor="#f7f7f7"></tui-nomore>
+		<tui-nomore :visible="!pullUpOn" bgcolor="#f7f7f7"></tui-nomore>
 		<!--加载loadding-->
 	</view>
 </template>
@@ -252,6 +252,7 @@ export default {
 		getData: function(options) {
 			let that = this;
 			this.page = 1;
+			this.pullUpOn = true;
 			api.categories()
 				.then(function(data) {
 					that.categories1 = data;
@@ -302,8 +303,8 @@ export default {
 			this.$set(this.attrData[index], 'selected', !this.attrData[index].selected);
 		},
 		reset() {
-			this.category1 = null;
-			this.category2 = null;
+			this.category1 = '';
+			this.category2 = '';
 			this.categories2 = [];
 		},
 		btnCloseDrop() {
@@ -423,11 +424,16 @@ export default {
 		if (this.category2) {
 			selectCategory = this.category2;
 		}
-		api.products(selectCategory, this.search, this.sorts[this.tabIndex], this.page)
+		api.products(selectCategory, this.search, this.sorts[this.tabIndex], this.page, '')
 			.then(function(data) {
-				that.products = that.products.concat(data);
-				this.loadding = false;
-				this.pullUpOn = false;
+				if(data == []){
+					that.pullUpOn = true;
+				}else{
+					that.products = that.products.concat(data);
+					that.loadding = false;
+					that.pullUpOn = false;
+				}
+				
 			})
 			.catch(function() {});
 	}

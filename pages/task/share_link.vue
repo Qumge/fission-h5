@@ -59,7 +59,7 @@
 						jweixin.updateAppMessageShareData({
 							title: that.task.name, // 分享标题
 							desc: '分享链接赚金币,提现赢大奖', // 分享描述
-							link: (location.origin + location.pathname + '?id=' + that.task.id + '&token=' + fission_log.token), // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+							link: (that.task.h5_link + '&token=' + fission_log.token), // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 							imgUrl: image_path, // 分享图标
 							success: function() {
 								// 用户点击了分享后执行的回调函数

@@ -215,7 +215,7 @@
 							    // 支付成功后的回调函数
 								let intervalID = setInterval(function(){
 									console.log(1);
-									api.order(data[0].id).then(function(order){
+									api.queryOrder(data[0].id).then(function(order){
 										if(order.status == 'pay'){
 											clearInterval(intervalID);
 											uni.navigateTo({

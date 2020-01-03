@@ -37,28 +37,30 @@
 				</view>
 			</view>
 		</view>
+		<view class="TxtZ TxtTitle" style="padding-left: 10px;" @tap="thisShow">
+			<text class="">我的金币：</text> {{userIntegral}}
+		</view>
 		<!-- 说明 -->
 		<view class="explain">
 			<view class="ExplainTitle">游戏说明</view>
 			<view class="ExplainTxt">
 				<view class="TxtTitle">玩法说明</view>
-				<view class="TxtCon" v-if="!game.task_game_task">每抽奖一次平台扣去{{game.cost}}积分</view>
+				<view class="TxtCon" v-if="!game.task_game_task">每抽奖一次平台扣去{{game.cost}}金币</view>
 				<view class="TxtCon" v-else>任务状态用户可以免费抽奖一次</view>
 				<view class="TxtTitle">活动奖品</view>
-				<template v-for="(item,index) in game.prizes">
-					<view class="TxtCon" >
-						{{index+1}}等奖：{{item.number}}金币</view>
+				<template v-for="(prize,index) in game.sort_prizes">
+					<view class="TxtCon" v-if="prize.type == 'Prize::CoinPrize'" >{{index+1}}等奖：{{prize.coin}}金币</view>
+					<view class="TxtCon" v-if="prize.type == 'Prize::ProductPrize'" >{{index+1}}等奖：{{prize.product.name}}</view>
 				</template>
 				
-				<view class="TxtTitle">活动时间</view>
-				<view class="TxtCon">{{game.task_game_task.valid_from}}-{{game.task_game_task.valid_to}}</view>
-				<view class="TxtZ">
-					<text class="TZ">注：</text>
-					本次活动奖品仅限在{{game.task_game_task.valid_to}}日前有效，过期自动作废。
-				</view>
-				<view class="TxtTitle">主办方</view>
-				<view class="TxtCon">趣图美业有限公司提供</view>
-				
+				<block v-if="game.task_game_task">
+					<view class="TxtTitle">活动时间</view>
+					<view class="TxtCon">{{game.task_game_task.valid_from}} 至 {{game.task_game_task.valid_to}}</view>
+					<view class="TxtZ">
+						<text class="TZ">注：</text>
+						本次活动奖品仅限在{{game.task_game_task.valid_to}}日前有效，过期自动作废。
+					</view>
+				</block>
 			</view>
 		</view>
 		
@@ -139,15 +141,15 @@ export default {
 				console.log(data);
 				
 				if (!that.tui.wechatBowser()) return;
-				if (!that.game.task_id) return;
+				if (!that.game.task_game_task) return;
 				//查看
-				console.log(that.game.task_id);
-				api.view(that.game.task_id, options.token).then(function(data){
+				console.log(that.game.task_game_task);
+				api.view(that.game.task_game_task.id, options.token).then(function(data){
 					console.log(data);
 				}).catch(function(){
 					
 				})
-				api.fission(that.game.task_id, options.token).then(function(fission_log) {
+				api.fission(that.game.task_game_task.id, options.token).then(function(fission_log) {
 					console.log(fission_log);
 					that.tui.jssdk().then(function(jweixin) {
 						let image_path = ''
@@ -157,7 +159,7 @@ export default {
 						jweixin.updateAppMessageShareData({ 
 							title: that.game.name, // 分享标题
 							desc: '分享链接赚金币,提现赢大奖', // 分享描述
-							link: (location.origin + location.pathname + '?id=' + that.game.id + '&token=' + fission_log.token), // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致// 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+							link: (fission_log.task.h5_link + '&token=' + fission_log.token), // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致// 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 							imgUrl: image_path, // 分享图标
 							success: function () {
 							  // 设置成功
@@ -215,7 +217,7 @@ export default {
 		openEgg(s) {
 			let that = this;
 			console.log(that.game.id)
-			if(!that.game.task_game_task && that.userIntegral < that.game.coin){
+			if(!that.game.task_game_task && that.userIntegral < that.game.cost){
 				uni.showModal({
 					title:'温馨提示',
 					content: '您的金币不足'
@@ -223,7 +225,6 @@ export default {
 			}else{
 				api.playGame(that.game.id).then(function(data){
 					console.log(data)
-					console.log(data.prize_log.prize+'1111')
 					if(data.error){
 						console.log(1)
 						uni.showModal({
@@ -237,12 +238,15 @@ export default {
 					that.Ids = s.currentTarget.dataset.id;
 					setTimeout(function() {
 						setTimeout(function() {
-							if(data.prize_log.prize.type === 'Prize::ProductPrize'){
-								that.celebrate(data.prize_log.prize.product.name); // 提示中奖信息
+							if(data.prize_log){
+								if(data.prize_log.prize.type === 'Prize::ProductPrize'){
+									that.celebrate(data.prize_log.prize.product.name); // 提示中奖信息
+								}else{
+									that.celebrate("金币：" + data.prize_log.prize.coin)
+								}
 							}else{
-								that.celebrate("金币：" + data.prize_log.prize.coin)
+								that.celebrate("很遗憾您没有中奖，谢谢您的参与")
 							}
-							
 							// that.Nocelebrate()// 提示未中奖信息
 						}, 500); // *秒后中奖提示出现
 					}, 50); // 0.6秒后开花的蛋出现

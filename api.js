@@ -354,10 +354,74 @@ const api = {
 			});
 		})
 	},
+	receiveAddress: function(order_id){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/orders/' + order_id + '/address', //仅为示例，并非真实接口地址。
+				method: 'GET',
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	setExpress: function(id, express_no, express_type){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/orders/' + id+ '/set_express', //仅为示例，并非真实接口地址。
+				method: 'POST',
+				data: {
+					express_no: express_no,
+					express_type: express_type
+				},
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
 	receive: function(id){
 		return new Promise(function(resolve, reject) {
 			uni.request({
 				url: Vue.prototype.apiUrl + '/v1/users/orders/' + id+ '/receive', //仅为示例，并非真实接口地址。
+				method: 'POST',
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	afterSale: function(id){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/orders/' + id+ '/after_order', //仅为示例，并非真实接口地址。
 				method: 'POST',
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
@@ -379,6 +443,26 @@ const api = {
 			uni.request({
 				url: Vue.prototype.apiUrl + '/v1/users/orders/' + id+ '/express', //仅为示例，并非真实接口地址。
 				method: 'GET',
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					resolve(res.data)
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	},
+	queryOrder: function(id){
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/orders/' + id + '/query_order', //仅为示例，并非真实接口地址。
+				method: 'POST',
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
 						uni.setStorageSync('sessionToken', null)

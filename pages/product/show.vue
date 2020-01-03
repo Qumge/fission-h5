@@ -104,7 +104,7 @@
 					<view class="FlexComPany">
 						<view class="ComPany">
 							<view class="ComPanyImg">
-								<image v-if="product.company.image == null" src="/static/images/basic/badge.png" mode=""></image>	
+								<image v-if="!product.company.image" src="/static/images/basic/badge.png" mode=""></image>	
 								<image v-else :src="product.company.image.image_path" mode=""></image>
 							</view>
 							<view>
@@ -458,10 +458,9 @@
 			_colse: function() {
 				this.ShowGuidance = false
 			},
-			Actual(e) {
-				console.log(e.currentTarget.dataset.id)
+			Actual() {
 				uni.navigateTo({
-					url: '../company/show?id='+e.currentTarget.dataset.id
+					url: '../company/show?id='+this.product.company.id
 				})
 			},
 			_cart() {

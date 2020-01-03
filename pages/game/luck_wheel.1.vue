@@ -136,7 +136,7 @@
 							jweixin.updateAppMessageShareData({ 
 								title: that.game.name, // 分享标题
 								desc: '分享链接赚金币,提现赢大奖', // 分享描述
-								link: (location.origin + location.pathname + '?id=' + that.game.id + '&token=' + fission_log.token), // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致// 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+								link: (fission_log.task.h5_link + '&token=' + fission_log.token),
 								imgUrl: image_path, // 分享图标
 								success: function () {
 								  // 设置成功

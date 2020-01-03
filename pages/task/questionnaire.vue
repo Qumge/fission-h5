@@ -93,47 +93,6 @@
 				Forms:[],
 				taskQuestionnaire:{},
 				TopTile:'问卷',
-				dataList: [
-					// 问答
-					{ title: '问答', type:'Question::Completion',childrens: 
-						[
-							{ name: 'value1', selected: false },
-							{ name: 'value2', selected: false },
-							{ name: 'value3', selected: false },
-							{ name: 'value4', selected: false },
-							{ name: '自定义', selected: false }
-						] 
-					},
-					// 单选/
-					{ title: '单选',type:'Question::Multiple', childrens:
-						[
-							{ name: 'value1', selected: false },
-							{ name: 'value2', selected: false },
-							{ name: 'value3', selected: false },
-							{ name: 'value4', selected: false },
-							{ name: '自定义', selected: false }
-						] 
-					},
-					// 多选
-					{ title: '多选',type:'Question::Single', childrens:
-						[
-							{ name: 'value1', selected: false },
-							{ name: 'value2', selected: false },
-							{ name: 'value3', selected: false },
-							{ name: 'value4', selected: false },
-							{ name: '自定义', selected: false }
-						] 
-					},
-					{ title: '标题4', childrens:
-						[
-							{ name: 'value1', selected: false },
-							{ name: 'value2', selected: false },
-							{ name: 'value3', selected: false },
-							{ name: 'value4', selected: false },
-							{ name: '自定义', selected: false }
-						] 
-					}
-				]
 			}
 		},
 		onLoad: function(options){
@@ -168,7 +127,7 @@
 						jweixin.updateAppMessageShareData({ 
 							title: that.taskQuestionnaire.name, // 分享标题
 							desc: '分享链接赚金币,提现赢大奖', // 分享描述
-							link: (location.origin + location.pathname + '?id=' + that.taskQuestionnaire.id + '&token=' + fission_log.token), // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致// 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+							link: (that.taskQuestionnaire.h5_link + '&token=' + fission_log.token), // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致// 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 							imgUrl: image_path, // 分享图标
 							success: function () {
 							  // 设置成功

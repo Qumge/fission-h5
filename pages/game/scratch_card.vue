@@ -23,44 +23,47 @@
 			cover-color='#fff'>
 			    <div slot='result' class="vue-scratch-card ">
 			        <!-- 恭喜您中大奖啦～～ -->
-					{{award.name}}
+					{{prizeName(award)}}
 					<!-- 再接再厉～～ -->
 			    </div>
 			</vue-scratch-card >
 			<!-- <vue-scratch-card cover-color='#fff' :move-radius= 0 v-else="true"></vue-scratch-card> -->
 			 
 		</view>
+		<view v-show="ShowGuidance" style="top: 45rpx;">
+			<view class="Bg" @click="colse"></view>
+			<view class="Guidance"  @click="colse">
+				<image src="/static/images/index/zhidaole.png" mode="widthFix"></image>
+			</view>
+		</view>
+		<view @click="shows" v-if="showShare" style="width: 180rpx;background: #b3241b;z-index: 9; padding: 10rpx 30rpx;border-radius: 10rpx ;position: absolute;right: 0;top: 90rpx; display: flex;align-items: center;">
+					<tui-icon name="partake" :size="15" color="#fff"></tui-icon>
+					<text style="color: #fff;font-size: 28rpx;margin-left: 10rpx;">分享得金币</text>
+		</view>
 		<!-- 说明 -->
 		<view class="TxtZ TxtTitle" style="padding-left: 10px;" @tap="thisShow">
-			<text class="">我的积分：</text> {{userIntegral}}
+			<text class="">我的金币：</text> {{userIntegral}}
 		</view>
 		<view class="explain">
 			<view class="ExplainTitle">游戏说明</view>
 			<view class="ExplainTxt">
 				<view class="TxtTitle">玩法说明</view>
-				<view class="TxtCon" >每抽奖一次平台扣去{{game.cost}}积分</view>
+				<view class="TxtCon" v-if="!game.task_game_task">每抽奖一次平台扣去{{game.cost}}金币</view>
+				<view class="TxtCon" v-else>任务状态用户可以免费抽奖一次</view>
 				<view class="TxtTitle">活动奖品</view>
-				<template v-for="(item,index) in game.prizes">
-					<view class="TxtCon" >
-						{{index+1}}等奖：{{item.number}}金币</view>
+				<template v-for="(prize,index) in game.sort_prizes">
+					<view class="TxtCon" v-if="prize.type == 'Prize::CoinPrize'" >{{index+1}}等奖：{{prize.coin}}金币</view>
+					<view class="TxtCon" v-if="prize.type == 'Prize::ProductPrize'" >{{index+1}}等奖：{{prize.product.name}}</view>
 				</template>
-				<!-- <view class="TxtTitle">活动时间</view>
-				<view class="TxtCon">2019年09月09日 - 2019年09月09日</view> -->
-				<!-- <view class="TxtZ">
-					<text class="TZ">注：</text>
-					本次活动奖品仅限在2019年09月09日前有效，过期自动作废。
-				</view> -->
-				<!-- <template v-if="!game.task_game_task">
+				
+				<block v-if="game.task_game_task">
 					<view class="TxtTitle">活动时间</view>
-					<view class="TxtCon">{{game.task_game_task.valid_from}}-{{game.task_game_task.valid_to}}</view>
+					<view class="TxtCon">{{game.task_game_task.valid_from}} 至 {{game.task_game_task.valid_to}}</view>
 					<view class="TxtZ">
 						<text class="TZ">注：</text>
 						本次活动奖品仅限在{{game.task_game_task.valid_to}}日前有效，过期自动作废。
 					</view>
-				</template> -->
-				<view class="TxtTitle">主办方</view>
-				<view class="TxtCon">趣图美业有限公司提供</view>
-		
+				</block>
 			</view>
 		</view>
 
@@ -80,6 +83,7 @@
 			return {
 				game:{
 				},
+				showShare: false,
 				userIntegral:0,
 				moveRadius:20,
 				from: 'h5',
@@ -88,11 +92,13 @@
 				scrollH: 0, //滚动总高度
 				opcity: 0,
 				iconOpcity: 0.5,
-				award:"空",
+				award: {name: '', type: 'thanks'},
+				ShowGuidance: false
 			}
 		},
 		onLoad(options) {
 			// 15
+			this.showShare = this.tui.wechatBowser();
 			if (options.from) {
 				this.from = options.from
 			}
@@ -105,24 +111,17 @@
 			api.game(options.id).then(function(data) {
 					that.game = data;
 					console.log(data);
-					if(that.userIntegral < data.coin){
-						that.moveRadius=0
-						uni.showModal({
-							title:'温馨提示',
-							content: '您的金币不足',
-						})
-					}
 					
 					if (!that.tui.wechatBowser()) return;
-					if (!that.game.task_id) return;
+					if (!that.game.task_game_task.id) return;
 					//查看
-					console.log(that.game.task_id);
-					api.view(that.game.task_id, options.token).then(function(data){
+					console.log(that.game.task_game_task.id);
+					api.view(that.game.task_game_task.id, options.token).then(function(data){
 						console.log(data);
 					}).catch(function(){
 						
 					})
-					api.fission(that.game.task_id, options.token).then(function(fission_log) {
+					api.fission(that.game.task_game_task.id, options.token).then(function(fission_log) {
 						console.log(fission_log);
 						that.tui.jssdk().then(function(jweixin) {
 							let image_path = ''
@@ -132,29 +131,13 @@
 							jweixin.updateAppMessageShareData({ 
 								title: that.game.name, // 分享标题
 								desc: '分享链接赚金币,提现赢大奖', // 分享描述
-								link: (location.origin + location.pathname + '?id=' + that.game.id + '&token=' + fission_log.token), // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致// 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+								link: (fission_log.task.h5_link + '&token=' + fission_log.token),
 								imgUrl: image_path, // 分享图标
 								success: function () {
 								  // 设置成功
 								  console.log('updateAppMessageShareData');
 								}
 							  })
-							// jweixin.onMenuShareAppMessage({
-								
-							// 	title: that.game.name, // 分享标题
-							// 	desc: '分享链接赚金币,提现赢大奖', // 分享描述
-							// 	link: (location.origin + location.pathname + '?id=' + that.game.id + '&token=' + fission_log.token), // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-							// 	imgUrl: that.game.images[0].image_path, // 分享图标
-							// 	type: '', // 分享类型,music、video或link，不填默认为link
-							// 	dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-							// 	success: function() {
-							// 		// 用户点击了分享后执行的回调函数
-							// 		console.log('share')
-							// 		api.share(fission_log.token).then(function(data) {
-							// 			console.log(data);
-							// 		})
-							// 	}
-							// });
 						}).catch(function(e) {
 							console.log(e);
 						})
@@ -170,26 +153,26 @@
 			back: function() {
 				this.tui.goBack(this.from);
 			},
-			
+			prizeName: function(prize){
+				if(prize.type == 'thanks'){
+					return prize.name
+				}else if(prize.type == 'Prize::CoinPrize'){
+					return prize.coin + '金币'
+				}else if(prize.type == 'Prize::ProductPrize'){
+					return prize.product.name
+				}
+			},
+			shows:function(){
+				console.log(this.ShowGuidance)
+				this.ShowGuidance = true
+			},
+			colse:function(){
+				this.ShowGuidance = false
+			},
 			startCallback() {
 				let that = this;
 				console.log('抽奖成功！')
 				this.apiMe()
-				// api.playGame(this.game.id).then(function(data){
-				// 	console.log(data)
-				// 	console.log(data.coin)
-				// 	if(that.userIntegral < data.cost){
-				// 		uni.showModal({
-				// 			title:'温馨提示',
-				// 			content: '您的金币不足',
-				// 		})
-				// 	}else{
-						
-				// 	}
-					
-				// }).catch(function(){
-					
-				// })
 				
 				api.me(that.game.id).then(function(data){
 					console.log(data)
@@ -197,24 +180,25 @@
 				}).catch(function(){ })
 				console.log(that.game.id)
 				
-				if(!that.game.task_game_task && that.userIntegral < that.game.coin){
+				if(!that.game.task_game_task && that.userIntegral < that.game.cost){
 					uni.showModal({
 						title:'温馨提示',
-						content: '您的积分不足'
+						content: '您的金币不足'
 					})
 				}else{
 					api.playGame(that.game.id).then(function(data){
 						console.log(data)
-						that.award = data.game
 						if(data.message == "您已经玩过这个游戏了"){
 							uni.showModal({
 								title:'温馨提示',
 								content: data.message
 							})
 							return
+						}else{
+							if(data.prize_log){
+								that.award = data.prize_log.prize
+							}
 						}
-						
-						
 					}).catch(function(){
 						
 					})
@@ -237,6 +221,9 @@
 </script>
 
 <style>
+	image{width: 100%;height: 100%;}
+	.Bg{position: fixed;left: 0;top: 0;overflow: hidden;z-index: 99; width: 100%;height: 100%;background: rgb(0, 0, 0,0.4);}
+	.Guidance{position: absolute;z-index: 100;width: 690rpx;height: 500rpx;top: 0rpx;left: 30rpx; text-align: center; margin: 0 auto;}
 	.explain{width: 690rpx;margin: 60rpx auto 100rpx;}
 	.ExplainTitle{text-align: center;font-size: 36rpx;font-weight: bold;color: #8a0a0a;}
 	.ExplainTxt{text-align: left;margin: 20rpx auto;}
