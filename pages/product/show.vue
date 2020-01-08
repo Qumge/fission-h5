@@ -286,7 +286,7 @@
 
 		},
 		onLoad: function(options) {
-			
+			this.from = options.from
 			let that = this;
 			this.shareShow = this.tui.wechatBowser();
 			api.product(options.id).then(function(data) {

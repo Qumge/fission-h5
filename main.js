@@ -252,8 +252,8 @@ Vue.prototype.$store = store
 
 
 App.mpType = 'app'
-// Vue.prototype.apiUrl = "/dpc/api"
-Vue.prototype.apiUrl = 'https://api.shjietui.com/api'
+Vue.prototype.apiUrl = "/dpc/api"
+// Vue.prototype.apiUrl = 'https://api.shjietui.com/api'
 // Vue.prototype.apiUrl = 'http://liebian.natapp1.cc/api'
 Vue.prototype.appid = "wx202bddcd868b179f"
 const app = new Vue({

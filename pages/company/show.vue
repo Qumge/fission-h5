@@ -183,12 +183,14 @@ export default {
 			tasks:[],
 			company_id: '',
 			company: {},
-			search: ''
+			search: '',
+			from: 'h5'
 		};
 	},
 	onLoad: function(options) {
 		let that = this
 		this.company_id = options.id
+		this.from = options.from
 		api.company(this.company_id).then(function(data){
 			console.log(data);
 			if(data.id){
@@ -377,7 +379,7 @@ export default {
 			this.drawer = false;
 		},
 		back: function() {
-			this.tui.goBack()
+			this.tui.goBack(this.from)
 		},
 		confirmSearch: function(e) {
 			this.search = e.detail.value;
