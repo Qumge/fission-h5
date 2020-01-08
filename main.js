@@ -235,11 +235,8 @@ const tui = {
 			}, '*')
 		} else {
 			const pages = getCurrentPages();
-			console.log(pages)
 			if (pages.length > 1) {
-				uni.navigateBack({
-					delta: 1
-				})
+				uni.navigateBack()
 			} else {
 				uni.reLaunch({
 					url: "/pages/index/index"
