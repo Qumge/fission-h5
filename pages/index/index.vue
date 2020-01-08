@@ -372,24 +372,13 @@ export default {
 			if (this.drawer) {
 				this.closeDrawer();
 			} else {
-				if (this.from == 'app') {
-					window.postMessage(
-						{
-							event: 'backEvent',
-							params: {}
-						},
-						'*'
-					);
-					window.parent.postMessage(
-						{
-							event: 'backEvent',
-							params: {}
-						},
-						'*'
-					);
-				} else {
-					uni.navigateBack();
-				}
+				window.parent.postMessage(
+					{
+						event: 'backEvent',
+						params: {}
+					},
+					'*'
+				);
 			}
 		},
 		// search: function() {
