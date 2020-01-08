@@ -13,9 +13,7 @@
 					<input
 						confirm-type="search"
 						placeholder="商品名搜索"
-						:focus="true"
 						@confirm="confirmSearch"
-						auto-focus
 						placeholder-class="tui-input-plholder"
 						class="tui-input"
 						:value="search"

@@ -76,7 +76,7 @@
 					<block v-for="(task, index) in tasks" :key="index" v-if="(index + 1) % 2 != 0 || isList">
 						<!-- <template is="productItem" data="{{item,index:index,isList:isList}}" /> -->
 						<!--任务列表-->
-						<view class="tui-pro-item" :class="[isList ? 'tui-flex-list' : '']" hover-class="hover" :hover-start-time="150" @tap="detail">
+						<view class="tui-pro-item" :class="[isList ? 'tui-flex-list' : '']" hover-class="hover" :hover-start-time="150" @tap="taskDetail" :data-path="task.h5_path">
 							<image v-if="!task.image" src="../../static/images/basic/badge.png" class="tui-pro-img" :class="[isList ? 'tui-proimg-list' : '']" mode="widthFix" />
 							<image v-else :src="task.image.image_path" class="tui-pro-img" :class="[isList ? 'tui-proimg-list' : '']" mode="widthFix" />
 							<view class="tui-pro-content">
@@ -102,7 +102,7 @@
 					<block v-for="(product, index) in products" :key="index" v-if="(index + 1) % 2 != 0 || isList">
 						<!-- <template is="productItem" data="{{item,index:index,isList:isList}}" /> -->
 						<!--商品列表-->
-						<view class="tui-pro-item" :class="[isList ? 'tui-flex-list' : '']" hover-class="hover" :hover-start-time="150" @tap="detail">
+						<view class="tui-pro-item" :class="[isList ? 'tui-flex-list' : '']" hover-class="hover" :hover-start-time="150" @tap="detail" :data-id="product.id">
 							<image v-if="!product.default_image" src="../../static/images/basic/badge.png" class="tui-pro-img" :class="[isList ? 'tui-proimg-list' : '']" mode="widthFix" />
 							<image v-else :src="product.default_image" class="tui-pro-img" :class="[isList ? 'tui-proimg-list' : '']" mode="widthFix" />
 							<view class="tui-pro-content">
@@ -130,7 +130,7 @@
 </template>
 
 <script>
-	import api from "../../api.js"
+import api from "../../api.js"
 import tuiIcon from '@/components/icon/icon';
 import tuiDrawer from '@/components/drawer/drawer';
 import tuiLoadmore from '@/components/loadmore/loadmore';
@@ -377,11 +377,7 @@ export default {
 			this.drawer = false;
 		},
 		back: function() {
-			if (this.drawer) {
-				this.closeDrawer();
-			} else {
-				uni.navigateBack();
-			}
+			this.tui.goBack()
 		},
 		confirmSearch: function(e) {
 			this.search = e.detail.value;
@@ -392,10 +388,18 @@ export default {
 			
 		},
 		detail: function(e) {
+			console.log(e)
 			let id = e.currentTarget.dataset.id;
 			console.log(e.currentTarget.dataset.id);
 			uni.navigateTo({
 				url: '../product/show?id='+id
+			});
+		},
+		taskDetail: function(e){
+			console.log(e)
+			console.log(e.currentTarget.dataset)
+			uni.navigateTo({
+				url: e.currentTarget.dataset.path
 			});
 		},
 		follow: function(e){
