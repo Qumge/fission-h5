@@ -9,14 +9,24 @@ Vue.config.productionTip = false
 let jweixin = require('jweixin-module')
 
 Vue.mixin({
-	onLoad: function(options) {
+	onLaunch: function (options) {
+		if (options && options.query.from === 'app') {
+			const option = {
+				path: options.path,
+				from: options.query.from
+			}
+			this.tui.setOption(option);
+		}
+	},
+	onLoad: function (options) {
 		console.log('onLoad111')
 	},
-	onShow: function(){
+	onShow: function () {
 		let that = this;
-		// console.log(1234);
-		// console.log(this);
-		if(this.route){
+		if (this.route) {
+			let option = this.tui.getOption();
+			option.currentPath = this.route
+			this.tui.setOption(option)
 			// console.log(333);
 			let hide = this.route != 'pages/index/index'
 			// console.log(hide);
@@ -27,23 +37,28 @@ Vue.mixin({
 				}
 			}, '*')
 		}
-		
-		
 	}
 });
 
 const tui = {
-	toast: function(text, duration, success) {
+	option: {},
+	setOption: function (option) {
+		this.option = Object.assign({}, this.option, option)
+	},
+	getOption: function () {
+		return this.option
+	},
+	toast: function (text, duration, success) {
 		uni.showToast({
 			title: text,
 			icon: success ? 'success' : 'none',
 			duration: duration || 2000
 		})
 	},
-	jssdk: function() {
-		return new Promise(function(resolve, reject) {
+	jssdk: function () {
+		return new Promise(function (resolve, reject) {
 			if (!uni.getStorageSync('sessionToken')) return;
-			api.getJssdk().then(function(data) {
+			api.getJssdk().then(function (data) {
 				let apiList = [ // 可能需要用到的能力
 					'onMenuShareAppMessage',
 					'onMenuShareTimeline',
@@ -70,23 +85,23 @@ const tui = {
 					//jweixin.onMenuShareAppMessage(shareParams);
 				});
 				console.log(data)
-			}).catch(function(e) {
+			}).catch(function (e) {
 				console.log(e)
 			})
 		})
 	},
-	constNum: function() {
+	constNum: function () {
 		const res = uni.getSystemInfoSync();
 		return res.platform.toLocaleLowerCase() == "android" ? 300 : 0;
 	},
-	px: function(num) {
+	px: function (num) {
 		return uni.upx2px(num) + 'px';
 	},
-	interfaceUrl: function() {
+	interfaceUrl: function () {
 		//接口地址
 		return "https://www.thorui.cn";
 	},
-	request: function(url, postData, method, type, hideLoading) {
+	request: function (url, postData, method, type, hideLoading) {
 		//接口请求
 		if (!hideLoading) {
 			uni.showLoading({
@@ -118,7 +133,7 @@ const tui = {
 			})
 		})
 	},
-	getUrlParams: function(url) {
+	getUrlParams: function (url) {
 		url = url.replace(/#.*$/, '');
 		var queryArray = url.split(/[?&]/).slice(1);
 		var i;
@@ -131,10 +146,10 @@ const tui = {
 		}
 		return args;
 	},
-	wechatBowser: function() {
+	wechatBowser: function () {
 		return this.browser('wechat');
 	},
-	browser: function(type) {
+	browser: function (type) {
 		var s = false;
 		let ua = navigator.userAgent.toLowerCase();
 		if (type == 'wechat') {
@@ -142,7 +157,7 @@ const tui = {
 		}
 		return s;
 	},
-	wxAuthorize: function() {
+	wxAuthorize: function () {
 		let link = window.location.href;
 		let params = this.getUrlParams(link); // 地址解析
 		// 已经授权登录过的就不用再授权了
@@ -153,16 +168,16 @@ const tui = {
 			uni.setStorageSync('sessionToken', params.session)
 		}
 		if (uni.getStorageSync('sessionToken')) return;
-		
+
 		if (!this.wechatBowser()) return;
 		// 微信如果拿到code，调用授权接口，没有拿到就跳转微信授权链接获取
 		if (params.code) {
 			//api.wxAuth(params.code); // 调用后台接口，授权
-			api.wxAuth(params.code).then(function(data) {
+			api.wxAuth(params.code).then(function (data) {
 				uni.setStorageSync('sessionToken', data.authentication_token)
 				console.log(link);
 				window.location.href = link
-			}).catch(function(e) {
+			}).catch(function (e) {
 				console.log(e)
 			});
 		} else {
@@ -176,7 +191,7 @@ const tui = {
 			window.location.href = authURL;
 		}
 	},
-	uploadFile: function(src) {
+	uploadFile: function (src) {
 		const that = this
 		uni.showLoading({
 			title: '请稍候...'
@@ -190,7 +205,7 @@ const tui = {
 					'content-type': 'multipart/form-data'
 				},
 				formData: {},
-				success: function(res) {
+				success: function (res) {
 					uni.hideLoading()
 					let d = JSON.parse(res.data)
 					if (d.code === 1) {
@@ -201,7 +216,7 @@ const tui = {
 						that.toast(res.message);
 					}
 				},
-				fail: function(res) {
+				fail: function (res) {
 					reject(res)
 					uni.hideLoading();
 					that.toast(res.message);
@@ -209,20 +224,21 @@ const tui = {
 			})
 		})
 	},
-	setToken: function(token) {
+	setToken: function (token) {
 		uni.setStorageSync("token", token)
 	},
 	getToken() {
 		return uni.getStorageSync("token")
 	},
-	isLogin: function() {
+	isLogin: function () {
 		return uni.getStorageSync("token") ? true : false
 	},
-	webURL: function() {
+	webURL: function () {
 		return "https://www.thorui.cn/wx"
 	},
-	goBack: function(from) {
-		if (from == 'app') {
+	goBack: function (from) {
+		const option = this.option;
+		if (option && option.currentPath === option.path && option.from === 'app') {
 			window.postMessage({
 				event: 'backEvent',
 				params: {
@@ -235,7 +251,6 @@ const tui = {
 			}, '*')
 		} else {
 			const pages = getCurrentPages();
-			console.log(pages)
 			if (pages.length > 1) {
 				uni.navigateBack({
 					delta: 1
