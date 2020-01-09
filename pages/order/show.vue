@@ -120,7 +120,7 @@
 				</view>
 				<view class="tui-order-flex">
 					<view class="tui-item-title">订单备注:</view>
-					<view class="tui-item-content">麻烦尽快发货，打包包裹时请多拿几个泡沫放在纸箱盒内，防止摔碎</view>
+					<view class="tui-item-content">{{order.desc}}</view>
 				</view>
 			</view>
 		</view>
@@ -140,7 +140,7 @@
 							placeholder-class="tui-input-plholder"
 							class="tui-input"
 							style="font-size:12px"
-							:value="order.after_order.express_no"
+							:value="order.after_order.express_no ? order.after_order.express_no : ''"
 						/>
 					</view>
 				</view>
@@ -289,7 +289,7 @@ export default {
 				});
 		},
 		back: function() {
-			uni.navigateBack({});
+			this.tui.goBack()
 		}
 	}
 };

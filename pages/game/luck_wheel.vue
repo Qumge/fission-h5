@@ -9,7 +9,8 @@
 		</view>
 		<!--header-->
 		<view class="stage" style="margin-top: -6px;">
-			<image class="Imgs" src="/static/images/game/stage.png" mode="widthFix"></image>
+			<image class="Imgs" :src="game.image.image_path" mode="widthFix" ></image>
+			<!-- <image class="Imgs" src="/static/images/game/stage.png" mode="widthFix"></image> -->
 			<view
 				@click="shows"
 				v-if="showShare"
@@ -85,7 +86,8 @@ export default {
 				task_game_task: {
 					valid_from: '',
 					valid_to: ''
-				}
+				},
+				image: {}
 			},
 			userIntegral: 0,
 			ShowGuidance: false,
@@ -119,6 +121,7 @@ export default {
 		api.game(options.id)
 			.then(function(data) {
 				that.game = data;
+				console.log(data);
 				let prizes = data.sort_prizes;
 				prizes.push({ id: 0, coin: '', type: 'thanks' });
 				console.log(prizes);
@@ -167,7 +170,7 @@ export default {
 	},
 	methods: {
 		back: function() {
-			this.tui.goBack(this.from);
+			this.tui.goBack();
 		},
 		shows: function() {
 			console.log(this.ShowGuidance);

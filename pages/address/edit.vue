@@ -147,9 +147,7 @@
 						that.disabled = true
 						api.updateAddress(this.id, this.info).then(function(address){
 							if(address.id){
-								uni.navigateBack({
-									
-								})
+								that.tui.goBack()
 							}
 						}).catch(function(e){
 							console.log(e)

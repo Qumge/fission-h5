@@ -688,14 +688,7 @@
 				if (this.drawer) {
 					this.closeDrawer()
 				} else {
-					if (this.from == 'app') {
-						window.postMessage({
-							event: 'backEvent',
-							params: {}
-						});
-					} else {
-						uni.navigateBack()
-					}
+					this.tui.goBack()
 				}
 			},
 			search: function() {

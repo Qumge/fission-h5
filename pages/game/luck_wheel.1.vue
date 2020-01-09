@@ -172,7 +172,7 @@
 		},
 		methods: {
 			back: function() {
-				this.tui.goBack(this.from);
+				this.tui.goBack();
 			},
 			shows: function() {
 				console.log(this.ShowGuidance)

@@ -70,9 +70,7 @@
 			selectAddress(id){
 				if(id){
 					uni.setStorageSync('addressId', id)
-					uni.navigateBack({
-						
-					})
+					that.tui.goBack()
 				}
 			}
 		}

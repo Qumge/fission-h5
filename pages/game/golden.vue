@@ -25,7 +25,8 @@
 	   </view>
 		<view class="stage" style="margin-top: 40px;">
 			<!-- 背景图 -->
-			<img src="/static/images/game/stage.png" class="stage-img" mode="widthFix" />
+			
+			<img :src="game.image.image_path"  class="stage-img" mode="widthFix" style="width:100%;height:400%;" />
 			<view class="lanren" :class="{ pause: paursed }">
 				<view class="egg" :class="{ eggPause: paursed }" v-for="(item,index) in golden">
 					<!-- 锤子 -->
@@ -82,7 +83,8 @@ export default {
 				task_game_task:{
 					valid_from:'',
 					valid_to:'',
-				}
+				},
+				image: {}
 			},
 			ShowGuidance:false,
 			from: 'h5',
@@ -204,7 +206,7 @@ export default {
 	},
 	methods: {
 		back: function() {
-			this.tui.goBack(this.from);
+			this.tui.goBack();
 		},
 		shows:function(){
 			console.log(this.ShowGuidance)

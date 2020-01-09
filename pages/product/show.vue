@@ -404,7 +404,7 @@
 				})
 			},
 			back: function() {
-				this.tui.goBack(this.from);
+				this.tui.goBack();
 			},
 			openMenu: function() {
 				this.menuShow = true

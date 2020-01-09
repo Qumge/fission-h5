@@ -59,6 +59,7 @@ const tui = {
 		return new Promise(function (resolve, reject) {
 			if (!uni.getStorageSync('sessionToken')) return;
 			api.getJssdk().then(function (data) {
+				console.log(data)
 				let apiList = [ // 可能需要用到的能力
 					'onMenuShareAppMessage',
 					'onMenuShareTimeline',
@@ -236,14 +237,9 @@ const tui = {
 	webURL: function () {
 		return "https://www.thorui.cn/wx"
 	},
-	goBack: function (from) {
+	goBack: function () {
 		const option = this.option;
 		if (option && option.currentPath === option.path && option.from === 'app') {
-			window.postMessage({
-				event: 'backEvent',
-				params: {
-				}
-			}, '*')
 			window.parent.postMessage({
 				event: 'backEvent',
 				params: {

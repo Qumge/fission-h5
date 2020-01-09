@@ -172,7 +172,7 @@ export default {
 	onShow() {},
 	methods: {
 		back: function() {
-			this.tui.goBack(this.from);
+			this.tui.goBack();
 		},
 		getRandomArrayElements: function(arr, count) {
 		    var shuffled = arr.slice(0), i = arr.length, min = i - count, temp, index;

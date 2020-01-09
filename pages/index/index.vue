@@ -392,13 +392,13 @@ export default {
 		}
 	},
 	onPullDownRefresh: function() {
-		let loadData = JSON.parse(JSON.stringify(this.productList));
-		loadData = loadData.splice(0, 10);
-		this.productList = loadData;
-		this.pageIndex = 1;
-		this.pullUpOn = true;
-		this.loadding = false;
-		uni.stopPullDownRefresh();
+		// let loadData = JSON.parse(JSON.stringify(this.productList));
+		// loadData = loadData.splice(0, 10);
+		// this.productList = loadData;
+		// this.pageIndex = 1;
+		// this.pullUpOn = true;
+		// this.loadding = false;
+		// uni.stopPullDownRefresh();
 	},
 	onReachBottom: function() {
 		if (!this.pullUpOn) return;

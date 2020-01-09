@@ -13,7 +13,8 @@
 		</view>
 		<!--header-->
 		<!--  -->
-		<view :style="{marginTop:21+'px'}"  style="background: url(../../static/images/game/stage.png) no-repeat center bottom;background-size: contain;padding: 50% 0;">
+		<!-- <img :src="game.image.image_path"  class="stage-img" mode="widthFix" style="width:100%;height:400%;" /> -->
+		<view   :style="'background: url(' + game.image.image_path +') no-repeat center bottom;background-size: contain;width:100%;height:300px;padding-top:150px;'">
 			<vue-scratch-card 
 			element-id='scratchWrap'
 			:ratio=0.5
@@ -23,7 +24,7 @@
 			cover-color='#fff'>
 			    <div slot='result' class="vue-scratch-card ">
 			        <!-- 恭喜您中大奖啦～～ -->
-					{{prizeName(award)}}
+					{{award}}
 					<!-- 再接再厉～～ -->
 			    </div>
 			</vue-scratch-card >
@@ -36,7 +37,7 @@
 				<image src="/static/images/index/zhidaole.png" mode="widthFix"></image>
 			</view>
 		</view>
-		<view @click="shows" v-if="showShare" style="width: 180rpx;background: #b3241b;z-index: 9; padding: 10rpx 30rpx;border-radius: 10rpx ;position: absolute;right: 0;top: 90rpx; display: flex;align-items: center;">
+		<view @click="shows" v-if="showShare" style="width: 180rpx;background: #b3241b;z-index: 9; padding: 10rpx 30rpx;border-radius: 10rpx ;position: absolute;right: 0;top: 150rpx; display: flex;align-items: center;">
 					<tui-icon name="partake" :size="15" color="#fff"></tui-icon>
 					<text style="color: #fff;font-size: 28rpx;margin-left: 10rpx;">分享得金币</text>
 		</view>
@@ -82,6 +83,7 @@
 		data() {
 			return {
 				game:{
+					image:{}
 				},
 				showShare: false,
 				userIntegral:0,
@@ -92,7 +94,7 @@
 				scrollH: 0, //滚动总高度
 				opcity: 0,
 				iconOpcity: 0.5,
-				award: {name: '', type: 'thanks'},
+				award: '',
 				ShowGuidance: false
 			}
 		},
@@ -109,13 +111,14 @@
 				that.userIntegral = data.coin
 			}).catch(function(){ })
 			api.game(options.id).then(function(data) {
+				console.log(that.award)
 					that.game = data;
 					console.log(data);
 					
 					if (!that.tui.wechatBowser()) return;
-					if (!that.game.task_game_task.id) return;
+					if (!that.game.task_game_task) return;
 					//查看
-					console.log(that.game.task_game_task.id);
+					console.log(that.game.task_game_task);
 					api.view(that.game.task_game_task.id, options.token).then(function(data){
 						console.log(data);
 					}).catch(function(){
@@ -151,11 +154,11 @@
 		},
 		methods: {
 			back: function() {
-				this.tui.goBack(this.from);
+				this.tui.goBack();
 			},
 			prizeName: function(prize){
 				if(prize.type == 'thanks'){
-					return prize.name
+					return '感谢您的参与'
 				}else if(prize.type == 'Prize::CoinPrize'){
 					return prize.coin + '金币'
 				}else if(prize.type == 'Prize::ProductPrize'){
@@ -172,14 +175,7 @@
 			startCallback() {
 				let that = this;
 				console.log('抽奖成功！')
-				this.apiMe()
-				
-				api.me(that.game.id).then(function(data){
-					console.log(data)
-					that.userIntegral = data.coin
-				}).catch(function(){ })
 				console.log(that.game.id)
-				
 				if(!that.game.task_game_task && that.userIntegral < that.game.cost){
 					uni.showModal({
 						title:'温馨提示',
@@ -188,17 +184,25 @@
 				}else{
 					api.playGame(that.game.id).then(function(data){
 						console.log(data)
-						if(data.message == "您已经玩过这个游戏了"){
+						if(data.message){
 							uni.showModal({
 								title:'温馨提示',
 								content: data.message
 							})
 							return
 						}else{
+							console.log(data)
 							if(data.prize_log){
-								that.award = data.prize_log.prize
+								that.award = that.prizeName(data.prize_log.prize)
+							}else{
+								that.award = that.prizeName({type: 'thanks'})
 							}
+							console.log(that.award)
 						}
+						api.me(this.game.id).then(function(data){
+							console.log(data)
+							that.userIntegral = data.coin
+						}).catch(function(){ })
 					}).catch(function(){
 						
 					})
@@ -210,12 +214,7 @@
 			thisShow(){
 				
 			},
-			apiMe(){
-				api.me(this.game.id).then(function(data){
-					console.log(data)
-					that.userIntegral = data.coin
-				}).catch(function(){ })
-			},
+	
 		},
 	}
 </script>

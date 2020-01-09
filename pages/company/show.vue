@@ -379,7 +379,7 @@ export default {
 			this.drawer = false;
 		},
 		back: function() {
-			this.tui.goBack(this.from)
+			this.tui.goBack()
 		},
 		confirmSearch: function(e) {
 			this.search = e.detail.value;

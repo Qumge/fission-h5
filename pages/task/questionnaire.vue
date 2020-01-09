@@ -195,7 +195,7 @@
 				// }
 			},
 			back: function(){
-				this.tui.goBack(this.from);
+				this.tui.goBack();
 			}
 		}
 	}
