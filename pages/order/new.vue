@@ -218,6 +218,8 @@
 									api.queryOrder(data[0].id).then(function(order){
 										if(order.status == 'pay'){
 											clearInterval(intervalID);
+											this.applied = false
+											this.loading = false
 											uni.navigateTo({
 												url: '../order/success?id=' + order.id
 											})
