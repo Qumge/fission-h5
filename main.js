@@ -23,6 +23,14 @@ Vue.mixin({
 	},
 	onShow: function () {
 		let that = this;
+		window.addEventListener('message', function (e) {
+			console.log('addEventListener', e);
+		    if (e && e.data && e.data.app === 'toHome') {
+				uni.navigateTo({
+				    url: '/pages/index/index'
+				});
+		    }
+		  })
 		if (this.route) {
 			let option = this.tui.getOption();
 			option.currentPath = this.route
