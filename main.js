@@ -162,7 +162,7 @@ const tui = {
 		let link = window.location.href;
 		let params = this.getUrlParams(link); // 地址解析
 		// 已经授权登录过的就不用再授权了
-		//uni.setStorageSync('sessionToken', null)
+		// uni.setStorageSync('sessionToken', 'ksTqazupH8cJf5ZsohMy')
 		console.log(uni.getStorageSync('sessionToken'))
 		//判断是否来自app
 		if (params.session && params.from && params.from == 'app') {
@@ -266,8 +266,8 @@ Vue.prototype.$store = store
 
 
 App.mpType = 'app'
-// Vue.prototype.apiUrl = "/dpc/api"
 Vue.prototype.apiUrl = 'https://api.shjietui.com/api'
+// console.log(Vue.prototype.apiUrl);
 // Vue.prototype.apiUrl = 'http://liebian.natapp1.cc/api'
 Vue.prototype.appid = "wx202bddcd868b179f"
 const app = new Vue({

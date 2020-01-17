@@ -748,6 +748,7 @@ const api = {
 	},
 	product: function(id) {
 		return new Promise(function(resolve, reject) {
+			console.log(Vue.prototype.apiUrl)
 			uni.request({
 				url: Vue.prototype.apiUrl + '/v1/users/products/' + id, //仅为示例，并非真实接口地址。
 				method: 'GET',

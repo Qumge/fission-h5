@@ -218,8 +218,8 @@
 									api.queryOrder(data[0].id).then(function(order){
 										if(order.status == 'pay'){
 											clearInterval(intervalID);
-											this.applied = false
-											this.loading = false
+											that.applied = false
+											that.loading = false
 											uni.navigateTo({
 												url: '../order/success?id=' + order.id
 											})
@@ -242,6 +242,8 @@
 					api.applyOrder(JSON.stringify(norms), that.address.id, that.desc, 'app').then(function(data){
 						if(data[0].id){
 							console.log(data)
+							that.applied = false
+							that.loading = false
 							window.parent.postMessage({
 								event: 'pay',
 								params: {
