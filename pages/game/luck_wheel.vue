@@ -40,13 +40,13 @@
 					<view class="tui-btn-start" :class="[isRunning ? 'tui-ative' : '']" @tap="startDrawing">立即抽奖</view>
 				</view>
 			</view>
-			<view class="TxtZ TxtTitle" style="padding-left: 10px;" @tap="thisShow">
-				<text class="">我的金币：</text>
-				{{ userIntegral }}
-			</view>
+			
 			<view style="position: relative;top: 340rpx;">
 				<view class="explain">
 					<view class="ExplainTitle">游戏说明</view>
+					<view class="ExplainTxt"  @tap="thisShow">
+						<text class="TxtTitle">我的金币：{{ userIntegral }}</text>
+					</view>
 					<view class="ExplainTxt">
 						<view class="TxtTitle">玩法说明</view>
 						<view class="TxtCon" v-if="!game.task_game_task">每抽奖一次平台扣去{{ game.cost }}金币</view>
@@ -128,7 +128,7 @@ export default {
 				that.awardList = that.coverArr(prizes, 8);
 				console.log(that.awardList);
 				if (!that.tui.wechatBowser()) return;
-				if (!that.game.task_game_task.id) return;
+				if (!that.game.task_game_task) return;
 				//查看
 				console.log(that.game.task_game_task.id);
 				api.view(that.game.task_game_task.id, options.token)

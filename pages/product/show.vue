@@ -128,7 +128,7 @@
 					<view class="tui-bold tui-cell-title">产品信息</view>
 				</view>
 			</view>
-			<view class="tui-product-img">
+			<view class="tui-product-img" style="width:100%">
 				<view class="" style="padding: 20rpx 0;background: #fff;">
 					<rich-text :nodes="product.desc"></rich-text>
 				</view>

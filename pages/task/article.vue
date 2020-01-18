@@ -367,6 +367,7 @@
 
 	.tui-news-content {
 		padding-top: 40rpx;
+		width: 100%
 	}
 
 	.tui-article {
