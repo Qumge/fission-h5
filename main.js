@@ -24,26 +24,22 @@ Vue.mixin({
 	onShow: function () {
 		let that = this;
 		window.addEventListener('message', function (e) {
-			console.log('addEventListener', e);
-		    if (e && e.data && e.data.app === 'toHome') {
+			console.log('h5-addEventListener', JSON.stringify(e.data), e);
+			if (e && e.data && e.data.app === 'toHome') {
 				uni.navigateTo({
-				    url: '/pages/index/index'
+					url: '/pages/index/index'
 				});
-		    }
-		  })
+				this.tui.postMessage(false);
+			}
+		})
 		if (this.route) {
 			let option = this.tui.getOption();
 			option.currentPath = this.route
 			this.tui.setOption(option)
 			// console.log(333);
-			let hide = this.route != 'pages/index/index'
+			let hide = this.route !== 'pages/index/index'
 			// console.log(hide);
-			window.parent.postMessage({
-				event: 'hideTabs',
-				params: {
-					hide: hide
-				}
-			}, '*')
+			this.tui.postMessage(hide);
 		}
 	}
 });
@@ -55,6 +51,14 @@ const tui = {
 	},
 	getOption: function () {
 		return this.option
+	},
+	postMessage(hide) {
+		window.parent.postMessage({
+			event: 'hideTabs',
+			params: {
+				hide: hide
+			}
+		}, '*')
 	},
 	toast: function (text, duration, success) {
 		uni.showToast({
