@@ -29,7 +29,7 @@ Vue.mixin({
 				uni.navigateTo({
 					url: '/pages/index/index'
 				});
-				tui.postMessage(false);
+				this.tui.postMessage(false);
 			}
 		})
 		if (this.route) {
@@ -39,7 +39,7 @@ Vue.mixin({
 			// console.log(333);
 			let hide = this.route !== 'pages/index/index'
 			// console.log(hide);
-			tui.postMessage(hide);
+			this.tui.postMessage(hide);
 		}
 	}
 });
