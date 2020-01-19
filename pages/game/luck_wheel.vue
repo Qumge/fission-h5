@@ -264,10 +264,11 @@ export default {
 									con = '谢谢参与';
 								} else {
 									if (prize.type == 'Prize::ProductPrize') {
+										con = "恭喜您中奖了：" + prize.product.name
 									}
 									if (prize.type == 'Prize::CoinPrize') {
+										con = '获得了金币' + prize.coin + '个';
 									}
-									con = '获得了金币' + prize.coin + '个';
 								}
 								//获奖提示
 								uni.showModal({
