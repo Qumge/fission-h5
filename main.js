@@ -253,6 +253,7 @@ const tui = {
 		console.log(this.option)
 		const option = this.option;
 		if (option && option.currentPath === option.path && option.from === 'app') {
+			console.log('返回到app')
 			window.parent.postMessage({
 				event: 'backEvent',
 				params: {
@@ -261,10 +262,12 @@ const tui = {
 		} else {
 			const pages = getCurrentPages();
 			if (pages.length > 1) {
+				console.log('h5返回到上一页')
 				uni.navigateBack({
 					delta: 1
 				})
 			} else {
+				console.log('h5返回到首页')
 				uni.reLaunch({
 					url: "/pages/index/index"
 				})
