@@ -172,7 +172,8 @@
 		<tui-bottom-popup :show="popupShow" @close="hidePopup">
 			<view class="tui-popup-box">
 				<view class="tui-product-box tui-padding">
-					<image src="https://www.thorui.cn/img/product/11.jpg" class="tui-popup-img"></image>
+					<!-- <image src="https://www.thorui.cn/img/product/11.jpg" class="tui-popup-img"></image> -->
+					<image :src="product.default_image" class="tui-popup-img"></image>
 					<view class="tui-popup-price">
 						<view class="tui-amount tui-bold">￥<text v-show="norm.price">{{norm.price*value}}</text></view>
 						<view class="tui-number">编号:{{product.no}}</view>
@@ -260,7 +261,7 @@
 						image:{
 							image_path:'',
 						}
-					},
+					}
 					
 				},
 				banner: [],

@@ -174,7 +174,7 @@ const tui = {
 		let link = window.location.href;
 		let params = this.getUrlParams(link); // 地址解析
 		// 已经授权登录过的就不用再授权了
-		// uni.setStorageSync('sessionToken', 'aNP5C8yfmqK4soecnnXc')
+		// uni.setStorageSync('sessionToken', '4U2FXSiN45Jy8at56gzX')
 		console.log(uni.getStorageSync('sessionToken'))
 		//判断是否来自app
 		if (params.session && params.from && params.from == 'app') {
