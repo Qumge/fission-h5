@@ -1,0 +1,13 @@
+{
+  "navigationBarTitleText": "新增地址",
+  "navigationBarBackgroundColor": "#fff",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "tui-button": "/components/extend/button/button",
+    "tui-list-view": "/components/list-view/list-view",
+    "tui-list-cell": "/components/list-cell/list-cell",
+    "evan-form": "/components/evan-form/evan-form",
+    "evan-form-item": "/components/evan-form/evan-form-item",
+    "tui-loading": "/components/loading/loading"
+  }
+}

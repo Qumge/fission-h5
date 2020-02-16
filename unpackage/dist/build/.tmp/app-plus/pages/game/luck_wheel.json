@@ -1,0 +1,14 @@
+{
+  "navigationBarTitleText": "转盘抽奖",
+  "navigationBarBackgroundColor": "#FC4034",
+  "navigationBarTextStyle": "black",
+  "backgroundColorTop": "#F7F7F7",
+  "backgroundColorBottom": "#F7F7F7",
+  "navigationStyle": "custom",
+  "onReachBottomDistance": 50,
+  "titleNView": false,
+  "usingComponents": {
+    "guidance-popup": "/components/GuidancePopup/GuidancePopup",
+    "tui-icon": "/components/icon/icon"
+  }
+}

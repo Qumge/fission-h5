@@ -24,7 +24,7 @@ Vue.mixin({
 	onShow: function () {
 		let that = this;
 		window.addEventListener('message', function (e) {
-			console.log('h5-addEventListener', JSON.stringify(e.data), e);
+			//console.log('h5-addEventListener', JSON.stringify(e.data), e);
 			if (e && e.data && e.data.app === 'toHome') {
 				uni.navigateTo({
 					url: '/pages/index/index'
@@ -174,7 +174,7 @@ const tui = {
 		let link = window.location.href;
 		let params = this.getUrlParams(link); // 地址解析
 		// 已经授权登录过的就不用再授权了
-		// uni.setStorageSync('sessionToken', '4U2FXSiN45Jy8at56gzX')
+		// uni.setStorageSync('sessionToken', 'ksTqazupH8cJf5ZsohMy')
 		console.log(uni.getStorageSync('sessionToken'))
 		//判断是否来自app
 		if (params.session && params.from && params.from == 'app') {
@@ -284,7 +284,7 @@ Vue.prototype.$store = store
 App.mpType = 'app'
 Vue.prototype.apiUrl = 'https://api.shjietui.com/api'
 // console.log(Vue.prototype.apiUrl);
-// Vue.prototype.apiUrl = 'http://liebian.natapp1.cc/api'
+// Vue.prototype.apiUrl = 'http://5s2aje.natappfree.cc/api'
 Vue.prototype.appid = "wx202bddcd868b179f"
 const app = new Vue({
 	store,

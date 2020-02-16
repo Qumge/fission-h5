@@ -127,13 +127,6 @@
 				// "enablePullDownRefresh": true,
 				"onReachBottomDistance": 50
 			}
-		}, {
-			"path": "pages/order/apply",
-			"style": {
-				"navigationBarTitleText": "新订单",
-				"navigationBarBackgroundColor": "#fff",
-				"navigationBarTextStyle": "black"
-			}
 		},{
 			"path": "pages/order/show",
 			"style": {

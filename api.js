@@ -822,6 +822,31 @@ const api = {
 		})
 
 	},
+	commission: function(task_id) {
+		return new Promise(function(resolve, reject) {
+			uni.request({
+				url: Vue.prototype.apiUrl + '/v1/users/commission',
+				method: 'POST',
+				data: {
+					task_id: task_id
+				},
+				header: {
+					'X-Auth-Token': uni.getStorageSync('sessionToken')
+				},
+				success: (res) => {
+					if (res.data.error && res.data.error === "401 Unauthorized") {
+						uni.setStorageSync('sessionToken', null)
+					}
+					console.log(res.data)
+					resolve(res.data)
+				},
+				fail: (res) => {
+					reject(res)
+				}
+			});
+		})
+	
+	},
 	share: function(token) {
 		return new Promise(function(resolve, reject) {
 			uni.request({

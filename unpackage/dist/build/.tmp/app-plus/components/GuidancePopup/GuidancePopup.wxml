@@ -1,0 +1,1 @@
+<view><view hidden="{{!(ShowGuidance)}}"><view data-event-opts="{{[['tap',[['colse',['$event']]]]]}}" class="Bg" bindtap="__e"></view><view data-event-opts="{{[['tap',[['colse',['$event']]]]]}}" class="Guidance" bindtap="__e"><image src="/static/images/index/zhidaole.png" mode="widthFix"></image></view></view></view>

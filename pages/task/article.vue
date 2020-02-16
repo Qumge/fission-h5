@@ -22,6 +22,9 @@
 					<text>{{articleTask.article.created_at}}</text>
 					
 				</view>
+				<view class="tui-countdown" v-if="showCountdown">
+					<tui-countdown :time="30" color="#fff" bcolor="#e41f19" bgcolor="#e41f19" colonColor="#e41f19" :hours="false" :scale="true"  @end="endOfTime"></tui-countdown>
+				</view>
 				<view class="tui-sub-right">阅读 {{articleTask.article.view_num}}</view>
 				<view @click="showPop" v-if="showShare" style="padding: 10rpx 30rpx;border-radius: 10rpx; display: flex;align-items: center;">
 					<tui-icon name="partake" :size="15" color="#333"></tui-icon>
@@ -77,6 +80,7 @@
 	import tuiNomore from "@/components/nomore/nomore"
 	import tuiBadge from "@/components/badge/badge"
 	import api from "../../api.js"
+	import tuiCountdown from "@/components/countdown/countdown"
 	export default {
 		components: {
 			GuidancePopup,
@@ -86,6 +90,7 @@
 			tuiLoadmore,
 			tuiNomore,
 			tuiBadge,
+			tuiCountdown
 		},
 		data() {
 			return {
@@ -111,7 +116,8 @@
 				pageIndex: 1,
 				loadding: false,
 				pullUpOn: true,
-				showShare: false
+				showShare: false,
+				showCountdown: true
 			}
 		},
 		onShow() {
@@ -227,6 +233,14 @@
 				if (this.isCollection) {
 					this.tui.toast("收藏成功！");
 				}
+			},
+			endOfTime: function(){
+				this.showCountdown = false
+				api.commission(this.articleTask.id).then(function(data){
+					console.log(data)
+				}).catch(function(e){
+					console.log(e)
+				})
 			},
 			btnCmt: function() {
 				uni.navigateTo({

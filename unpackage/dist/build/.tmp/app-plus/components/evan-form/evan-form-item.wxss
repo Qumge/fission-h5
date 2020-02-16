@@ -1,0 +1,33 @@
+.evan-form-item-container.data-v-11734e82 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+          align-items: flex-start;
+  padding: 30rpx 0;
+  border-bottom: 1rpx solid #eee;
+}
+.evan-form-item-container__label.data-v-11734e82 {
+    font-size: 28rpx;
+    color: #666;
+}
+.evan-form-item-container__label.showAsteriskRect.data-v-11734e82::before {
+      content: '';
+      color: #F56C6C;
+      width: 30rpx;
+      display: inline-block;
+}
+.evan-form-item-container__label.isRequired.data-v-11734e82::before {
+      content: '*';
+}
+.evan-form-item-container__main.data-v-11734e82 {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+            flex: 1;
+}
+

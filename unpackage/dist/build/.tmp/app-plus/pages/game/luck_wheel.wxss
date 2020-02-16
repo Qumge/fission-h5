@@ -1,0 +1,514 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*每个页面公共css */
+/*app.wxss*/
+/* uni-radio .uni-radio-input{width: 10px;height: 10px ;} */
+/* uni-checkbox .uni-checkbox-input{width: 10px;height: 10px ;} */
+page {
+	background: #fafafa;
+	font-size: 32rpx;
+}
+.container {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	        flex-direction: column;
+	box-sizing: border-box;
+}
+.phcolor {
+	color: #ccc;
+	font-size: 32rpx;
+}
+button::after {
+	border: none;
+}
+.opcity {
+	opacity: 0.5;
+}
+.hover {
+	background: #f7f7f9 !important;
+}
+.ellipsis {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+/*列表统一样式 */
+.list-item {
+	position: relative;
+}
+.list-item::after {
+	content: '';
+	position: absolute;
+	border-bottom: 1rpx solid #eaeef1;
+	-webkit-transform: scaleY(0.5);
+	transform: scaleY(0.5);
+	bottom: 0;
+	right: 0;
+	left: 30rpx;
+}
+.last::after {
+	border-bottom: 0 !important;
+}
+/*按钮样式*/
+.btn-primary {
+	width: 100%;
+	height: 90rpx;
+	line-height: 90rpx;
+	background: -webkit-linear-gradient(right, #5677fc, #5c8dff);
+	background: linear-gradient(-90deg, #5677fc, #5c8dff);
+	border-radius: 45rpx;
+	color: #fff;
+	font-size: 36rpx;
+}
+.btn-hover {
+	color: #d5d4d9;
+	background: -webkit-linear-gradient(right, #4a67d6, #4e77d9);
+	background: linear-gradient(-90deg, #4a67d6, #4e77d9);
+}
+.btn-gray {
+	background: #ededed;
+	color: #999 !important;
+}
+.btn-gray-hover {
+	background: #d5d5d5 !important;
+	color: #898989;
+}
+.btn-white {
+	background: #fff;
+	color: #333 !important;
+}
+.tui-white-hover {
+	background: #e5e5e5 !important;
+	color: #2e2e2e !important;
+}
+.btn-disabled {
+	color: #fafbfc !important;
+	background: -webkit-linear-gradient(right, #cad8fb, #c9d3fb);
+	background: linear-gradient(-90deg, #cad8fb, #c9d3fb);
+}
+.List uni-checkbox .uni-checkbox-input,uni-radio .uni-radio-input{
+	width: 11px !important;height: 11px !important;
+}
+.List uni-checkbox .uni-checkbox-input.uni-checkbox-input-checked{background: #fff; color: #16AB60 !important;}
+.List uni-radio .uni-radio-input{border-color:#d1d1d1 !important; background-color:#fff !important;}
+.List uni-radio .uni-radio-input.uni-radio-input-checked:before{color: #16AB60 !important;font-size: 23px;}
+
+
+image {
+	width: 100%;
+	height: 100%;
+}
+.Bg {
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 99;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	background: rgb(0, 0, 0, 0.4);
+}
+.Guidance {
+	position: absolute;
+	z-index: 100;
+	width: 690rpx;
+	height: 500rpx;
+	top: -45rpx;
+	left: 30rpx;
+	text-align: center;
+	margin: 0 auto;
+}
+.Imgs {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.explain {
+	width: 690rpx;
+	margin: 60rpx auto 100rpx;
+}
+.ExplainTitle {
+	text-align: center;
+	font-size: 36rpx;
+	font-weight: bold;
+	color: #8a0a0a;
+}
+.ExplainTxt {
+	text-align: left;
+	margin: 20rpx auto;
+}
+.TxtTitle {
+	font-size: 30rpx;
+	color: #545454;
+	font-weight: bold;
+	margin-top: 30rpx;
+	margin-bottom: 10rpx;
+}
+.TxtCon {
+	font-size: 26rpx;
+	color: #999;
+}
+.TxtZ {
+	color: #d20b0b;
+	font-size: 24rpx;
+	margin-top: 10rpx;
+	letter-spacing: 0.5px;
+}
+.TZ {
+	font-weight: bold;
+	font-size: 26rpx;
+	color: #d20b0b;
+}
+.container {
+	height: 600rpx;
+	width: 650rpx;
+	background-color: #b3241b;
+	margin: 100rpx auto;
+	border-radius: 40rpx;
+	box-shadow: 0 10rpx 0 #d80014;
+	position: relative;
+	top: 130rpx;
+}
+.tui-container-in {
+	width: 580rpx;
+	height: 530rpx;
+	background-color: #de4339;
+	border-radius: 40rpx;
+	/* position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0; */
+	margin: 35rpx auto;
+}
+
+/**小圆点 start*/
+.tui-dot {
+	position: absolute;
+	display: block;
+	border-radius: 50%;
+	height: 20rpx;
+	width: 20rpx;
+}
+.tui-dot:nth-child(odd) {
+	background: #fff;
+	-webkit-animation: 0.5s odd linear infinite;
+	        animation: 0.5s odd linear infinite;
+}
+.tui-dot:nth-child(even) {
+	background: #fcf400;
+	-webkit-animation: 0.5s even linear infinite;
+	        animation: 0.5s even linear infinite;
+}
+.tui-dot-1 {
+	left: 15rpx;
+	top: 15rpx;
+}
+.tui-dot-2 {
+	left: 117.5rpx;
+	top: 7.5rpx;
+}
+.tui-dot-3 {
+	left: 220rpx;
+	top: 7.5rpx;
+}
+.tui-dot-4 {
+	left: 322.5rpx;
+	top: 7.5rpx;
+}
+.tui-dot-5 {
+	left: 425rpx;
+	top: 7.5rpx;
+}
+.tui-dot-6 {
+	left: 527.5rpx;
+	top: 7.5rpx;
+}
+.tui-dot-7 {
+	left: 620rpx;
+	top: 15rpx;
+}
+.tui-dot-8 {
+	left: 622rpx;
+	top: 109rpx;
+}
+.tui-dot-9 {
+	left: 622rpx;
+	top: 203rpx;
+}
+.tui-dot-10 {
+	left: 622rpx;
+	top: 297rpx;
+}
+.tui-dot-11 {
+	left: 622rpx;
+	top: 391rpx;
+}
+.tui-dot-12 {
+	left: 622rpx;
+	top: 485rpx;
+}
+.tui-dot-13 {
+	left: 620rpx;
+	top: 565rpx;
+}
+.tui-dot-14 {
+	left: 517.5rpx;
+	top: 572rpx;
+}
+.tui-dot-15 {
+	left: 415rpx;
+	top: 572rpx;
+}
+.tui-dot-16 {
+	left: 312.5rpx;
+	top: 572rpx;
+}
+.tui-dot-17 {
+	left: 210rpx;
+	top: 572rpx;
+}
+.tui-dot-18 {
+	left: 107.5rpx;
+	top: 572rpx;
+}
+.tui-dot-19 {
+	left: 15rpx;
+	top: 565rpx;
+}
+.tui-dot-20 {
+	left: 7.5rpx;
+	top: 471rpx;
+}
+.tui-dot-21 {
+	left: 7.5rpx;
+	top: 377rpx;
+}
+.tui-dot-22 {
+	left: 7.5rpx;
+	top: 283rpx;
+}
+.tui-dot-23 {
+	left: 7.5rpx;
+	top: 189rpx;
+}
+.tui-dot-24 {
+	left: 7.5rpx;
+	top: 95rpx;
+}
+@-webkit-keyframes odd {
+0% {
+		background: #fff;
+}
+100% {
+		background: #fcf400;
+}
+}
+@keyframes odd {
+0% {
+		background: #fff;
+}
+100% {
+		background: #fcf400;
+}
+}
+@-webkit-keyframes even {
+0% {
+		background: #fcf400;
+}
+100% {
+		background: #fff;
+}
+}
+@keyframes even {
+0% {
+		background: #fcf400;
+}
+100% {
+		background: #fff;
+}
+}
+
+/**小圆点 end*/
+.tui-content-out {
+	position: absolute;
+	height: 150rpx;
+	width: 168rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	background-color: #fcecec;
+	color: #666;
+	font-size: 28rpx;
+	border-radius: 15rpx;
+	box-shadow: 0 4px 0 #fcc8d0;
+}
+
+/* 580 530  */
+.tui-award-1 {
+	left: 65rpx;
+	top: 55rpx;
+}
+.tui-award-2 {
+	left: 243rpx;
+	top: 55rpx;
+}
+.tui-award-3 {
+	left: 423rpx;
+	top: 55rpx;
+}
+.tui-award-4 {
+	left: 423rpx;
+	top: 220rpx;
+}
+.tui-award-5 {
+	left: 423rpx;
+	top: 386rpx;
+}
+.tui-award-6 {
+	left: 243rpx;
+	top: 386rpx;
+}
+.tui-award-7 {
+	left: 65rpx;
+	top: 386rpx;
+}
+.tui-award-8 {
+	left: 65rpx;
+	top: 220rpx;
+}
+
+/**居中 加粗*/
+.tui-btn-start {
+	position: absolute;
+	top: 220rpx;
+	left: 243rpx;
+	border-radius: 15rpx;
+	height: 150rpx;
+	width: 168rpx;
+	background-color: #d80014;
+	box-shadow: 0 4px 0 #fcc8d0;
+	color: #fcf400;
+	text-align: center;
+	font-size: 32rpx;
+	font-weight: bold;
+	line-height: 150rpx;
+}
+.tui-ative {
+	opacity: 0.6 !important;
+}
+.tui-award-image {
+	position: absolute;
+	margin: auto;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	height: 134rpx;
+	width: 134rpx;
+}
+.tui-awardSelect {
+	font-weight: bold;
+	color: red !important;
+	background-color: #fcf400 !important;
+	box-shadow: 0 4px 0 rgb(240, 208, 12) !important;
+}
+
+/* header*/
+.tui-header-box {
+	width: 100%;
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 9998;
+	background-color: #fc4034;
+}
+.tui-header {
+	width: 100%;
+	font-size: 18px;
+	line-height: 18px;
+	font-weight: 500;
+	height: 44px;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	        align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	        justify-content: center;
+}
+.tui-header-icon {
+	position: fixed;
+	top: 0;
+	left: 10px;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: start;
+	-webkit-align-items: flex-start;
+	        align-items: flex-start;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	        justify-content: space-between;
+	height: 44px;
+	-webkit-transform: translateZ(0);
+	        transform: translateZ(0);
+	z-index: 99999;
+}
+.tui-header-icon .tui-badge {
+	background: #e41f19 !important;
+	position: absolute;
+	right: -4px;
+}
+.tui-icon-ml {
+	margin-left: 20rpx;
+}
+.tui-icon {
+	border-radius: 16px;
+}
+.tui-icon-back {
+	height: 44px !important;
+	width: 44px !important;
+	display: block !important;
+}
+.tui-header-icon .tui-icon-more-fill {
+	height: 20px !important;
+	width: 20px !important;
+	padding: 6px !important;
+	display: block !important;
+}
+
+/* header*/
+
