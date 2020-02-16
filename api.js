@@ -825,7 +825,7 @@ const api = {
 	commission: function(task_id) {
 		return new Promise(function(resolve, reject) {
 			uni.request({
-				url: Vue.prototype.apiUrl + '/v1/users/commission',
+				url: Vue.prototype.apiUrl + '/v1/users/users/commission',
 				method: 'POST',
 				data: {
 					task_id: task_id
