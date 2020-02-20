@@ -23,7 +23,7 @@
 					
 				</view>
 				<view class="tui-countdown" v-if="showCountdown">
-					<tui-countdown :time="30" color="#fff" bcolor="#e41f19" bgcolor="#e41f19" colonColor="#e41f19" :hours="false" :scale="true"  @end="endOfTime"></tui-countdown>
+					<tui-countdown :time="15" color="#fff" bcolor="#e41f19" bgcolor="#e41f19" colonColor="#e41f19" :hours="false" :scale="true"  @end="endOfTime"></tui-countdown>
 				</view>
 				<view class="tui-sub-right">阅读 {{articleTask.article.view_num}}</view>
 				<view @click="showPop" v-if="showShare" style="padding: 10rpx 30rpx;border-radius: 10rpx; display: flex;align-items: center;">
