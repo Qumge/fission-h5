@@ -947,6 +947,7 @@ page {
 .tui-product-container {
 	flex: 1;
 	margin-right: 10rpx;
+	background-color: #f7f7f7;
 }
 
 .tui-product-container:last-child {
@@ -955,7 +956,7 @@ page {
 
 .tui-pro-item {
 	width: 100%;
-	margin-bottom: 10rpx;
+	margin-bottom: 20rpx;
 	background: #fff;
 	box-sizing: border-box;
 	border-radius: 12rpx;
