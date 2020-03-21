@@ -113,21 +113,21 @@
         "router" : {
             "mode" : "history"
         },
-        // "devServer" : {
-        //     "https" : false,
-        //     "disableHostCheck" : true,
-        //     "proxy" : {
-        //         "/dpc" : {
-        //             "target" : "http://v4czzt.natappfree.cc",
-        //             "changeOrigin" : true,
-        //             "secure" : false,
-        //             "pathRewrite" : {
-        //                 "^/dpc" : ""
-        //             }
-        //         }
-        //     },
-        //     "port" : ""
-        // },
+        "devServer" : {
+            "https" : false,
+            "disableHostCheck" : true,
+            // "proxy" : {
+            //     "/dpc" : {
+            //         "target" : "http://v4czzt.natappfree.cc",
+            //         "changeOrigin" : true,
+            //         "secure" : false,
+            //         "pathRewrite" : {
+            //             "^/dpc" : ""
+            //         }
+            //     }
+            // },
+            "port" : ""
+        },
         "optimization" : {
             "treeShaking" : {
                 "enable" : false

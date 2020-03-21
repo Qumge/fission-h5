@@ -20,6 +20,10 @@ Vue.mixin({
 	},
 	onLoad: function (options) {
 		console.log('onLoad111')
+		const oMeta = document.createElement('meta');
+		oMeta.name = "referrer";
+		oMeta.content = "no-referrer"
+		document.getElementsByTagName('head')[0].appendChild(oMeta);
 	},
 	onShow: function () {
 		let that = this;
@@ -174,7 +178,7 @@ const tui = {
 		let link = window.location.href;
 		let params = this.getUrlParams(link); // 地址解析
 		// 已经授权登录过的就不用再授权了
-		// uni.setStorageSync('sessionToken', '4U2FXSiN45Jy8at56gzX')
+		// uni.setStorageSync('sessionToken', 'QHdZXq9B58eYSq73GE7o')
 		console.log(uni.getStorageSync('sessionToken'))
 		//判断是否来自app
 		if (params.session && params.from && params.from == 'app') {

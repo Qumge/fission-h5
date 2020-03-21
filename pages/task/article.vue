@@ -33,6 +33,7 @@
 			</view>
 			<view class="tui-news-content">
 				<view class="tui-article">
+					<!-- <text>{{articleTask.article.content}}</text> -->
 					<rich-text :nodes="articleTask.article.content"></rich-text>
 					<!-- 北京时间6月22日，重庆斯威队召开了赛前新闻发布会，主教练小克鲁伊夫和球员彭欣力出席。 -->
 				</view>
@@ -149,6 +150,7 @@
 			api.task_article(options.id).then(function(data) {
 				console.log(data)
 				that.articleTask = data
+				that.articleTask.article.content = that.articleTask.article.content.replace(/<section/g, '<div').replace(/\/section>/g, '/div>');
 				if (!that.tui.wechatBowser()) return;
 				if (!that.articleTask.id) return;
 				//查看
