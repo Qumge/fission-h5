@@ -151,6 +151,7 @@
 				console.log(data)
 				that.articleTask = data
 				that.articleTask.article.content = that.articleTask.article.content.replace(/<section/g, '<div').replace(/\/section>/g, '/div>');
+				that.articleTask.article.content = that.articleTask.article.content.replace(/<img/g, '<img style="max-width: 100%" ');
 				if (!that.tui.wechatBowser()) return;
 				if (!that.articleTask.id) return;
 				//查看
