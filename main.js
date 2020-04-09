@@ -80,7 +80,6 @@ const tui = {
 					'onMenuShareAppMessage',
 					'onMenuShareTimeline',
 					'updateTimelineShareData',
-					'updateAppMessageShareData',
 					'hideOptionMenu',
 					'showOptionMenu',
 					'chooseWXPay',
