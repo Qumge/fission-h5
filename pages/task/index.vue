@@ -30,7 +30,7 @@
 		},
 		onLoad: function(options) {
 			let that = this
-			//uni.setStorageSync('sessionToken', 'f3RyaBP27affowFc54jv');
+			//uni.setStorageSync('newSessionToken', 'f3RyaBP27affowFc54jv');
 			api.linkTasks(that.page, that.per_page).then(function(data) {
 				that.tasks = data
 			}).catch(function(e){

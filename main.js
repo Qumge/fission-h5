@@ -73,7 +73,7 @@ const tui = {
 	},
 	jssdk: function () {
 		return new Promise(function (resolve, reject) {
-			if (!uni.getStorageSync('sessionToken')) return;
+			if (!uni.getStorageSync('newSessionToken')) return;
 			api.getJssdk().then(function (data) {
 				console.log(data)
 				let apiList = [ // 可能需要用到的能力
@@ -180,20 +180,20 @@ const tui = {
 		let link = window.location.href;
 		let params = this.getUrlParams(link); // 地址解析
 		// 已经授权登录过的就不用再授权了
-		// uni.setStorageSync('sessionToken', 'QHdZXq9B58eYSq73GE7o')
-		console.log(uni.getStorageSync('sessionToken'))
+		// uni.setStorageSync('newSessionToken', 'QHdZXq9B58eYSq73GE7o')
+		console.log(uni.getStorageSync('newSessionToken'))
 		//判断是否来自app
 		if (params.session && params.from && params.from == 'app') {
-			uni.setStorageSync('sessionToken', params.session)
+			uni.setStorageSync('newSessionToken', params.session)
 		}
-		if (uni.getStorageSync('sessionToken')) return;
+		if (uni.getStorageSync('newSessionToken')) return;
 
 		if (!this.wechatBowser()) return;
 		// 微信如果拿到code，调用授权接口，没有拿到就跳转微信授权链接获取
 		if (params.code) {
 			//api.wxAuth(params.code); // 调用后台接口，授权
 			api.wxAuth(params.code).then(function (data) {
-				uni.setStorageSync('sessionToken', data.authentication_token)
+				uni.setStorageSync('newSessionToken', data.authentication_token)
 				console.log(link);
 				window.location.href = link
 			}).catch(function (e) {
@@ -281,7 +281,7 @@ const tui = {
 		}
 	}
 }
-//uni.setStorageSync('sessionToken', '555')
+//uni.setStorageSync('newSessionToken', '555')
 Vue.prototype.tui = tui
 Vue.prototype.$eventHub = Vue.prototype.$eventHub || new Vue()
 Vue.prototype.$store = store

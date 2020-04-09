@@ -11,12 +11,12 @@ const api = {
 				},
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -34,12 +34,12 @@ const api = {
 				},
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -54,12 +54,12 @@ const api = {
 				method: 'GET',
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -80,12 +80,12 @@ const api = {
 				},
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -105,12 +105,12 @@ const api = {
 				},
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -130,12 +130,12 @@ const api = {
 				},
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -154,12 +154,12 @@ const api = {
 				},
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -174,12 +174,12 @@ const api = {
 				method: 'GET',
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -194,12 +194,12 @@ const api = {
 				method: 'POST',
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -214,12 +214,12 @@ const api = {
 				method: 'GET',
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -234,12 +234,12 @@ const api = {
 				method: 'GET',
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -255,12 +255,12 @@ const api = {
 				success: (res) => {
 					
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -275,12 +275,12 @@ const api = {
 				method: 'GET',
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -296,12 +296,12 @@ const api = {
 				data: data,
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -317,12 +317,12 @@ const api = {
 				data: data,
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -341,12 +341,12 @@ const api = {
 				},
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -361,12 +361,12 @@ const api = {
 				method: 'GET',
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -385,12 +385,12 @@ const api = {
 				},
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -405,12 +405,12 @@ const api = {
 				method: 'POST',
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -425,12 +425,12 @@ const api = {
 				method: 'POST',
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -445,12 +445,12 @@ const api = {
 				method: 'GET',
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -465,12 +465,12 @@ const api = {
 				method: 'POST',
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -485,12 +485,12 @@ const api = {
 				method: 'GET',
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -511,12 +511,12 @@ const api = {
 				},
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -571,7 +571,7 @@ const api = {
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -589,7 +589,7 @@ const api = {
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -611,7 +611,7 @@ const api = {
 					resolve(res.data)
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				fail: (res) => {
 					reject(res)
@@ -643,11 +643,11 @@ const api = {
 					task_id: task_id
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					console.log(res.data)
 					resolve(res.data)
@@ -806,11 +806,11 @@ const api = {
 					task_id: task_id
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					console.log(res.data)
 					resolve(res.data)
@@ -831,11 +831,11 @@ const api = {
 					task_id: task_id
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					console.log(res.data)
 					resolve(res.data)
@@ -856,11 +856,11 @@ const api = {
 					token: token
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},
@@ -880,11 +880,11 @@ const api = {
 					url: window.location.href,
 				},
 				header: {
-					'X-Auth-Token': uni.getStorageSync('sessionToken')
+					'X-Auth-Token': uni.getStorageSync('newSessionToken')
 				},
 				success: (res) => {
 					if (res.data.error && res.data.error === "401 Unauthorized") {
-						uni.setStorageSync('sessionToken', null)
+						uni.setStorageSync('newSessionToken', null)
 					}
 					resolve(res.data)
 				},

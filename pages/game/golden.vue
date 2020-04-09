@@ -126,7 +126,7 @@ export default {
 	  },
 	onLoad(options) {
 		// 19
-		// uni.setStorageSync('sessionToken', 'oyLjzFWnnhA2FJddMJM4')
+		// uni.setStorageSync('newSessionToken', 'oyLjzFWnnhA2FJddMJM4')
 		if (options.from) {
 			this.from = options.from
 		}
