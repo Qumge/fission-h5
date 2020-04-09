@@ -8,6 +8,8 @@ async function configWeiXin(callback) {
         let apiList = [ // 可能需要用到的能力
             'onMenuShareAppMessage',
             'onMenuShareTimeline',
+			'updateTimelineShareData',
+			'updateAppMessageShareData',
             'hideOptionMenu',
             'showOptionMenu',
             'chooseWXPay'
