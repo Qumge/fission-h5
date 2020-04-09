@@ -176,11 +176,8 @@
 							success: function () {
 							  // 设置成功
 							  console.log('updateAppMessageShareData');
-							},
-							error: function(res) {
-								alert(JSON.stringify(res));
 							}
-						  })
+							})
 						// jweixin.onMenuShareAppMessage({
 							
 						// 	title: that.articleTask.name, // 分享标题
