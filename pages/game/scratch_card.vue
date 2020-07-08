@@ -13,8 +13,9 @@
 		</view>
 		<!--header-->
 		<!--  -->
+		<image class="Imgs" :src="game.image.image_path" mode="widthFix"></image>
 		<!-- <img :src="game.image.image_path"  class="stage-img" mode="widthFix" style="width:100%;height:400%;" /> -->
-		<view   :style="'background: url(' + game.image.image_path +') no-repeat center bottom;background-size: contain;width:100%;height:300px;padding-top:150px;'">
+		<view   style="background-size: contain;width:100%;height:300px;padding-top:150px;">
 			<vue-scratch-card 
 			element-id='scratchWrap'
 			:ratio=0.5
@@ -220,6 +221,12 @@
 </script>
 
 <style>
+	.Imgs {
+		position: absolute;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
 	image{width: 100%;height: 100%;}
 	.Bg{position: fixed;left: 0;top: 0;overflow: hidden;z-index: 99; width: 100%;height: 100%;background: rgb(0, 0, 0,0.4);}
 	.Guidance{position: absolute;z-index: 100;width: 690rpx;height: 500rpx;top: 0rpx;left: 30rpx; text-align: center; margin: 0 auto;}

@@ -138,7 +138,6 @@ export default {
 					.catch(function() {});
 				api.fission(that.game.task_game_task.id, options.token)
 					.then(function(fission_log) {
-						console.log(fission_log);
 						that.tui
 							.jssdk()
 							.then(function(jweixin) {
@@ -212,7 +211,7 @@ export default {
 				}
 				return Number(rnd);
 			};
-			console.log(this.game);
+			
 			if (!this.game.task_game_task && this.userIntegral < this.game.cost) {
 				uni.showModal({
 					title: '温馨提示',
@@ -223,16 +222,13 @@ export default {
 				this.isRunning = true;
 				api.playGame(that.game.id)
 					.then(function(data) {
-						console.log(data);
 						if (data.error) {
-							console.log(1);
 							uni.showModal({
 								title: '温馨提示',
 								content: data.message
 							});
 							return;
 						}
-
 						let indexSelect = 0;
 						let i = 0;
 						let prizeId = 0;
@@ -251,9 +247,6 @@ export default {
 							//这里用y=30*x+150函数做的处理.可根据自己的需求改变转盘速度
 							indexSelect = indexSelect % 8;
 							that.indexSelect = indexSelect;
-							console.log(i);
-							console.log(indexSelect);
-							console.log(that.awardList[indexSelect]);
 							if (i == randomNum) {
 								//去除循环
 								clearInterval(timer);
@@ -270,6 +263,11 @@ export default {
 										con = '获得了金币' + prize.coin + '个';
 									}
 								}
+								api.me()
+									.then(function(data) {
+										that.userIntegral = data.coin;
+									})
+									.catch(function() {});
 								//获奖提示
 								uni.showModal({
 									title: '提示',

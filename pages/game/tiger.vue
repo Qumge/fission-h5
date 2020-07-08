@@ -337,7 +337,11 @@ export default {
 								that.transY4 = transY4;
 								
 							}, 1000 / 60);
-							console.log(7777)
+							api.me()
+								.then(function(data) {
+									that.userIntegral = data.coin;
+								})
+								.catch(function() {});
 							that.changeColor = 1;
 						}
 					})

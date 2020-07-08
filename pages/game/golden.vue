@@ -249,6 +249,11 @@ export default {
 							}else{
 								that.celebrate("很遗憾您没有中奖，谢谢您的参与")
 							}
+							api.me()
+								.then(function(data) {
+									that.userIntegral = data.coin;
+								})
+								.catch(function() {});
 							// that.Nocelebrate()// 提示未中奖信息
 						}, 500); // *秒后中奖提示出现
 					}, 50); // 0.6秒后开花的蛋出现

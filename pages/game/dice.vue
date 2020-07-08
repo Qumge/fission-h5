@@ -263,6 +263,11 @@
 									that.png2 = '../../static/images/game/' + arr[1] + '.png'
 									that.png3 = '../../static/images/game/' + arr[2] + '.png'
 									clearInterval(that.timer);
+									api.me()
+										.then(function(data) {
+											that.userIntegral = data.coin;
+										})
+										.catch(function() {});
 									//抽奖结果
 								}
 							}, 30)
