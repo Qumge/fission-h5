@@ -328,6 +328,37 @@ export default {
 											clearTimeout(that.timer3);
 											that.isStart = false;
 										}
+										var con = ''
+										if(data.prize_log){
+											if (data.prize_log.prize.type == 'thanks') {
+												con = '谢谢参与';
+											} else {
+												if (data.prize_log.prize.type == 'Prize::ProductPrize') {
+													con = "恭喜您中奖了：" + prize.product.name
+												}
+												if (pdata.prize_log.rize.type == 'Prize::CoinPrize') {
+													con = '获得了金币' + prize.coin + '个';
+												}
+											}
+										}else{
+											con = '谢谢参与';
+										}
+										uni.showModal({
+											title: '提示',
+											content: con,
+											confirmColor: '#5677FC',
+											showCancel: false, //去掉取消按钮
+											success: res => {
+												if (res.confirm) {
+													that.isRunning = false;
+												}
+											}
+										});
+										api.me()
+											.then(function(data) {
+												that.userIntegral = data.coin;
+											})
+											.catch(function() {});
 									}
 								}, 600);
 							
@@ -335,13 +366,7 @@ export default {
 								that.transY2 = transY2;
 								that.transY3 = transY3;
 								that.transY4 = transY4;
-								
 							}, 1000 / 60);
-							api.me()
-								.then(function(data) {
-									that.userIntegral = data.coin;
-								})
-								.catch(function() {});
 							that.changeColor = 1;
 						}
 					})

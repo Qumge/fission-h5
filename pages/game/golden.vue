@@ -247,7 +247,7 @@ export default {
 									that.celebrate("金币：" + data.prize_log.prize.coin)
 								}
 							}else{
-								that.celebrate("很遗憾您没有中奖，谢谢您的参与")
+								that.Nocelebrate("很遗憾您没有中奖，谢谢您的参与")
 							}
 							api.me()
 								.then(function(data) {

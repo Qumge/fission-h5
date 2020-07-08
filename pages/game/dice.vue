@@ -140,7 +140,7 @@
 						type: 'thanks'
 					});
 					console.log(prizes);
-					that.awardList = that.coverArr(prizes, 8);
+					that.awardList = that.coverArr(prizes, 3);
 					console.log(that.awardList);
 					if (!that.tui.wechatBowser()) return;
 					if (!that.game.task_game_task) return;
@@ -263,6 +263,32 @@
 									that.png2 = '../../static/images/game/' + arr[1] + '.png'
 									that.png3 = '../../static/images/game/' + arr[2] + '.png'
 									clearInterval(that.timer);
+									var con = ''
+									if(data.prize_log){
+										if (data.prize_log.prize.type == 'thanks') {
+											con = '谢谢参与';
+										} else {
+											if (data.prize_log.prize.type == 'Prize::ProductPrize') {
+												con = "恭喜您中奖了：" + prize.product.name
+											}
+											if (pdata.prize_log.rize.type == 'Prize::CoinPrize') {
+												con = '获得了金币' + prize.coin + '个';
+											}
+										}
+									}else{
+										con = '谢谢参与';
+									}
+									uni.showModal({
+										title: '提示',
+										content: con,
+										confirmColor: '#5677FC',
+										showCancel: false, //去掉取消按钮
+										success: res => {
+											if (res.confirm) {
+												that.isRunning = false;
+											}
+										}
+									});
 									api.me()
 										.then(function(data) {
 											that.userIntegral = data.coin;
